@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-en="Base — Age of Origins" data-es="Base — Age of Origins">Base — Age of Origins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:    #3D5C3A;
+      --forest-dk: #2a3f28;
+      --forest-lt: #4e7349;
+      --terra:     #A84C2A;
+      --terra-lt:  #c4603a;
+      --cream:     #F5F0E8;
+      --sand:      #E8DCC8;
+      --bark:      #6B4C35;
+      --ink:       #1C1810;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: #F0EBE0;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(61,92,58,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; color: var(--cream);
+      letter-spacing: 0.04em; text-decoration: none;
+    }
+    .nav-links {
+      display: flex; gap: 0.2rem;
+      overflow-x: auto; scrollbar-width: none;
+      flex: 1; justify-content: center; padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.75); text-decoration: none;
+      font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.4rem 0.7rem; border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(255,255,255,0.12); color: var(--cream);
+    }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout {
+      background: none; border: 1px solid rgba(245,240,232,0.25);
+      color: rgba(245,240,232,0.7);
+      font-family: 'Jost', sans-serif; font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.35rem 0.7rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger {
+      display: none; background: none; border: none;
+      color: var(--cream); font-size: 1.6rem; cursor: pointer;
+      padding: 0.3rem 0.6rem; line-height: 1;
+      border-radius: 6px; transition: background 0.2s;
+    }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-mobile-footer { display: none !important; }
+
+    @media (max-width: 900px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links {
+        display: none; width: 100%; flex-direction: column; gap: 0;
+        padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px);
+        justify-content: flex-start; order: 3;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer {
+        display: flex !important; gap: 0.5rem;
+        padding: 0.6rem 0.8rem 0.3rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 0.2rem;
+      }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 50%, var(--forest-lt) 100%);
+      padding: 4rem 2rem 3.5rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(168,76,42,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon {
+      font-size: 3rem; line-height: 1; margin-bottom: 1rem;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      font-weight: 300; color: var(--cream);
+      letter-spacing: 0.04em; line-height: 1.1; margin-bottom: 0.8rem;
+    }
+    .hero-sub {
+      font-size: 0.95rem; font-weight: 300;
+      color: rgba(245,240,232,0.75);
+      max-width: 540px; margin: 0 auto; line-height: 1.5;
+    }
+
+    /* ── KORT-GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 3rem 2rem 4rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .card {
+      background: var(--cream);
+      border-radius: 16px; padding: 2rem 1.8rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(61,92,58,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; min-height: 220px;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(61,92,58,0.18);
+    }
+    .card-icon {
+      font-size: 2.2rem; color: var(--terra);
+      margin-bottom: 0.8rem;
+    }
+    .card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 400;
+      color: var(--forest-dk); margin-bottom: 0.6rem;
+    }
+    .card p {
+      font-size: 0.95rem; line-height: 1.55;
+      color: rgba(28,24,16,0.7); flex: 1;
+    }
+    .card-cta {
+      margin-top: 1.2rem; font-size: 0.78rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--terra); font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--forest-dk);
+      color: rgba(245,240,232,0.4);
+      text-align: center; padding: 2rem;
+      font-size: 0.75rem; letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"            data-en="Home"      data-es="Inicio">Home</a>
+      <a href="base.html" class="active" data-en="Base"    data-es="Base">Base</a>
+      <a href="combat.html"            data-en="Combat"    data-es="Combate">Combat</a>
+      <a href="alliance.html"          data-en="Alliance"  data-es="Alianza">Alliance</a>
+      <a href="tips.html"             data-en="Tips"      data-es="Consejos">Tips</a>
+      <a href="events.html"           data-en="Events"    data-es="Eventos">Events</a>
+      <a href="group.html"          data-en="Group"     data-es="Grupo">Group</a>
+      <a href="resources.html"         data-en="Resources" data-es="Recursos">Resources</a>
+      <div class="nav-mobile-footer">
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🏯</div>
+      <h1 data-en="Base" data-es="Base">Base</h1>
+      <p class="hero-sub"
+         data-en="Build orders and tech tree — the foundation of any strong city."
+         data-es="Órdenes de construcción y árbol tecnológico — la base de toda ciudad fuerte.">
+        Build orders and tech tree — the foundation of any strong city.
+      </p>
+    </div>
+  </header>
+
+  <!-- KORT-GRID -->
+  <div class="cards-grid">
+    <a href="receptbok.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-list-check"></i></div>
+      <h2 data-en="Build orders" data-es="Órdenes de construcción">Build orders</h2>
+      <p data-en="What to upgrade first when you start. Step-by-step priorities so you don't waste resources."
+         data-es="Qué mejorar primero cuando empiezas. Prioridades paso a paso para no gastar recursos en vano.">
+        What to upgrade first when you start. Step-by-step priorities so you don't waste resources.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="familjetrad.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-sitemap"></i></div>
+      <h2 data-en="Tech tree" data-es="Árbol tecnológico">Tech tree</h2>
+      <p data-en="Research paths explained. Which techs matter early, which can wait, and what unlocks what."
+         data-es="Rutas de investigación explicadas. Qué tecnologías importan al principio, cuáles pueden esperar y qué desbloquea qué.">
+        Research paths explained. Which techs matter early, which can wait, and what unlocks what.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+  </div>
+
+  <footer>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
+    const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+
+    // Recovery/invite-hash måste vidarebefordras till login.html
+    const _initHash   = window.location.hash;
+    const _initSearch = window.location.search;
+    if ((_initHash   && (_initHash.includes('type=recovery') || _initHash.includes('type=invite'))) ||
+        (_initSearch && _initSearch.includes('code='))) {
+      window.location.replace('login.html' + _initSearch + _initHash);
+    }
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { flowType: 'pkce' }
+    });
+
+    // Auth-skydd
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+    });
+
+    function logOut() { window.location.href = 'logout.html'; }
+
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          // Behåll evt. inline HTML (script-tag i footer) — bara om elementet inte har children
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt; // för element med blandat innehåll
+        }
+      });
+      // Knapp visar MOTSATT språk (vad du byter till)
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
+            var b = document.createElement("div");
+            b.id = "update-banner";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            document.body.appendChild(b);
+          }
+        }).catch(function(){});
+      }, 300000);
+    })();
+  </script>
+</body>
+</html>
