@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Din familjesajt</title>
+  <title data-en="Age of Origins — Alliance Guide" data-es="Age of Origins — Guía de Alianza">Age of Origins — Alliance Guide</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -15,14 +16,12 @@
       --terra:     #A84C2A;
       --terra-lt:  #c4603a;
       --cream:     #F5F0E8;
-      --cream-dim: rgba(245,240,232,0.65);
       --sand:      #E8DCC8;
       --bark:      #6B4C35;
       --ink:       #1C1810;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Jost', sans-serif;
       background: #F0EBE0;
@@ -32,92 +31,74 @@
 
     /* ── NAV ── */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       background: rgba(61,92,58,0.96);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       height: 60px;
     }
-
     .nav-brand {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
-      font-weight: 400;
-      color: var(--cream);
-      letter-spacing: 0.04em;
-      text-decoration: none;
+      font-size: 1.25rem; color: var(--cream);
+      letter-spacing: 0.04em; text-decoration: none;
     }
-
     .nav-links {
-      display: flex;
-      gap: 0.1rem;
-      overflow-x: auto;
-      scrollbar-width: none;
-      flex: 1;
-      justify-content: flex-start;
-      padding: 0 0.5rem;
+      display: flex; gap: 0.2rem;
+      overflow-x: auto; scrollbar-width: none;
+      flex: 1; justify-content: center; padding: 0 0.5rem;
     }
     .nav-links::-webkit-scrollbar { display: none; }
-
     .nav-links a {
-      color: rgba(245,240,232,0.75);
-      text-decoration: none;
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.55rem;
-      border-radius: 6px;
+      color: rgba(245,240,232,0.75); text-decoration: none;
+      font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.4rem 0.7rem; border-radius: 6px;
       transition: background 0.2s, color 0.2s;
       white-space: nowrap;
     }
-
     .nav-links a:hover, .nav-links a.active {
-      background: rgba(255,255,255,0.12);
-      color: var(--cream);
+      background: rgba(255,255,255,0.12); color: var(--cream);
     }
-
-    .nav-logout {
-      background: none;
-      border: 1px solid rgba(245,240,232,0.25);
-      color: rgba(245,240,232,0.6);
-      font-family: 'Jost', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.8rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
-    .private-dropdown { position: relative; display: inline-flex; align-items: center; }
-    .private-btn { background: none; border: 1px solid rgba(245,220,180,0.4); color: rgba(245,220,180,0.9); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-    .private-btn:hover { background: rgba(245,220,180,0.15); }
-    .private-menu { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: var(--forest-dk); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.4rem; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
-    .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
-    .private-menu a:hover { background: rgba(255,255,255,0.1); color: white; }
-    .nav-mobile-footer { display: none !important; }
-    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
-    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout {
+      background: none; border: 1px solid rgba(245,240,232,0.25);
+      color: rgba(245,240,232,0.7);
+      font-family: 'Jost', sans-serif; font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.35rem 0.7rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger {
+      display: none; background: none; border: none;
+      color: var(--cream); font-size: 1.6rem; cursor: pointer;
+      padding: 0.3rem 0.6rem; line-height: 1;
+      border-radius: 6px; transition: background 0.2s;
+    }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-mobile-footer { display: none !important; }
-    @media (max-width: 1100px) {
+
+    @media (max-width: 900px) {
       nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
       .nav-brand { flex: 1; }
       .nav-hamburger { display: flex; align-items: center; }
       .nav-right { display: none; }
-      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links {
+        display: none; width: 100%; flex-direction: column; gap: 0;
+        padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px);
+        justify-content: flex-start; order: 3;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
       .nav-links.open { display: flex; }
-      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
-      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer {
+        display: flex !important; gap: 0.5rem;
+        padding: 0.6rem 0.8rem 0.3rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 0.2rem;
+      }
     }
 
     /* ── HERO ── */
@@ -125,89 +106,39 @@
       background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 50%, var(--forest-lt) 100%);
       padding: 5rem 2rem 4rem;
       text-align: center;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background:
         radial-gradient(ellipse at 20% 80%, rgba(168,76,42,0.15) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
     }
-
-    .hero-content { position: relative; z-index: 1; }
-
+    .hero-content { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
     .hero-icon {
-      font-size: 3.5rem;
-      line-height: 1;
-      margin-bottom: 1rem;
+      font-size: 3.5rem; line-height: 1; margin-bottom: 1rem;
       filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
     }
-
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 300;
-      color: var(--cream);
-      letter-spacing: 0.04em;
-      line-height: 1.1;
-      margin-bottom: 0.8rem;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 300; color: var(--cream);
+      letter-spacing: 0.04em; line-height: 1.1; margin-bottom: 0.8rem;
     }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--sand);
-    }
-
+    .hero h1 em { font-style: italic; color: var(--sand); }
     .hero-sub {
-      font-size: 0.85rem;
-      font-weight: 300;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.55);
-      margin-bottom: 2.5rem;
+      font-size: 1rem; font-weight: 300;
+      color: rgba(245,240,232,0.78);
+      max-width: 560px; margin: 0 auto; line-height: 1.55;
     }
 
-    /* Familjestatistik */
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.2rem;
-      font-weight: 400;
-      color: var(--sand);
-      line-height: 1;
-      display: block;
-    }
-
-    .stat-lbl {
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.45);
-      margin-top: 0.2rem;
-    }
-
-    /* ── VÄLKOMSTTEXT ── */
+    /* ── INTRO / WELCOME ── */
     .welcome-bar {
       background: var(--cream);
       border-bottom: 1px solid rgba(61,92,58,0.1);
       padding: 1rem 2rem;
       text-align: center;
     }
-
     #welcome-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
@@ -215,22 +146,16 @@
       color: var(--forest);
     }
 
-    /* ── SÄSONGSBANNER ── */
+    /* ── SEASON BANNER ── */
     .season-banner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 0.65rem 2rem;
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.75rem; padding: 0.65rem 2rem;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      font-style: italic;
+      font-size: 1.05rem; font-style: italic;
       letter-spacing: 0.02em;
       transition: background 0.5s, color 0.5s;
     }
     .season-banner .s-icon { font-size: 1.3rem; font-style: normal; }
-
-    /* Säsongsspecifika banners */
     .season-var    { background: linear-gradient(90deg,#e8f4e8,#f5eaf5,#e8f4e8); color: #5a3a6a; border-bottom: 1px solid rgba(160,100,180,0.15); }
     .season-sommar { background: linear-gradient(90deg,#fff8e0,#fef3c0,#fff8e0); color: #7a5a10; border-bottom: 1px solid rgba(200,160,20,0.2); }
     .season-host   { background: linear-gradient(90deg,#fdecd8,#f5e0c8,#fdecd8); color: #7a3a10; border-bottom: 1px solid rgba(180,80,20,0.2); }
@@ -238,316 +163,73 @@
     .season-jul    { background: linear-gradient(90deg,#1a3a1a,#2a1a1a,#1a3a1a); color: #f5e0c0; border-bottom: 1px solid rgba(200,50,50,0.3); animation: julGlow 3s ease-in-out infinite; }
     @keyframes julGlow { 0%,100%{opacity:1} 50%{opacity:0.85} }
 
-    /* ── SNÖFLINGOR (jul) ── */
     #snow-canvas {
       position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.7;
+      pointer-events: none; z-index: 9999; opacity: 0.7;
     }
 
-    /* ── SEKTIONSRUBRIK ── */
+    /* ── SECTION HEAD ── */
     .section-head {
       padding: 3rem 2rem 1.5rem;
       text-align: center;
     }
-
     .section-head h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 300;
-      color: var(--forest-dk);
-      letter-spacing: 0.03em;
+      font-size: 2rem; font-weight: 300;
+      color: var(--forest-dk); letter-spacing: 0.03em;
     }
-
     .section-head .rule {
-      display: block;
-      width: 48px;
-      height: 2px;
-      background: var(--terra);
-      margin: 0.8rem auto 0;
+      display: block; width: 48px; height: 2px;
+      background: var(--terra); margin: 0.8rem auto 0;
       border-radius: 2px;
     }
 
-    /* ── FAMILJEENHETER GRID ── */
-    .units-grid {
+    /* ── KORT-GRID ── */
+    .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
       padding: 0 2rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 1100px; margin: 0 auto;
     }
-
-    /* ── ENHETSKORT ── */
-    .unit-card {
+    .card {
       background: var(--cream);
-      border-radius: 16px;
-      overflow: hidden;
+      border-radius: 16px; padding: 1.7rem 1.5rem;
       box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(61,92,58,0.08);
       transition: transform 0.25s, box-shadow 0.25s;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; min-height: 180px;
     }
-
-    .unit-card:hover {
+    .card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(61,92,58,0.12);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(61,92,58,0.18);
     }
-
-    .unit-header {
-      padding: 1.5rem 1.5rem 1rem;
-      border-bottom: 1px solid rgba(61,92,58,0.08);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    .card-icon {
+      font-size: 1.9rem; color: var(--terra);
+      margin-bottom: 0.7rem;
     }
-
-    .unit-emoji {
-      font-size: 2.2rem;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .unit-title h3 {
+    .card h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: var(--forest-dk);
-      line-height: 1.1;
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--forest-dk); margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 0.9rem; line-height: 1.5;
+      color: rgba(28,24,16,0.7); flex: 1;
+    }
+    .card-cta {
+      margin-top: 1rem; font-size: 0.74rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--terra); font-weight: 500;
     }
 
-    .unit-title span {
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--terra);
-    }
-
-    .unit-body {
-      padding: 1.2rem 1.5rem 1.5rem;
-    }
-
-    /* Människor */
-    .members-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
-    }
-
-    .member-item {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      cursor: pointer;
-      border-radius: 10px;
-      padding: 0.3rem 0.4rem;
-      transition: background 0.18s, transform 0.15s;
-    }
-    .member-item:hover {
-      background: rgba(61,92,58,0.07);
-      transform: translateX(3px);
-    }
-    .member-item:active { transform: scale(0.98); }
-
-    /* ── MODAL ── */
-    .person-modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(20,16,8,0.55);
-      z-index: 9000;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      backdrop-filter: blur(3px);
-    }
-    .person-modal-overlay.open { display: flex; }
-    .person-modal {
-      background: var(--cream);
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 480px;
-      width: 100%;
-      max-height: 88vh;
-      overflow-y: auto;
-      position: relative;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.22);
-      animation: modalIn 0.22s ease;
-    }
-    @keyframes modalIn {
-      from { transform: translateY(18px) scale(0.97); opacity: 0; }
-      to   { transform: translateY(0)    scale(1);    opacity: 1; }
-    }
-    .modal-close {
-      position: absolute; top: 1rem; right: 1rem;
-      background: none; border: none; font-size: 1.4rem; cursor: pointer;
-      color: rgba(28,24,16,0.4); line-height: 1;
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s;
-    }
-    .modal-close:hover { background: rgba(0,0,0,0.07); color: var(--ink); }
-    .modal-header {
-      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem;
-    }
-    .modal-avatar {
-      width: 64px; height: 64px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; font-weight: 700; color: var(--cream);
-      flex-shrink: 0; letter-spacing: 0.02em;
-    }
-    .modal-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--ink); line-height: 1.1; }
-    .modal-detail { font-size: 0.8rem; color: rgba(28,24,16,0.5); margin-top: 0.2rem; }
-    .modal-section-title {
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--forest); margin-bottom: 0.6rem;
-    }
-    .modal-bio {
-      font-size: 0.88rem; color: rgba(28,24,16,0.7); line-height: 1.6;
-      margin-bottom: 1.4rem; font-style: italic;
-    }
-    .modal-photos {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem;
-      margin-bottom: 1.4rem;
-    }
-    .modal-photo {
-      aspect-ratio: 1; border-radius: 10px;
-      background: rgba(61,92,58,0.05);
-      border: 1.5px dashed rgba(61,92,58,0.18);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.3rem; color: rgba(61,92,58,0.35);
-    }
-    .modal-photo i { font-size: 1.3rem; }
-    .modal-photo span { font-size: 0.62rem; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
-    .modal-melody {
-      display: flex; align-items: center; gap: 0.6rem;
-      background: rgba(61,92,58,0.06); border-radius: 10px;
-      padding: 0.65rem 0.85rem; font-size: 0.82rem; color: rgba(28,24,16,0.6);
-    }
-    .modal-melody-icon { font-size: 1.2rem; }
-
-    .member-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--forest), var(--forest-lt));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--cream);
-      flex-shrink: 0;
-      letter-spacing: 0.02em;
-    }
-
-    .member-avatar.terra {
-      background: linear-gradient(135deg, var(--terra), var(--terra-lt));
-    }
-
-    .member-info .name {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-
-    .member-info .detail {
-      font-size: 0.72rem;
-      color: rgba(28,24,16,0.5);
-    }
-
-    .member-badge {
-      margin-left: auto;
-      font-size: 0.62rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: rgba(61,92,58,0.1);
-      color: var(--forest);
-      padding: 0.15rem 0.5rem;
-      border-radius: 20px;
-    }
-
-    /* Husdjur */
-    .pets-row {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      padding-top: 0.8rem;
-      border-top: 1px solid rgba(61,92,58,0.08);
-    }
-
-    .pet-chip {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: rgba(168,76,42,0.08);
-      border: 1px solid rgba(168,76,42,0.15);
-      border-radius: 20px;
-      padding: 0.25rem 0.65rem 0.25rem 0.5rem;
-      font-size: 0.75rem;
-      color: var(--bark);
-      cursor: pointer;
-      transition: background 0.18s, transform 0.12s;
-    }
-    .pet-chip:hover { background: rgba(168,76,42,0.18); transform: scale(1.04); }
-    .pet-chip:active { transform: scale(0.97); }
-    .pet-chip.no-click { cursor: default; }
-    .pet-chip.no-click:hover { background: rgba(168,76,42,0.08); transform: none; }
-
-    .pet-chip .pet-icon { font-size: 1rem; }
-
-    /* Bebis-chip */
-    .baby-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: rgba(201,169,110,0.12);
-      border: 1px dashed rgba(201,169,110,0.4);
-      border-radius: 20px;
-      padding: 0.2rem 0.6rem;
-      font-size: 0.72rem;
-      color: #7a5e2a;
-      margin-left: 0.5rem;
-    }
-
-    /* ── SPECIALKORT (guld) ── */
-    .unit-card.guld .unit-header {
-      background: linear-gradient(135deg, #f0e8d5, #e8dcc8);
-    }
-
-    /* ── FÖDELSEDAG-NOTIS ── */
-    .bday-bar {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      padding: 0.6rem 2rem;
-      background: linear-gradient(90deg, #fff8e0, #fef3d0, #fff8e0);
-      border-bottom: 1px solid rgba(200,160,20,0.2);
-      font-size: 0.88rem;
-      color: #7a5a10;
-    }
-    .bday-bar a { color: #a07010; font-weight: 500; text-decoration: underline; text-decoration-style: dotted; }
-    .bday-chip {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      background: rgba(200,160,20,0.12); border: 1px solid rgba(200,160,20,0.25);
-      border-radius: 20px; padding: 0.2rem 0.65rem;
-      font-weight: 500;
-    }
-
-    /* ── SIDFOT ── */
+    /* ── FOOTER ── */
     footer {
       background: var(--forest-dk);
       color: rgba(245,240,232,0.4);
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
+      text-align: center; padding: 2rem;
+      font-size: 0.75rem; letter-spacing: 0.1em;
     }
   </style>
 </head>
@@ -555,141 +237,138 @@
 
   <!-- NAV -->
   <nav>
-    <a class="nav-brand" href="index.html">🌲 Familjesajten</a>
-    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Meny">&#9776;</button>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html" class="active">Hem</a>
-      <a href="guide.html">Kom igång</a>
-      <a href="dagbok.html">Dagbok</a>
-      <a href="fotoalbum.html">Foto</a>
-      <a href="stamtavla.html">Stamtavla</a>
-      <a href="familjetrad.html">Trädet</a>
-      <a href="visdomsbanken.html">Visdom</a>
-      <a href="kalender.html">Kalender</a>
-      <a href="receptbok.html">Recept</a>
-      <a href="minnesladan.html">Minnen</a>
-      <a href="quiz.html">Quiz</a>
-      <a href="tidskapseln.html">Kapsel</a>
-      <a href="familjedialekten.html">Dialekt</a>
-      <a href="familjerekord.html">Rekord</a>
-      <a href="boktips.html">Böcker</a>
-      <a href="kartor.html">Kartor</a>
-      <a href="aktiviteter.html">Flödet</a>
-      <a href="filmer.html">Filmer</a>
-      <a href="resor.html">Resor</a>
-    <div class="nav-mobile-footer">
-        <button class="nav-logout" onclick="logOut()">Logga ut</button>
-      <a href="fodelsedagar.html">Födelsedagar</a>
-    </div>
+      <a href="index.html"   class="active" data-en="Home"      data-es="Inicio">Home</a>
+      <a href="bas.html"                    data-en="Base"      data-es="Base">Base</a>
+      <a href="strid.html"                  data-en="Combat"    data-es="Combate">Combat</a>
+      <a href="allians.html"                data-en="Alliance"  data-es="Alianza">Alliance</a>
+      <a href="tips.html"                   data-en="Tips"      data-es="Consejos">Tips</a>
+      <a href="events.html"                 data-en="Events"    data-es="Eventos">Events</a>
+      <a href="gruppen.html"                data-en="Group"     data-es="Grupo">Group</a>
+      <a href="resurser.html"               data-en="Resources" data-es="Recursos">Resources</a>
+      <div class="nav-mobile-footer">
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+      </div>
     </div>
     <div class="nav-right">
-      <button class="nav-logout" onclick="logOut()">Logga ut</button>
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
     </div>
   </nav>
 
   <!-- HERO -->
   <header class="hero">
     <div class="hero-content">
-      <div class="hero-icon">🌲</div>
-      <h1><em>Din familjesajt</em></h1>
-      <p class="hero-sub">Vår privata plats på nätet</p>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <span class="stat-num">—</span>
-          <span class="stat-lbl">Familjemedlemmar</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">—</span>
-          <span class="stat-lbl">Husdjur</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">—</span>
-          <span class="stat-lbl">Minnen</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">—</span>
-          <span class="stat-lbl">Hem</span>
-        </div>
-      </div>
+      <div class="hero-icon">🏰</div>
+      <h1 data-en="Age of Origins" data-es="Age of Origins">
+        <em>Age of Origins</em>
+      </h1>
+      <p class="hero-sub"
+         data-en="A simple, honest guide for our alliance — what to build, how to fight, who we are."
+         data-es="Una guía simple y honesta para nuestra alianza — qué construir, cómo luchar, quiénes somos.">
+        A simple, honest guide for our alliance — what to build, how to fight, who we are.
+      </p>
     </div>
   </header>
 
-  <!-- VÄLKOMST -->
+  <!-- WELCOME -->
   <div class="welcome-bar">
-    <span id="welcome-name">Välkommen hem</span>
+    <span id="welcome-name" data-en="Welcome, commander" data-es="Bienvenido, comandante">Welcome, commander</span>
   </div>
 
-  <!-- FÖDELSEDAG-NOTIS -->
-  <div class="bday-bar" id="bdayBar"></div>
-
-  <!-- SÄSONGSBANNER -->
+  <!-- SEASON BANNER -->
   <div class="season-banner" id="seasonBanner" style="display:none">
     <span class="s-icon" id="sIcon"></span>
     <span id="sText"></span>
   </div>
 
-  <!-- SNÖFLINGOR (visas bara i december) -->
+  <!-- SNOWFLAKES (December only) -->
   <canvas id="snow-canvas" style="display:none"></canvas>
 
-  <!-- FAMILJEENHETER -->
+  <!-- SECTION HEAD -->
   <div class="section-head">
-    <h2>Er familj</h2>
+    <h2 data-en="Where to start" data-es="Por dónde empezar">Where to start</h2>
     <span class="rule"></span>
   </div>
 
-  <div style="max-width:700px;margin:0 auto 3rem;padding:0 1.5rem;text-align:center;color:#888;font-size:0.95rem;line-height:1.7">
-    <p>Välkommen till er familjesajt! Börja med att bjuda in familjemedlemmar via länken i välkomstmejlet. Innehållet fylls i av er — dagbok, foton, recept och mycket mer.</p>
-  </div>
+  <!-- KORT-GRID -->
+  <div class="cards-grid">
+    <a href="bas.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-fortress"></i></div>
+      <h2 data-en="Base" data-es="Base">Base</h2>
+      <p data-en="Build orders and tech tree. What to upgrade first so you don't waste resources."
+         data-es="Órdenes de construcción y árbol tecnológico. Qué mejorar primero para no gastar recursos.">
+        Build orders and tech tree. What to upgrade first so you don't waste resources.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
 
-  <div class="units-grid" style="display:none">
-    <!-- Tömd på innehåll (P-18) — fylls i av pilotfamiljen -->
-  </div><!-- /units-grid -->
+    <a href="strid.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h2 data-en="Combat" data-es="Combate">Combat</h2>
+      <p data-en="Formations, troops, heroes, attacks. How to win fights without losing your army."
+         data-es="Formaciones, tropas, héroes, ataques. Cómo ganar combates sin perder tu ejército.">
+        Formations, troops, heroes, attacks. How to win fights without losing your army.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
 
-  <!-- ── PERSONKORT MODAL ── -->
-  <div class="person-modal-overlay" id="personModal" onclick="closeCardOutside(event)">
-    <div class="person-modal" id="personModalInner">
-      <button class="modal-close" onclick="closeCard()">✕</button>
-      <div class="modal-header">
-        <div class="modal-avatar" id="mAvatar"></div>
-        <div>
-          <div class="modal-name" id="mName"></div>
-          <div class="modal-detail" id="mDetail"></div>
-        </div>
-      </div>
-      <div class="modal-section-title">Om mig</div>
-      <div class="modal-bio" id="mBio"></div>
-      <div class="modal-section-title">Foton</div>
-      <div class="modal-photos">
-        <div class="modal-photo"><i class="fa-regular fa-image"></i><span>Foto kommer</span></div>
-        <div class="modal-photo"><i class="fa-regular fa-image"></i><span>Foto kommer</span></div>
-        <div class="modal-photo"><i class="fa-regular fa-image"></i><span>Foto kommer</span></div>
-      </div>
-      <div class="modal-section-title">Favoritlåt</div>
-      <div class="modal-melody">
-        <span class="modal-melody-icon" id="mEmoji"></span>
-        <span id="mMelody"></span>
-      </div>
-    </div>
-  </div>
+    <a href="allians.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-people-group"></i></div>
+      <h2 data-en="Alliance" data-es="Alianza">Alliance</h2>
+      <p data-en="How we play together. Donations, rallies, when to ask for help."
+         data-es="Cómo jugamos juntos. Donaciones, rallies, cuándo pedir ayuda.">
+        How we play together. Donations, rallies, when to ask for help.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
 
-  <!-- TIDSLINJE -->
-  <div style="max-width:700px;margin:2.5rem auto 1.5rem;padding:0 1.2rem;display:none">
-    <div class="section-head" style="margin-bottom:1.2rem">
-      <h2>Sajtens historia</h2>
-      <div class="rule"></div>
-    </div>
-    <div style="border-left:2px solid var(--gold,#C9A96E);padding-left:1.2rem;display:flex;flex-direction:column;gap:1.1rem">
+    <a href="tips.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+      <h2 data-en="Tips" data-es="Consejos">Tips</h2>
+      <p data-en="Wisdom from older players, jargon explained, quick quiz to test yourself."
+         data-es="Sabiduría de jugadores veteranos, jerga explicada, un quiz rápido para probarte.">
+        Wisdom from older players, jargon explained, quick quiz to test yourself.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
 
-      <div>
-        <div style="font-size:0.75rem;color:#888;margin-bottom:0.15rem">2026</div>
-        <div style="color:#2a2a2a">Sajten startades. Er familjesajt är igång!</div>
-      </div>
+    <a href="events.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-calendar-days"></i></div>
+      <h2 data-en="Events" data-es="Eventos">Events</h2>
+      <p data-en="Calendar and in-game events. Know what's coming so you can prepare."
+         data-es="Calendario y eventos del juego. Sabe qué viene para que puedas prepararte.">
+        Calendar and in-game events. Know what's coming so you can prepare.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
 
-    </div>
+    <a href="gruppen.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+      <h2 data-en="Group" data-es="Grupo">Group</h2>
+      <p data-en="Who we are, photos from battles, records, maps. Our story so far."
+         data-es="Quiénes somos, fotos de batallas, récords, mapas. Nuestra historia hasta ahora.">
+        Who we are, photos from battles, records, maps. Our story so far.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="resurser.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+      <h2 data-en="Resources" data-es="Recursos">Resources</h2>
+      <p data-en="External guides worth reading and recent patch notes."
+         data-es="Guías externas que vale la pena leer y notas de parche recientes.">
+        External guides worth reading and recent patch notes.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
   </div>
 
   <footer>
-    <p>Din familjesajt &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2026</p>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -697,7 +376,7 @@
     const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
     const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
 
-    // MÅSTE vara innan createClient — Supabase rensar hash/search vid initiering!
+    // Recovery/invite-hash måste vidarebefordras till login.html
     const _initHash   = window.location.hash;
     const _initSearch = window.location.search;
     if ((_initHash   && (_initHash.includes('type=recovery') || _initHash.includes('type=invite'))) ||
@@ -709,12 +388,10 @@
       auth: { flowType: 'pkce' }
     });
 
-    // Kolla session – om inte inloggad → login
+    // Auth-skydd
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
-      addPrivateNavLinks(data.session.user.email.toLowerCase());
     });
-
 
     function logOut() { window.location.href = 'logout.html'; }
 
@@ -726,96 +403,74 @@
       const nl = document.getElementById('navLinks');
       if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
     });
-    function addPrivateNavLinks(email) {
-      const links = [];
-      // Privata mappar konfigureras av familjen själva
 
-      if (!links.length) return;
-
-      // Desktop: dropdown i nav-right
-      const navRight = document.querySelector('.nav-right');
-      if (navRight) {
-        const wrap = document.createElement('div');
-        wrap.className = 'private-dropdown';
-        wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
-        navRight.appendChild(wrap);
-        wrap.querySelector('.private-btn').addEventListener('click', e => {
-          e.stopPropagation();
-          wrap.classList.toggle('open');
-        });
-        document.addEventListener('click', () => wrap.classList.remove('open'));
-      }
-
-      // Mobil: lägg till länkarna direkt i hamburger-menyn (nav-links)
-      const navLinks = document.getElementById('navLinks');
-      if (navLinks) {
-        const divider = document.createElement('div');
-        divider.style.cssText = 'height:1px;background:rgba(255,255,255,0.1);margin:0.3rem 0.8rem;';
-        navLinks.insertBefore(divider, navLinks.querySelector('.nav-mobile-footer'));
-        links.forEach(l => {
-          const a = document.createElement('a');
-          a.href = l.href;
-          a.textContent = l.label;
-          a.style.cssText = 'color:rgba(245,220,180,0.9);font-size:0.85rem;padding:0.55rem 0.8rem;border-radius:8px;text-decoration:none;display:block;transition:background 0.15s;';
-          a.onmouseenter = () => a.style.background = 'rgba(255,255,255,0.1)';
-          a.onmouseleave = () => a.style.background = '';
-          navLinks.insertBefore(a, navLinks.querySelector('.nav-mobile-footer'));
-        });
-      }
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
     }
-  
-    // ── SÄSONG ──
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── SEASON ──
     (function() {
-      const m = new Date().getMonth() + 1; // 1–12
-      const d = new Date().getDate();
-
+      const m = new Date().getMonth() + 1;
       const SEASONS = {
-        var:    { cls:'season-var',    icon:'🌸', text:'Våren är här — välkommen in i värmen!',
-                  navBg:'rgba(80,120,60,0.96)',
-                  root:{ '--forest':'#4a8a40','--forest-dk':'#2d6228','--forest-lt':'#80c070','--terra':'#b060a0','--cream':'#f8f2f8','--sand':'#f0d8f0','--ink':'#2a1a30' } },
-        sommar: { cls:'season-sommar', icon:'☀️', text:'Sommartid! Solen skiner över familjesajten.',
-                  navBg:'rgba(160,100,20,0.96)',
-                  root:{ '--forest':'#a06010','--forest-dk':'#7a4a08','--forest-lt':'#c88030','--terra':'#d45010','--cream':'#fff8e0','--sand':'#ffe8a0','--ink':'#2a1a08' } },
-        host:   { cls:'season-host',   icon:'🍂', text:'Höstens färger lyser upp — kryp nära varandra!',
-                  navBg:'rgba(100,50,15,0.96)',
-                  root:{ '--forest':'#8a4a18','--forest-dk':'#5a2a08','--forest-lt':'#b87030','--terra':'#c83808','--cream':'#fdf0e0','--sand':'#f0d0a0','--ink':'#1a0a00' } },
-        vinter: { cls:'season-vinter', icon:'🌨️', text:'Vinter och stillhet — familjen håller värmen.',
-                  navBg:'rgba(40,65,95,0.97)',
-                  root:{ '--forest':'#385878','--forest-dk':'#1e3a58','--forest-lt':'#5878a8','--terra':'#806898','--cream':'#eef2f8','--sand':'#d0daf0','--ink':'#0a1020' } },
-        jul:    { cls:'season-jul',    icon:'🎄', text:'God jul från hela familjen! 🎁❤️',
-                  navBg:'rgba(90,8,8,0.97)',
-                  root:{ '--forest':'#a81010','--forest-dk':'#700808','--forest-lt':'#d03030','--terra':'#d4a010','--cream':'#fff8e8','--sand':'#ffe8a0','--ink':'#1a0000' } },
+        var:    { cls:'season-var',    icon:'🌸',
+                  en:'Spring is here — welcome to the warmth!',
+                  es:'¡La primavera ha llegado — bienvenidos al calor!',
+                  navBg:'rgba(80,120,60,0.96)' },
+        sommar: { cls:'season-sommar', icon:'☀️',
+                  en:'Summertime! Sun shines over the alliance.',
+                  es:'¡Verano! El sol brilla sobre la alianza.',
+                  navBg:'rgba(160,100,20,0.96)' },
+        host:   { cls:'season-host',   icon:'🍂',
+                  en:'Autumn colors — gather strength for the cold months.',
+                  es:'Colores de otoño — reunamos fuerzas para los meses fríos.',
+                  navBg:'rgba(100,50,15,0.96)' },
+        vinter: { cls:'season-vinter', icon:'🌨️',
+                  en:'Winter and stillness — the alliance keeps warm.',
+                  es:'Invierno y quietud — la alianza se mantiene cálida.',
+                  navBg:'rgba(40,65,95,0.97)' },
+        jul:    { cls:'season-jul',    icon:'🎄',
+                  en:'Merry Christmas from the whole alliance! 🎁',
+                  es:'¡Feliz Navidad de toda la alianza! 🎁',
+                  navBg:'rgba(90,8,8,0.97)' },
       };
-
-      // Bestäm säsong
       let season;
       if (m === 12) season = 'jul';
       else if (m >= 3 && m <= 5) season = 'var';
       else if (m >= 6 && m <= 8) season = 'sommar';
       else if (m >= 9 && m <= 11) season = 'host';
-      else season = 'vinter'; // jan–feb
-
+      else season = 'vinter';
       const s = SEASONS[season];
 
-      // Sätt CSS-variabler
-      const root = document.documentElement;
-      Object.entries(s.root).forEach(([k,v]) => root.style.setProperty(k, v));
-
-      // Sätt nav-bakgrund direkt (CSS-variabel når ej backdrop-filter-nav)
       const nav = document.querySelector('nav');
       if (nav) nav.style.background = s.navBg;
 
-      // Sätt sidans bakgrundsfärg
-      document.body.style.background = getComputedStyle(root).getPropertyValue('--cream') || '#F5F0E8';
-
-      // Visa banner
       const banner = document.getElementById('seasonBanner');
       banner.className = 'season-banner ' + s.cls;
       banner.style.display = 'flex';
       document.getElementById('sIcon').textContent = s.icon;
-      document.getElementById('sText').textContent = s.text;
+      const setSeasonText = () => {
+        document.getElementById('sText').textContent = s[LANG] || s.en;
+      };
+      setSeasonText();
+      // Uppdatera om språk byts
+      const origToggle = window.toggleLang;
+      window.toggleLang = function() { origToggle(); setSeasonText(); };
 
-      // Snöflingor i december
       if (season === 'jul') {
         const canvas = document.getElementById('snow-canvas');
         canvas.style.display = 'block';
@@ -853,73 +508,24 @@
       }
     })();
 
-    const PERSONS = {
-      // Tömd på innehåll (P-18) — fylls i av pilotfamiljen
-    };
-
-    function openCard(id) {
-      const p = PERSONS[id]; if (!p) return;
-      document.getElementById('mAvatar').innerHTML     = p.initials;
-      document.getElementById('mAvatar').style.background = p.bg;
-      document.getElementById('mName').textContent     = p.name;
-      document.getElementById('mDetail').textContent   = p.detail;
-      document.getElementById('mBio').textContent      = p.bio;
-      document.getElementById('mEmoji').textContent    = p.emoji;
-      document.getElementById('mMelody').textContent   = p.melody;
-      document.getElementById('personModal').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeCard() {
-      document.getElementById('personModal').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    function closeCardOutside(e) {
-      if (e.target === document.getElementById('personModal')) closeCard();
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
-
-    // FODELSEDAG-NOTIS
+    // ── VERSION-CHECK ──
     (function() {
-      const BDAYS = [
-        // Fyll i familjemedlemmarnas namn och födelsedag (format MM-DD)
-        // { names:['Namn'], date:'MM-DD', emoji:'🎂' },
-      ];
-      const today = new Date();
-      const yr = today.getFullYear();
-      const upcoming = [];
-      BDAYS.forEach(b => {
-        const [bm, bd] = b.date.split('-').map(Number);
-        let bDate = new Date(yr, bm - 1, bd);
-        if (bDate < today) bDate = new Date(yr + 1, bm - 1, bd);
-        const diff = Math.ceil((bDate - today) / (1000 * 60 * 60 * 24));
-        if (diff <= 7) upcoming.push({ names: b.names, diff, emoji: b.emoji });
-      });
-      if (upcoming.length) {
-        const bar = document.getElementById('bdayBar');
-        bar.style.display = 'flex';
-        upcoming.forEach(u => {
-          const chip = document.createElement('span');
-          chip.className = 'bday-chip';
-          const who = u.names.join(' & ');
-          const when = u.diff === 0 ? 'idag!' : 'om ' + u.diff + ' dag' + (u.diff > 1 ? 'ar' : '') + '!';
-          chip.innerHTML = u.emoji + ' ' + who + ' fyller år ' + when + ' <a href="fodelsedagar.html">Se mer</a>';
-          bar.appendChild(chip);
-        });
-      }
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
+            var b = document.createElement("div");
+            b.id = "update-banner";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            document.body.appendChild(b);
+          }
+        }).catch(function(){});
+      }, 300000);
     })();
-
-    // VALKOMSTNAMN
-    sb.auth.getSession().then(({ data }) => {
-      if (data?.session?.user) {
-        const nameMap = {
-          // Fyll i familjemedlemmarnas e-poster och namn här
-          // 'exempel@mail.com': 'Namn',
-        };
-        const email = data.session.user.email.toLowerCase();
-        const name = nameMap[email] || email.split('@')[0];
-        document.getElementById("welcome-name").textContent = "Välkommen hem, " + name + " 🌲";
-      }
-    });
   </script>
 </body>
 </html>
