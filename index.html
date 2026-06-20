@@ -231,6 +231,80 @@
       text-align: center; padding: 2rem;
       font-size: 0.75rem; letter-spacing: 0.1em;
     }
+
+    /* ── NAV GREETING ── */
+    .nav-greeting {
+      display: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: rgba(245,240,232,0.85);
+      letter-spacing: 0.04em;
+      padding: 0.25rem 0.7rem;
+      border-right: 1px solid rgba(245,240,232,0.15);
+      margin-right: 0.3rem;
+      white-space: nowrap;
+    }
+    .nav-greeting.show { display: inline-flex; align-items: center; gap: 0.3rem; }
+    @media (max-width: 900px) {
+      .nav-right .nav-greeting { display: none !important; }
+      .nav-mobile-footer .nav-greeting.show {
+        display: flex; align-items: center; justify-content: center;
+        border-right: none; border-bottom: 1px solid rgba(245,240,232,0.15);
+        margin-right: 0; margin-bottom: 0.4rem; padding-bottom: 0.6rem;
+        width: 100%;
+      }
+    }
+
+    /* ── WELCOME MODAL ── */
+    .welcome-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(28,24,16,0.65); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 1.5rem;
+      animation: fadeIn 0.4s ease;
+    }
+    .welcome-overlay.open { display: flex; }
+    .welcome-modal {
+      background: linear-gradient(160deg, #fffaf0 0%, #f5f0e8 70%, #e8dcc8 100%);
+      border-radius: 22px; padding: 2.4rem 2rem 2rem; max-width: 500px; width: 100%;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,169,110,0.3);
+      text-align: center; position: relative; overflow: hidden;
+      animation: popIn 0.5s cubic-bezier(.2,.9,.3,1.3);
+    }
+    .welcome-modal::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.20) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .welcome-icon { font-size: 3.2rem; line-height: 1; margin-bottom: 0.6rem; filter: drop-shadow(0 4px 16px rgba(168,76,42,0.25)); }
+    .welcome-modal h2 {
+      font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500;
+      color: var(--forest-dk); margin-bottom: 0.3rem; letter-spacing: 0.02em;
+    }
+    .welcome-name { color: var(--terra); font-style: italic; }
+    .welcome-sub-de {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.05rem; color: var(--bark); margin-bottom: 0.4rem;
+    }
+    .welcome-body {
+      font-size: 0.95rem; line-height: 1.6; color: rgba(28,24,16,0.8);
+      margin: 0.8rem 0 1.4rem; padding: 0 0.5rem;
+    }
+    .welcome-tagline {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 0.85rem; color: rgba(28,24,16,0.55);
+      margin-top: 1rem; padding-top: 0.9rem;
+      border-top: 1px solid rgba(61,92,58,0.15);
+    }
+    .welcome-cta {
+      background: var(--forest); color: var(--cream); border: none;
+      font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.85rem 2.2rem; border-radius: 12px; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 4px 14px rgba(61,92,58,0.3);
+    }
+    .welcome-cta:hover { background: var(--forest-lt); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(61,92,58,0.4); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes popIn  { 0% { opacity: 0; transform: scale(0.85) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
   </style>
 </head>
 <body>
@@ -249,11 +323,13 @@
       <a href="group.html"                data-en="Group"     data-es="Grupo">Group</a>
       <a href="resources.html"               data-en="Resources" data-es="Recursos">Resources</a>
       <div class="nav-mobile-footer">
+        <span class="nav-greeting" id="navGreetingMobile"></span>
         <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
         <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
       </div>
     </div>
     <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting"></span>
       <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
       <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
     </div>
@@ -365,10 +441,26 @@
     </a>
   </div>
 
+  <!-- WELCOME MODAL (vissa users på första session) -->
+  <div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-modal">
+      <div class="welcome-icon">✨</div>
+      <h2>Welcome, <span class="welcome-name" id="welcomeName">friend</span></h2>
+      <div class="welcome-sub-de" id="welcomeSubDe">Schön dass du da bist.</div>
+      <div class="welcome-body" id="welcomeBody">
+        You're getting first look at this — Tyke's been building it for the alliance.
+        Have a poke around. Tips → Wisdom, Jargon and a little Quiz are the best places to start.
+      </div>
+      <button class="welcome-cta" onclick="dismissWelcome()">Let's go →</button>
+      <div class="welcome-tagline">Built by Tyke + Claude — for you.</div>
+    </div>
+  </div>
+
   <footer>
     <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
@@ -386,9 +478,72 @@
       auth: { flowType: 'pkce' }
     });
 
-    // Auth-skydd
+    // ── PER-USER GREETING + WELCOME MODAL ──
+    const USER_GREETINGS = {
+      // mejl (lowercase) → { nick, emoji, modal (override för welcome) }
+      'werchnowm@gmail.com': {
+        nick: 'Blackey',
+        emoji: '👋',
+        modal: {
+          name: 'Blackey',
+          subDe: 'Schön dass du da bist! 💚',
+          body: "You're getting first look at this — and you're an admin, which means everything you add (tips, jargon, quiz questions, build orders) goes live for everyone. Tips → Wisdom, Jargon and the little Quiz are the best places to start. Thanks for all the help.",
+          confetti: true
+        }
+      }
+      // lägg till fler users här när vi vill personalisera fler
+    };
+
+    function applyUserGreeting(email) {
+      const cfg = USER_GREETINGS[email];
+      if (!cfg) return;
+      const text = `Hi ${cfg.nick} ${cfg.emoji}`;
+      ['navGreeting', 'navGreetingMobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = text; el.classList.add('show'); }
+      });
+    }
+
+    function maybeShowWelcome(email) {
+      const cfg = USER_GREETINGS[email];
+      if (!cfg || !cfg.modal) return;
+      const flagKey = 'aoo-welcomed-' + email;
+      if (localStorage.getItem(flagKey)) return;
+      const m = cfg.modal;
+      document.getElementById('welcomeName').textContent  = m.name;
+      document.getElementById('welcomeSubDe').textContent = m.subDe;
+      document.getElementById('welcomeBody').textContent  = m.body;
+      document.getElementById('welcomeOverlay').classList.add('open');
+      if (m.confetti && typeof confetti === 'function') {
+        setTimeout(() => fireConfetti(), 250);
+      }
+    }
+
+    function fireConfetti() {
+      const duration = 2500;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 4, angle: 60,  spread: 65, origin: { x: 0, y: 0.7 }, colors: ['#A84C2A','#C9A96E','#4e7349','#F5F0E8'] });
+        confetti({ particleCount: 4, angle: 120, spread: 65, origin: { x: 1, y: 0.7 }, colors: ['#A84C2A','#C9A96E','#4e7349','#F5F0E8'] });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+      setTimeout(() => confetti({ particleCount: 80, spread: 90, origin: { y: 0.55 }, colors: ['#A84C2A','#C9A96E','#4e7349','#F5F0E8','#2a3f28'] }), 400);
+    }
+
+    function dismissWelcome() {
+      document.getElementById('welcomeOverlay').classList.remove('open');
+      sb.auth.getSession().then(({ data }) => {
+        const email = (data?.session?.user?.email || '').toLowerCase();
+        if (email) localStorage.setItem('aoo-welcomed-' + email, '1');
+      });
+    }
+
+    // Auth-skydd + greeting + welcome
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      const email = (data.session.user.email || '').toLowerCase();
+      applyUserGreeting(email);
+      maybeShowWelcome(email);
     });
 
     function logOut() { window.location.href = 'logout.html'; }
