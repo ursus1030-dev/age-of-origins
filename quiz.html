@@ -1,577 +1,544 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vem sa det? — Familjesajten</title>
+  <title data-en="Quiz — Age of Origins" data-es="Quiz — Age of Origins">Quiz — Age of Origins</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --forest:    #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
-      --terra:     #A84C2A; --terra-lt:  #c4603a;
-      --cream:     #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
-      --gold:      #C9A96E; --ink: #1C1810; --bg: #F0EBE0;
+      --forest:    #3D5C3A;
+      --forest-dk: #2a3f28;
+      --forest-lt: #4e7349;
+      --terra:     #A84C2A;
+      --terra-lt:  #c4603a;
+      --cream:     #F5F0E8;
+      --sand:      #E8DCC8;
+      --bark:      #6B4C35;
+      --ink:       #1C1810;
+      --bg:        #F0EBE0;
+      --good:      #4e7349;
+      --bad:       #A84C2A;
     }
+
     html { scroll-behavior: smooth; }
     body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
 
+    /* ── NAV ── */
     nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
-    .nav-links {
-      display: flex;
-      gap: 0.1rem;
-      overflow-x: auto;
-      scrollbar-width: none;
-      flex: 1;
-      justify-content: flex-start;
-      padding: 0 0.5rem;
-    }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
     .nav-links::-webkit-scrollbar { display: none; }
-    .nav-links a {
-      color: rgba(245,240,232,0.75);
-      text-decoration: none;
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.55rem;
-      border-radius: 6px;
-      transition: background 0.2s, color 0.2s;
-      white-space: nowrap;
-    }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
     .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
-    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
-    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
-    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.7); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.6rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-mobile-footer { display: none !important; }
-    @media (max-width: 1100px) {
+    @media (max-width: 900px) {
       nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
       .nav-brand { flex: 1; }
       .nav-hamburger { display: flex; align-items: center; }
       .nav-right { display: none; }
       .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
       .nav-links.open { display: flex; }
-      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
-      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex !important; gap: 0.5rem; padding: 0.6rem 0.8rem 0.3rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
     }
 
+    /* ── HERO ── */
     .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 55%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 40% 80%, rgba(201,169,110,0.2) 0%, transparent 60%); }
-    .hero-content { position: relative; z-index: 1; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 20%, rgba(201,169,110,0.18) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 0.8rem; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)); }
     .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
-    .hero h1 em { font-style: italic; color: var(--sand); }
-    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+    .hero-sub { font-size: 0.9rem; font-weight: 300; color: rgba(245,240,232,0.75); max-width: 540px; margin: 0.6rem auto 0; line-height: 1.5; }
 
-    .main { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    /* ── MAIN ── */
+    .main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
-    /* ── TABS ── */
-    .tabs { display: flex; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(61,92,58,0.2); margin-bottom: 2.5rem; background: white; }
-    .tab-btn { flex: 1; padding: 0.8rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border: none; background: none; cursor: pointer; transition: all 0.2s; color: rgba(28,24,16,0.5); }
-    .tab-btn.active { background: var(--forest); color: white; }
-    .tab-btn:hover:not(.active) { background: rgba(61,92,58,0.06); color: var(--forest); }
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
+    /* ── TOOLBAR (admin only) ── */
+    .toolbar { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .toolbar-info { flex: 1; font-size: 0.78rem; color: rgba(28,24,16,0.5); letter-spacing: 0.05em; }
+    .btn-admin-add { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.2rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .btn-admin-add:hover { background: var(--terra-lt); }
 
-    /* ── PLAYER SELECT ── */
-    .player-select { background: var(--cream); border-radius: 16px; padding: 1.8rem; box-shadow: 0 2px 20px rgba(0,0,0,0.07); margin-bottom: 2rem; text-align: center; }
-    .player-select h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 1.2rem; }
-    .player-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
-    .player-chip { padding: 0.5rem 1rem; border: 1.5px solid rgba(61,92,58,0.2); border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; user-select: none; }
-    .player-chip:hover { border-color: var(--forest); }
-    .player-chip.selected { background: var(--forest); color: white; border-color: var(--forest); }
+    /* ── CARD ── */
+    .quiz-card { background: white; border-radius: 16px; padding: 2rem 1.8rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); position: relative; min-height: 200px; }
+    .question-cat { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terra); font-weight: 500; opacity: 0.75; margin-bottom: 0.6rem; }
+    .question-text { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400; color: var(--ink); line-height: 1.35; margin-bottom: 1.4rem; }
+    .options-list { display: flex; flex-direction: column; gap: 0.7rem; }
+    .option-btn { display: flex; align-items: center; gap: 0.8rem; padding: 0.95rem 1.1rem; border: 2px solid rgba(61,92,58,0.15); background: white; border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--ink); cursor: pointer; transition: all 0.15s; text-align: left; width: 100%; }
+    .option-btn:hover:not(.locked) { border-color: var(--forest); background: rgba(78,115,73,0.04); }
+    .option-letter { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--forest); flex-shrink: 0; width: 1.5rem; }
+    .option-btn.correct { background: rgba(78,115,73,0.12); border-color: var(--good); color: var(--forest-dk); }
+    .option-btn.correct .option-letter { color: var(--good); }
+    .option-btn.wrong { background: rgba(168,76,42,0.10); border-color: var(--bad); color: var(--bark); }
+    .option-btn.wrong .option-letter { color: var(--bad); }
+    .option-btn.locked { cursor: default; }
+    .option-icon { margin-left: auto; font-size: 1.1rem; }
 
-    /* ── QUIZ CARD ── */
-    .quiz-arena { display: none; }
-    .quiz-arena.active { display: block; }
+    .feedback { margin-top: 1.2rem; padding: 1rem 1.1rem; border-radius: 10px; font-size: 0.92rem; line-height: 1.5; }
+    .feedback.good { background: rgba(78,115,73,0.10); color: var(--forest-dk); border-left: 4px solid var(--good); }
+    .feedback.bad  { background: rgba(168,76,42,0.08); color: var(--bark); border-left: 4px solid var(--bad); }
+    .feedback-label { font-weight: 600; margin-right: 0.4rem; }
 
-    .progress-bar { background: rgba(61,92,58,0.1); border-radius: 20px; height: 6px; margin-bottom: 1.5rem; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--forest); border-radius: 20px; transition: width 0.4s ease; }
-    .progress-label { font-size: 0.75rem; color: #888; margin-bottom: 0.5rem; text-align: right; }
+    .actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1.4rem; gap: 0.8rem; }
+    .progress-text { font-size: 0.78rem; color: rgba(28,24,16,0.4); letter-spacing: 0.05em; }
+    .btn-next, .btn-restart { background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 1.5rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+    .btn-next:hover, .btn-restart:hover { background: var(--forest-lt); }
+    .btn-edit-question { position: absolute; top: 1rem; right: 1rem; background: none; border: 1px solid rgba(61,92,58,0.15); color: rgba(28,24,16,0.4); width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: none; align-items: center; justify-content: center; transition: all 0.15s; }
+    .btn-edit-question:hover { border-color: var(--forest); color: var(--forest); }
+    .is-admin .btn-edit-question { display: flex; }
 
-    .quote-card {
-      background: var(--cream); border-radius: 20px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-      padding: 2.5rem 2rem; text-align: center; margin-bottom: 1.5rem;
-      position: relative; overflow: hidden;
-    }
-    .quote-card::before { content: '"'; position: absolute; top: -0.5rem; left: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 8rem; color: rgba(61,92,58,0.06); line-height: 1; pointer-events: none; }
-    .quote-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 400; font-style: italic; color: var(--forest-dk); line-height: 1.4; position: relative; z-index: 1; }
+    /* ── END STATE ── */
+    .end-state { background: white; border-radius: 16px; padding: 3rem 1.8rem; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .end-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .end-state h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; color: var(--forest-dk); margin-bottom: 0.6rem; }
+    .end-state p { font-size: 0.95rem; color: rgba(28,24,16,0.6); margin-bottom: 1.6rem; }
 
-    .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.5rem; }
-    @media (max-width: 500px) { .answers-grid { grid-template-columns: 1fr; } }
-    .answer-btn {
-      padding: 1rem; border: 2px solid rgba(61,92,58,0.15); border-radius: 12px;
-      background: white; font-family: 'Jost', sans-serif; font-size: 0.95rem;
-      cursor: pointer; transition: all 0.2s; text-align: center;
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    }
-    .answer-btn:hover:not(:disabled) { border-color: var(--forest); background: rgba(61,92,58,0.04); transform: translateY(-1px); }
-    .answer-btn.correct { background: rgba(61,92,58,0.12); border-color: var(--forest); color: var(--forest-dk); }
-    .answer-btn.wrong { background: rgba(168,76,42,0.08); border-color: var(--terra); color: var(--terra); }
-    .answer-btn:disabled { cursor: default; }
+    /* ── EMPTY ── */
+    .empty-state { background: white; border-radius: 16px; padding: 3rem 1.5rem; text-align: center; color: rgba(28,24,16,0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
 
-    .feedback-box { text-align: center; padding: 1.2rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.95rem; font-weight: 500; display: none; }
-    .feedback-box.correct { background: rgba(61,92,58,0.1); color: var(--forest-dk); }
-    .feedback-box.wrong { background: rgba(168,76,42,0.08); color: var(--terra); }
-    .feedback-box .big-emoji { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1.5rem; overflow-y: auto; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 18px; padding: 2rem; width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.25); }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.2rem; color: var(--forest-dk); }
+    .modal label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.3rem; margin-top: 0.9rem; }
+    .modal label:first-of-type { margin-top: 0; }
+    .modal input, .modal textarea, .modal select { width: 100%; padding: 0.6rem 0.85rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--ink); background: #fafafa; outline: none; transition: border-color 0.2s; }
+    .modal input:focus, .modal textarea:focus, .modal select:focus { border-color: var(--forest); background: white; }
+    .modal textarea { resize: vertical; min-height: 60px; }
+    .option-row { display: grid; grid-template-columns: 30px 1fr 1fr; gap: 0.5rem; align-items: center; margin-top: 0.4rem; }
+    .option-row-label { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--forest); text-align: center; }
+    .modal-actions { display: flex; gap: 0.6rem; margin-top: 1.4rem; }
+    .btn-save { flex: 1; background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .btn-save:hover { background: var(--forest-lt); }
+    .btn-cancel { padding: 0.8rem 1.1rem; border: 1px solid #ddd; background: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; color: #666; border-radius: 8px; cursor: pointer; }
+    .btn-cancel:hover { background: #f5f5f5; }
+    .btn-delete { padding: 0.8rem 1.1rem; border: 1px solid var(--terra); background: white; color: var(--terra); font-family: 'Jost', sans-serif; font-size: 0.82rem; letter-spacing: 0.05em; border-radius: 8px; cursor: pointer; }
+    .btn-delete:hover { background: var(--terra); color: white; }
 
-    .btn-next { width: 100%; padding: 1rem; background: var(--forest); color: white; border: none; border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; display: none; }
-    .btn-next:hover { background: var(--forest-lt); }
-
-    /* ── RESULT SCREEN ── */
-    .result-screen { display: none; text-align: center; }
-    .result-screen.active { display: block; }
-    .result-score { font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 300; color: var(--forest); line-height: 1; }
-    .result-label { font-size: 0.85rem; color: #888; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
-    .result-msg { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--ink); margin-bottom: 2rem; }
-    .btn-play-again { padding: 0.9rem 2rem; background: var(--terra); color: white; border: none; border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-    .btn-play-again:hover { background: var(--terra-lt); }
-
-    /* ── SCOREBOARD ── */
-    .scoreboard { background: var(--cream); border-radius: 16px; padding: 1.8rem; box-shadow: 0 2px 20px rgba(0,0,0,0.07); }
-    .scoreboard h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 1.5rem; }
-    .score-row { display: flex; align-items: center; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(61,92,58,0.08); }
-    .score-row:last-child { border-bottom: none; }
-    .score-rank { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; width: 30px; color: var(--bark); }
-    .score-rank.gold { color: #c9a500; }
-    .score-rank.silver { color: #8a8a8a; }
-    .score-rank.bronze { color: #8B4513; }
-    .score-name { flex: 1; font-weight: 500; font-size: 0.95rem; }
-    .score-val { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--forest); }
-    .score-games { font-size: 0.72rem; color: #aaa; }
-
-    /* ── ADD QUOTE TAB ── */
-    .add-quote-card { background: var(--cream); border-radius: 16px; padding: 1.8rem; box-shadow: 0 2px 20px rgba(0,0,0,0.07); }
-    .add-quote-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 1.4rem; }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.4rem; }
-    .form-group textarea, .form-group select { width: 100%; padding: 0.75rem 0.9rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--ink); background: #fafafa; outline: none; transition: border-color 0.2s; resize: vertical; }
-    .form-group textarea:focus, .form-group select:focus { border-color: var(--forest); background: white; }
-    .btn-add-quote { background: var(--forest); color: white; border: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.6rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
-    .btn-add-quote:hover { background: var(--forest-lt); }
-
-    .quote-list { margin-top: 2rem; }
-    .quote-list h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 1rem; color: var(--forest-dk); }
-    .quote-item { display: flex; align-items: flex-start; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(61,92,58,0.08); }
-    .quote-item:last-child { border-bottom: none; }
-    .quote-item p { flex: 1; font-size: 0.88rem; font-style: italic; color: var(--ink); }
-    .quote-item span { font-size: 0.78rem; color: var(--bark); font-weight: 500; white-space: nowrap; }
-    .quote-del { background: none; border: none; cursor: pointer; color: #ccc; transition: color 0.2s; font-size: 1rem; flex-shrink: 0; }
-    .quote-del:hover { color: var(--terra); }
-
-    .empty-state { text-align: center; padding: 3rem; color: #bbb; }
-    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; }
-
-    footer { text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(28,24,16,0.3); border-top: 1px solid rgba(28,24,16,0.08); }
-      .private-dropdown { position: relative; display: inline-flex; align-items: center; }
-    .private-btn { background: none; border: 1px solid rgba(245,220,180,0.4); color: rgba(245,220,180,0.9); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-    .private-btn:hover { background: rgba(245,220,180,0.15); }
-    .private-menu { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #2a3f28; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.4rem; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
-    .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
-    .private-menu a:hover { background: rgba(255,255,255,0.1); color: white; }
+    /* ── FOOTER ── */
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
   </style>
 </head>
 <body>
 
+  <!-- NAV -->
   <nav>
-    <a class="nav-brand" href="index.html">🏰 Age of Origins</a>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
     <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="base.html">Base</a>
-      <a href="combat.html">Combat</a>
-      <a href="alliance.html">Alliance</a>
-      <a href="tips.html" class="active">Tips</a>
-      <a href="events.html">Events</a>
-      <a href="group.html">Group</a>
-      <a href="resources.html">Resources</a>
+      <a href="index.html"     data-en="Home"      data-es="Inicio">Home</a>
+      <a href="base.html"      data-en="Base"      data-es="Base">Base</a>
+      <a href="combat.html"    data-en="Combat"    data-es="Combate">Combat</a>
+      <a href="alliance.html"  data-en="Alliance"  data-es="Alianza">Alliance</a>
+      <a href="tips.html" class="active" data-en="Tips" data-es="Consejos">Tips</a>
+      <a href="events.html"    data-en="Events"    data-es="Eventos">Events</a>
+      <a href="group.html"     data-en="Group"     data-es="Grupo">Group</a>
+      <a href="resources.html" data-en="Resources" data-es="Recursos">Resources</a>
       <div class="nav-mobile-footer">
-        <button class="nav-logout" onclick="logOut()">Log out</button>
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
       </div>
     </div>
     <div class="nav-right">
-      <button class="nav-logout" onclick="logOut()">Log out</button>
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
     </div>
   </nav>
 
-  <div class="hero">
+  <!-- HERO -->
+  <header class="hero">
     <div class="hero-content">
-      <h1><em>Vem</em> sa det?</h1>
-      <p>Kan du lista ut vem i familjen som sa vad?</p>
+      <div class="hero-icon">🎯</div>
+      <h1 data-en="Quiz" data-es="Quiz">Quiz</h1>
+      <p class="hero-sub"
+         data-en="Practice questions about the game. Pick an answer, see if you're right, learn the why."
+         data-es="Preguntas para practicar sobre el juego. Elige una respuesta, mira si acertaste, aprende el porqué.">
+        Practice questions about the game. Pick an answer, see if you're right, learn the why.
+      </p>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="toolbar">
+      <div class="toolbar-info" id="toolbarInfo"></div>
+      <button class="btn-admin-add" id="btnAdminAdd" onclick="openAddModal()" style="display:none"
+              data-en="+ Add question" data-es="+ Añadir pregunta">+ Add question</button>
+    </div>
+
+    <div id="cardArea">
+      <div class="empty-state"><div class="icon">🎯</div><p data-en="Loading…" data-es="Cargando…">Loading…</p></div>
+    </div>
+  </main>
+
+  <!-- ADMIN MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlay(event)">
+    <div class="modal">
+      <h2 id="modalTitle" data-en="Add question" data-es="Añadir pregunta">Add question</h2>
+
+      <label data-en="Category" data-es="Categoría">Category</label>
+      <select id="newCategory">
+        <option value="base"     data-en="Base building"    data-es="Construcción">Base building</option>
+        <option value="combat"   data-en="Combat"           data-es="Combate">Combat</option>
+        <option value="alliance" data-en="Alliance"         data-es="Alianza">Alliance</option>
+        <option value="events"   data-en="Events"           data-es="Eventos">Events</option>
+        <option value="general"  data-en="General"          data-es="General">General</option>
+      </select>
+
+      <label data-en="Question (English)" data-es="Pregunta (inglés)">Question (English)</label>
+      <textarea id="newQuestionEn" rows="2" placeholder="When is the best time to attack?"></textarea>
+
+      <label data-en="Question (Spanish)" data-es="Pregunta (español)">Question (Spanish)</label>
+      <textarea id="newQuestionEs" rows="2" placeholder="¿Cuándo es el mejor momento para atacar?"></textarea>
+
+      <label data-en="Options (English / Spanish)" data-es="Opciones (inglés / español)">Options (English / Spanish)</label>
+      <div class="option-row"><div class="option-row-label">A</div><input type="text" id="optAen" placeholder="When shield is up" /><input type="text" id="optAes" placeholder="Cuando hay escudo" /></div>
+      <div class="option-row"><div class="option-row-label">B</div><input type="text" id="optBen" placeholder="When base is unshielded" /><input type="text" id="optBes" placeholder="Cuando no hay escudo" /></div>
+      <div class="option-row"><div class="option-row-label">C</div><input type="text" id="optCen" placeholder="Anytime" /><input type="text" id="optCes" placeholder="En cualquier momento" /></div>
+      <div class="option-row"><div class="option-row-label">D</div><input type="text" id="optDen" placeholder="Never" /><input type="text" id="optDes" placeholder="Nunca" /></div>
+
+      <label data-en="Correct answer" data-es="Respuesta correcta">Correct answer</label>
+      <select id="newCorrect">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+        <option value="3">D</option>
+      </select>
+
+      <label data-en="Explanation in English (optional)" data-es="Explicación en inglés (opcional)">Explanation in English (optional)</label>
+      <textarea id="newExplanationEn" rows="2" placeholder="Why this is the answer."></textarea>
+
+      <label data-en="Explanation in Spanish (optional)" data-es="Explicación en español (opcional)">Explanation in Spanish (optional)</label>
+      <textarea id="newExplanationEs" rows="2" placeholder="Por qué esta es la respuesta."></textarea>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()" data-en="Cancel" data-es="Cancelar">Cancel</button>
+        <button class="btn-delete" id="btnDelete" onclick="deleteCurrent()" style="display:none"
+                data-en="Delete" data-es="Eliminar">Delete</button>
+        <button class="btn-save" onclick="saveQuestion()" data-en="Save" data-es="Guardar">Save</button>
+      </div>
     </div>
   </div>
 
-  <div class="main">
-
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('spela', this)">🎮 Spela</button>
-      <button class="tab-btn" onclick="switchTab('topplista', this)">🏆 Topplista</button>
-      <button class="tab-btn" onclick="switchTab('lagg-till', this)">✏️ Lägg till</button>
-    </div>
-
-    <!-- ── SPELA ── -->
-    <div class="tab-pane active" id="tab-spela">
-
-      <!-- Välj spelare -->
-      <div class="player-select" id="playerSelect">
-        <h2>Vem spelar?</h2>
-        <div class="player-chips" id="playerChips"></div>
-      </div>
-
-      <!-- Quiz-arena -->
-      <div class="quiz-arena" id="quizArena">
-        <div class="progress-label" id="progressLabel">Fråga 1 av 10</div>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
-
-        <div class="quote-card">
-          <div class="quote-text" id="quoteText">…</div>
-        </div>
-
-        <div class="answers-grid" id="answersGrid"></div>
-        <div class="feedback-box" id="feedbackBox"></div>
-        <button class="btn-next" id="btnNext" onclick="nextQuestion()">Nästa fråga →</button>
-      </div>
-
-      <!-- Resultat -->
-      <div class="result-screen" id="resultScreen">
-        <div class="result-score" id="resultScore">0</div>
-        <div class="result-label">rätt av <span id="resultTotal">10</span></div>
-        <div class="result-msg" id="resultMsg"></div>
-        <button class="btn-play-again" onclick="startOver()">Spela igen</button>
-      </div>
-
-    </div>
-
-    <!-- ── TOPPLISTA ── -->
-    <div class="tab-pane" id="tab-topplista">
-      <div class="scoreboard">
-        <h2>🏆 Topplista</h2>
-        <div id="scoreboardList"><div class="empty-state"><div class="icon">🏆</div><p>Ingen har spelat än — var den första!</p></div></div>
-      </div>
-    </div>
-
-    <!-- ── LÄGG TILL ── -->
-    <div class="tab-pane" id="tab-lagg-till">
-      <div class="add-quote-card">
-        <h2>Lägg till ett citat</h2>
-        <div class="form-group">
-          <label>Citatet</label>
-          <textarea id="newCitat" rows="3" placeholder="Vad sa personen? Skriv precis som det sades…"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Vem sa det?</label>
-          <select id="newSvarare">
-            <option value="">— välj person —</option>
-            <option>Familjemedlem 1</option><option>Familjemedlem 2</option><option>Familjemedlem 3</option>
-            <option>Familjemedlem 4</option><option>Familjemedlem 5</option><option>Familjemedlem 6</option><option>Familjemedlem 7</option>
-          </select>
-        </div>
-        <button class="btn-add-quote" onclick="addCitat()">Lägg till</button>
-
-        <div class="quote-list">
-          <h3>Alla citat (<span id="citatCount">0</span>)</h3>
-          <div id="citatList"></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <footer><p>Din familjesajt &nbsp;·&nbsp; Quiz &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p></footer>
+  <footer>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-function addPrivateNavLinks(email) {
-      const links = [];
-      // Privata mappar konfigureras av familjen själva
-      if (!links.length) return;
-      const navRight = document.querySelector('.nav-right');
-      if (!navRight) return;
-      const wrap = document.createElement('div');
-      wrap.className = 'private-dropdown';
-      wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
-      navRight.insertBefore(wrap, navRight.firstChild);
-      wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
-      document.addEventListener('click', () => wrap.classList.remove('open'));
-    }
-</script>
   <script>
     const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
     const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    const ADMIN_EMAILS  = ['pealmab@hotmail.com'];
 
-    const MEMBERS = [
-      { name:'Familjemedlem 1',emoji:'👨' },{ name:'Familjemedlem 2',emoji:'👩' },
-      { name:'Familjemedlem 3',emoji:'🧑' },{ name:'Familjemedlem 4',emoji:'👧' },
-      { name:'Familjemedlem 5',emoji:'🧔' },{ name:'Familjemedlem 6',emoji:'👱‍♀️' },
-      { name:'Familjemedlem 7',emoji:'🧑‍🦱' },{ name:'Familjemedlem 8',emoji:'🦌' },
-    ];
-    const RESULT_MSGS = [
-      [0,2, '😅 Håll ut, du lär känna familjen bättre för varje runda!'],
-      [3,5, '🙂 Inte illa! Det händer att man glömmer bort hur folk pratar.'],
-      [6,7, '😄 Bra jobbat! Du känner familjen väl.'],
-      [8,9, '🌟 Imponerande! Du lyssnar verkligen på folk.'],
-      [10,10,'🏆 Perfekt! Du är en sann familjeexpert!'],
+    const CATEGORIES = [
+      { key: 'base',     en: 'Base building', es: 'Construcción' },
+      { key: 'combat',   en: 'Combat',        es: 'Combate' },
+      { key: 'alliance', en: 'Alliance',      es: 'Alianza' },
+      { key: 'events',   en: 'Events',        es: 'Eventos' },
+      { key: 'general',  en: 'General',       es: 'General' }
     ];
 
-    let allCitat       = [];
-    let currentPlayer  = null;
-    let quizQueue      = [];
-    let quizIndex      = 0;
-    let score          = 0;
-    const QUIZ_LEN     = 7;
+    // Recovery/invite-hash -> login
+    const _h = window.location.hash, _s = window.location.search;
+    if ((_h && (_h.includes('type=recovery') || _h.includes('type=invite'))) || (_s && _s.includes('code='))) {
+      window.location.replace('login.html' + _s + _h);
+    }
 
-    // ── AUTH ──
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
+
+    let allQuestions = [];
+    let shuffled     = [];
+    let currentIdx   = 0;
+    let isAdmin      = false;
+    let editingId    = null;
+    let currentUserEmail = '';
+
     sb.auth.getSession().then(({ data }) => {
-      if (!data?.session) { window.location.href = 'login.html'; return; }
-      addPrivateNavLinks((data.session||data?.session).user.email.toLowerCase());
-      init();
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      currentUserEmail = (data.session.user.email || '').toLowerCase();
+      isAdmin = ADMIN_EMAILS.includes(currentUserEmail);
+      if (isAdmin) {
+        document.getElementById('btnAdminAdd').style.display = '';
+        document.querySelector('.main').classList.add('is-admin');
+      }
+      loadQuestions();
     });
-    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
 
-    async function init() {
-      buildPlayerChips();
-      await loadCitat();
-      renderCitatList();
+    function logOut() { window.location.href = 'logout.html'; }
+
+    async function loadQuestions() {
+      const { data, error } = await sb.from('quiz_questions').select('*').order('created_at', { ascending: false });
+      if (error) { console.error(error); return; }
+      allQuestions = data || [];
+      startQuiz();
     }
 
-    async function loadCitat() {
-      const { data } = await sb.from('quiz_citat').select('*').order('created_at');
-      allCitat = data || [];
-      document.getElementById('citatCount').textContent = allCitat.length;
-    }
-
-    // ── TABS ──
-    function switchTab(id, btn) {
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('tab-' + id).classList.add('active');
-      btn.classList.add('active');
-      if (id === 'topplista') loadScoreboard();
-    }
-
-    // ── PLAYER SELECT ──
-    function buildPlayerChips() {
-      const c = document.getElementById('playerChips');
-      MEMBERS.forEach(m => {
-        const chip = document.createElement('div');
-        chip.className = 'player-chip';
-        chip.textContent = `${m.emoji} ${m.name}`;
-        chip.onclick = () => {
-          document.querySelectorAll('.player-chip').forEach(x => x.classList.remove('selected'));
-          chip.classList.add('selected');
-          currentPlayer = m;
-          setTimeout(() => startQuiz(), 400);
-        };
-        c.appendChild(chip);
-      });
-    }
-
-    // ── QUIZ LOGIC ──
     function startQuiz() {
-      if (allCitat.length < 4) {
-        alert('Det behövs minst 4 citat för att spela. Lägg till fler under fliken "Lägg till"!');
+      shuffled = shuffleArray([...allQuestions]);
+      currentIdx = 0;
+      renderCard();
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function escapeHtml(s) {
+      return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function catLabel(key) {
+      const c = CATEGORIES.find(x => x.key === key);
+      if (!c) return key;
+      return LANG === 'es' ? c.es : c.en;
+    }
+
+    function renderCard() {
+      const area = document.getElementById('cardArea');
+      const info = document.getElementById('toolbarInfo');
+
+      if (!allQuestions.length) {
+        const msg = LANG === 'es' ? 'Aún no hay preguntas. Vuelve cuando un admin haya añadido algunas.' : 'No questions yet. Check back when an admin has added some.';
+        area.innerHTML = `<div class="empty-state"><div class="icon">🎯</div><p>${msg}</p></div>`;
+        info.textContent = '';
         return;
       }
-      // Shuffle and pick QUIZ_LEN questions
-      const shuffled = [...allCitat].sort(() => Math.random() - 0.5);
-      quizQueue = shuffled.slice(0, Math.min(QUIZ_LEN, shuffled.length));
-      quizIndex = 0;
-      score     = 0;
 
-      document.getElementById('playerSelect').style.display = 'none';
-      document.getElementById('quizArena').classList.add('active');
-      document.getElementById('resultScreen').classList.remove('active');
-
-      showQuestion();
-    }
-
-    function showQuestion() {
-      const q = quizQueue[quizIndex];
-      const total = quizQueue.length;
-
-      document.getElementById('progressLabel').textContent = `Fråga ${quizIndex+1} av ${total}`;
-      document.getElementById('progressFill').style.width = `${((quizIndex+1)/total)*100}%`;
-      document.getElementById('quoteText').textContent = `"${q.citat}"`;
-
-      // Build answer options: correct + 3 random wrong
-      const wrong = MEMBERS.filter(m => m.name !== q.svarare).sort(() => Math.random()-0.5).slice(0,3);
-      const options = [...wrong, MEMBERS.find(m => m.name === q.svarare) || { name: q.svarare, emoji:'🙂' }]
-                        .sort(() => Math.random()-0.5);
-
-      const grid = document.getElementById('answersGrid');
-      grid.innerHTML = '';
-      options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'answer-btn';
-        btn.innerHTML = `${opt.emoji} ${opt.name}`;
-        btn.onclick = () => handleAnswer(opt.name, q.svarare);
-        grid.appendChild(btn);
-      });
-
-      document.getElementById('feedbackBox').style.display = 'none';
-      document.getElementById('feedbackBox').className = 'feedback-box';
-      document.getElementById('btnNext').style.display = 'none';
-    }
-
-    function handleAnswer(chosen, correct) {
-      // Disable all buttons
-      document.querySelectorAll('.answer-btn').forEach(btn => {
-        btn.disabled = true;
-        const name = btn.textContent.trim().split(' ').slice(1).join(' ');
-        if (name === correct) btn.classList.add('correct');
-        else if (name === chosen && chosen !== correct) btn.classList.add('wrong');
-      });
-
-      const isCorrect = chosen === correct;
-      if (isCorrect) score++;
-
-      const fb = document.getElementById('feedbackBox');
-      fb.style.display = 'block';
-      if (isCorrect) {
-        fb.className = 'feedback-box correct';
-        fb.innerHTML = `<span class="big-emoji">🎉</span> Rätt! Det var ${correct}.`;
-      } else {
-        fb.className = 'feedback-box wrong';
-        fb.innerHTML = `<span class="big-emoji">😬</span> Fel… Det var faktiskt ${correct} som sa det!`;
-      }
-
-      const btnNext = document.getElementById('btnNext');
-      btnNext.style.display = 'block';
-      btnNext.textContent = quizIndex < quizQueue.length-1 ? 'Nästa fråga →' : 'Se resultat →';
-    }
-
-    async function nextQuestion() {
-      quizIndex++;
-      if (quizIndex < quizQueue.length) {
-        showQuestion();
-      } else {
-        showResult();
-      }
-    }
-
-    async function showResult() {
-      document.getElementById('quizArena').classList.remove('active');
-      const rs = document.getElementById('resultScreen');
-      rs.classList.add('active');
-      document.getElementById('resultScore').textContent = score;
-      document.getElementById('resultTotal').textContent = quizQueue.length;
-
-      const msg = RESULT_MSGS.find(([lo, hi]) => score >= lo && score <= hi);
-      document.getElementById('resultMsg').textContent = msg ? msg[2] : '🎊 Bra spelat!';
-
-      // Save/update score
-      if (currentPlayer) {
-        const { data: existing } = await sb.from('quiz_poang').select('*').eq('player_name', currentPlayer.name).maybeSingle();
-        if (existing) {
-          await sb.from('quiz_poang').update({
-            score: existing.score + score,
-            games_played: existing.games_played + 1,
-            updated_at: new Date().toISOString()
-          }).eq('id', existing.id);
-        } else {
-          await sb.from('quiz_poang').insert({
-            player_name:  currentPlayer.name,
-            player_emoji: currentPlayer.emoji,
-            score,
-            games_played: 1
-          });
-        }
-      }
-    }
-
-    function startOver() {
-      document.getElementById('resultScreen').classList.remove('active');
-      document.getElementById('playerSelect').style.display = 'block';
-      document.querySelectorAll('.player-chip').forEach(c => c.classList.remove('selected'));
-      currentPlayer = null;
-    }
-
-    // ── SCOREBOARD ──
-    async function loadScoreboard() {
-      const { data } = await sb.from('quiz_poang').select('*').order('score', { ascending: false });
-      const container = document.getElementById('scoreboardList');
-      if (!data || !data.length) {
-        container.innerHTML = '<div class="empty-state"><div class="icon">🏆</div><p>Ingen har spelat än!</p></div>';
+      if (currentIdx >= shuffled.length) {
+        const heading = LANG === 'es' ? '¡Quiz completo!' : 'Quiz complete!';
+        const sub     = LANG === 'es' ? 'Has visto todas las preguntas. Vuelve a barajarlas cuando quieras.' : "You've seen every question. Reshuffle whenever you like.";
+        const btnTxt  = LANG === 'es' ? 'Empezar de nuevo' : 'Start again';
+        area.innerHTML = `
+          <div class="end-state">
+            <div class="icon">✨</div>
+            <h2>${heading}</h2>
+            <p>${sub}</p>
+            <button class="btn-restart" onclick="startQuiz()">${btnTxt}</button>
+          </div>`;
+        info.textContent = '';
         return;
       }
-      const rankClass = ['gold','silver','bronze'];
-      container.innerHTML = data.map((p,i) => `
-        <div class="score-row">
-          <div class="score-rank ${rankClass[i]||''}">${i+1}</div>
-          <div class="score-name">${p.player_emoji||''} ${p.player_name}</div>
-          <div>
-            <div class="score-val">${p.score} p</div>
-            <div class="score-games">${p.games_played} spel</div>
+
+      const q = shuffled[currentIdx];
+      const questionTxt = LANG === 'es' ? (q.question_es || q.question_en) : (q.question_en || q.question_es);
+      const opts = Array.isArray(q.options) ? q.options : [];
+      const letters = ['A','B','C','D','E','F'];
+      const editBtn = isAdmin ? `<button class="btn-edit-question" onclick="openEditModal('${q.id}')" title="Edit">✎</button>` : '';
+
+      area.innerHTML = `
+        <div class="quiz-card">
+          ${editBtn}
+          <div class="question-cat">${escapeHtml(catLabel(q.category))}</div>
+          <div class="question-text">${escapeHtml(questionTxt)}</div>
+          <div class="options-list" id="optionsList">
+            ${opts.map((o, i) => {
+              const txt = LANG === 'es' ? (o.es || o.en) : (o.en || o.es);
+              return `<button class="option-btn" data-idx="${i}" onclick="pickAnswer(${i})">
+                        <span class="option-letter">${letters[i] || (i+1)}</span>
+                        <span class="option-text">${escapeHtml(txt)}</span>
+                      </button>`;
+            }).join('')}
           </div>
-        </div>
-      `).join('');
+          <div id="feedbackArea"></div>
+          <div class="actions">
+            <span class="progress-text">${currentIdx + 1} / ${shuffled.length}</span>
+            <button class="btn-next" id="btnNext" onclick="nextQuestion()" style="display:none">${LANG === 'es' ? 'Siguiente →' : 'Next →'}</button>
+          </div>
+        </div>`;
     }
 
-    // ── ADD CITAT ──
-    async function addCitat() {
-      const citat   = document.getElementById('newCitat').value.trim();
-      const svarare = document.getElementById('newSvarare').value;
-      if (!citat)   { alert('Ange ett citat.'); return; }
-      if (!svarare) { alert('Välj vem som sa det.'); return; }
-      const { error } = await sb.from('quiz_citat').insert({ citat, svarare });
-      if (error) { alert('Fel: ' + error.message); return; }
-      document.getElementById('newCitat').value   = '';
-      document.getElementById('newSvarare').value = '';
-      await loadCitat();
-      renderCitatList();
+    function pickAnswer(idx) {
+      const q = shuffled[currentIdx];
+      const correct = q.correct_index;
+      const buttons = document.querySelectorAll('#optionsList .option-btn');
+      buttons.forEach(b => {
+        b.classList.add('locked');
+        b.disabled = true;
+        const bIdx = parseInt(b.dataset.idx, 10);
+        if (bIdx === correct) {
+          b.classList.add('correct');
+          b.innerHTML += '<span class="option-icon">✓</span>';
+        } else if (bIdx === idx) {
+          b.classList.add('wrong');
+          b.innerHTML += '<span class="option-icon">✗</span>';
+        }
+      });
+
+      const isCorrect = idx === correct;
+      const fb = document.getElementById('feedbackArea');
+      const expl = LANG === 'es' ? (q.explanation_es || q.explanation_en) : (q.explanation_en || q.explanation_es);
+      const label = isCorrect
+        ? (LANG === 'es' ? '¡Correcto!' : 'Correct!')
+        : (LANG === 'es' ? 'No es correcto.' : 'Not quite.');
+      fb.innerHTML = `<div class="feedback ${isCorrect ? 'good' : 'bad'}">
+        <span class="feedback-label">${label}</span>${expl ? escapeHtml(expl) : ''}
+      </div>`;
+
+      document.getElementById('btnNext').style.display = '';
     }
 
-    function renderCitatList() {
-      const container = document.getElementById('citatList');
-      if (!allCitat.length) {
-        container.innerHTML = '<div class="empty-state" style="padding:1rem"><p>Inga citat ännu.</p></div>';
+    function nextQuestion() {
+      currentIdx++;
+      renderCard();
+    }
+
+    // ── ADMIN MODAL ──
+    function openAddModal() {
+      editingId = null;
+      document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Añadir pregunta' : 'Add question';
+      ['newQuestionEn','newQuestionEs','optAen','optAes','optBen','optBes','optCen','optCes','optDen','optDes','newExplanationEn','newExplanationEs']
+        .forEach(id => document.getElementById(id).value = '');
+      document.getElementById('newCategory').value = 'general';
+      document.getElementById('newCorrect').value = '0';
+      document.getElementById('btnDelete').style.display = 'none';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function openEditModal(id) {
+      if (!isAdmin) return;
+      const q = allQuestions.find(x => x.id === id);
+      if (!q) return;
+      editingId = id;
+      document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Editar pregunta' : 'Edit question';
+      document.getElementById('newCategory').value     = q.category || 'general';
+      document.getElementById('newQuestionEn').value   = q.question_en || '';
+      document.getElementById('newQuestionEs').value   = q.question_es || '';
+      const opts = Array.isArray(q.options) ? q.options : [];
+      const idMap = [['optAen','optAes'],['optBen','optBes'],['optCen','optCes'],['optDen','optDes']];
+      idMap.forEach((pair, i) => {
+        document.getElementById(pair[0]).value = (opts[i] && opts[i].en) || '';
+        document.getElementById(pair[1]).value = (opts[i] && opts[i].es) || '';
+      });
+      document.getElementById('newCorrect').value      = String(q.correct_index || 0);
+      document.getElementById('newExplanationEn').value = q.explanation_en || '';
+      document.getElementById('newExplanationEs').value = q.explanation_es || '';
+      document.getElementById('btnDelete').style.display = '';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); editingId = null; }
+    function handleOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+    async function saveQuestion() {
+      const qEn = document.getElementById('newQuestionEn').value.trim();
+      const qEs = document.getElementById('newQuestionEs').value.trim();
+      const optPairs = [
+        [document.getElementById('optAen').value.trim(), document.getElementById('optAes').value.trim()],
+        [document.getElementById('optBen').value.trim(), document.getElementById('optBes').value.trim()],
+        [document.getElementById('optCen').value.trim(), document.getElementById('optCes').value.trim()],
+        [document.getElementById('optDen').value.trim(), document.getElementById('optDes').value.trim()]
+      ];
+      const correctIdx = parseInt(document.getElementById('newCorrect').value, 10);
+
+      if (!qEn) { alert(LANG === 'es' ? 'Introduce la pregunta en inglés.' : 'Enter the English question.'); return; }
+      if (!qEs) { alert(LANG === 'es' ? 'Introduce la pregunta en español.' : 'Enter the Spanish question.'); return; }
+
+      const options = [];
+      for (let i = 0; i < optPairs.length; i++) {
+        const [en, es] = optPairs[i];
+        if (!en && !es) continue;
+        if (!en || !es) {
+          alert(LANG === 'es' ? `La opción ${['A','B','C','D'][i]} necesita texto en ambos idiomas.` : `Option ${['A','B','C','D'][i]} needs text in both languages.`);
+          return;
+        }
+        options.push({ en, es });
+      }
+      if (options.length < 2) {
+        alert(LANG === 'es' ? 'Se necesitan al menos 2 opciones.' : 'At least 2 options are needed.');
         return;
       }
-      container.innerHTML = allCitat.map(c => `
-        <div class="quote-item">
-          <p>"${c.citat}"</p>
-          <span>— ${c.svarare}</span>
-          <button class="quote-del" onclick="deleteCitat('${c.id}')">✕</button>
-        </div>
-      `).join('');
+      if (correctIdx >= options.length) {
+        alert(LANG === 'es' ? 'La respuesta correcta apunta a una opción vacía.' : 'The correct answer points to an empty option.');
+        return;
+      }
+
+      const payload = {
+        question_en:    qEn,
+        question_es:    qEs,
+        category:       document.getElementById('newCategory').value,
+        options,
+        correct_index:  correctIdx,
+        explanation_en: document.getElementById('newExplanationEn').value.trim() || null,
+        explanation_es: document.getElementById('newExplanationEs').value.trim() || null
+      };
+
+      let error;
+      if (editingId) {
+        ({ error } = await sb.from('quiz_questions').update(payload).eq('id', editingId));
+      } else {
+        payload.author_email = currentUserEmail;
+        ({ error } = await sb.from('quiz_questions').insert(payload));
+      }
+      if (error) { alert('Error: ' + error.message); return; }
+      closeModal();
+      await loadQuestions();
     }
 
-    async function deleteCitat(id) {
-      if (!confirm('Ta bort det här citatet?')) return;
-      await sb.from('quiz_citat').delete().eq('id', id);
-      await loadCitat();
-      renderCitatList();
+    async function deleteCurrent() {
+      if (!editingId) return;
+      const msg = LANG === 'es' ? '¿Eliminar esta pregunta?' : 'Delete this question?';
+      if (!confirm(msg)) return;
+      const { error } = await sb.from('quiz_questions').delete().eq('id', editingId);
+      if (error) { alert('Error: ' + error.message); return; }
+      closeModal();
+      await loadQuestions();
     }
-  
-    function toggleNav() {
-      const nl = document.getElementById('navLinks');
-      nl.classList.toggle('open');
-    }
+
+    // ── NAV TOGGLE ──
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
     document.addEventListener('DOMContentLoaded', function() {
       const nl = document.getElementById('navLinks');
       if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
     });
-  </script>
-  <script>
-    (function(){
-      var VERS_URL = "version.json?t=" + Date.now();
-      var stored;
-      fetch(VERS_URL).then(function(r){return r.json();}).then(function(d){
-        stored = d.version;
-      }).catch(function(){});
-      setInterval(function(){
-        if(!stored) return;
-        fetch("version.json?t=" + Date.now()).then(function(r){return r.json();}).then(function(d){
-          if(d.version !== stored && !document.getElementById("update-banner")){
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+      if (typeof allQuestions !== 'undefined' && allQuestions.length) renderCard();
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
             var b = document.createElement("div");
             b.id = "update-banner";
             b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
-            b.innerHTML = "✨ Sajten har uppdaterats! <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>Ladda om</button>";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
             document.body.appendChild(b);
           }
         }).catch(function(){});
