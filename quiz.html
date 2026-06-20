@@ -448,22 +448,29 @@
       if (!qEn) { alert(LANG === 'es' ? 'Introduce la pregunta en inglés.' : 'Enter the English question.'); return; }
       if (!qEs) { alert(LANG === 'es' ? 'Introduce la pregunta en español.' : 'Enter the Spanish question.'); return; }
 
+      // Filtrera bort tomma alternativ men remappa correct_index till nya positionen
       const options = [];
+      const remap = []; // remap[originalIdx] = newIdx eller -1
       for (let i = 0; i < optPairs.length; i++) {
         const [en, es] = optPairs[i];
-        if (!en && !es) continue;
+        if (!en && !es) { remap.push(-1); continue; }
         if (!en || !es) {
           alert(LANG === 'es' ? `La opción ${['A','B','C','D'][i]} necesita texto en ambos idiomas.` : `Option ${['A','B','C','D'][i]} needs text in both languages.`);
           return;
         }
+        remap.push(options.length);
         options.push({ en, es });
       }
       if (options.length < 2) {
         alert(LANG === 'es' ? 'Se necesitan al menos 2 opciones.' : 'At least 2 options are needed.');
         return;
       }
-      if (correctIdx >= options.length) {
-        alert(LANG === 'es' ? 'La respuesta correcta apunta a una opción vacía.' : 'The correct answer points to an empty option.');
+      const newCorrectIdx = remap[correctIdx];
+      if (newCorrectIdx === -1 || newCorrectIdx === undefined) {
+        const letter = ['A','B','C','D'][correctIdx];
+        alert(LANG === 'es'
+          ? `Elegiste "${letter}" como respuesta correcta pero esa opción está vacía. Rellénala o elige otra.`
+          : `You picked "${letter}" as the correct answer but that option is empty. Fill it in or pick a different one.`);
         return;
       }
 
@@ -472,7 +479,7 @@
         question_es:    qEs,
         category:       document.getElementById('newCategory').value,
         options,
-        correct_index:  correctIdx,
+        correct_index:  newCorrectIdx,
         explanation_en: document.getElementById('newExplanationEn').value.trim() || null,
         explanation_es: document.getElementById('newExplanationEs').value.trim() || null
       };
