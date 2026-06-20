@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-en="Jargon — Age of Origins" data-es="Jerga — Age of Origins">Jargon — Age of Origins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:    #3D5C3A;
+      --forest-dk: #2a3f28;
+      --forest-lt: #4e7349;
+      --terra:     #A84C2A;
+      --terra-lt:  #c4603a;
+      --cream:     #F5F0E8;
+      --sand:      #E8DCC8;
+      --bark:      #6B4C35;
+      --ink:       #1C1810;
+      --bg:        #F0EBE0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.7); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.6rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-mobile-footer { display: none !important; }
+    @media (max-width: 900px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex !important; gap: 0.5rem; padding: 0.6rem 0.8rem 0.3rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
+
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 55%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 20%, rgba(201,169,110,0.18) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 0.8rem; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)); }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
+    .hero-sub { font-size: 0.9rem; font-weight: 300; color: rgba(245,240,232,0.75); max-width: 540px; margin: 0.6rem auto 0; line-height: 1.5; }
+
+    /* ── MAIN ── */
+    .main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* ── TOOLBAR ── */
+    .toolbar { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    .toolbar-row { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+    .search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .search-wrap input { width: 100%; padding: 0.7rem 1rem 0.7rem 2.5rem; border: 1px solid rgba(61,92,58,0.2); border-radius: 10px; font-family: 'Jost', sans-serif; font-size: 0.9rem; background: white; outline: none; transition: border-color 0.2s; }
+    .search-wrap input:focus { border-color: var(--forest); }
+    .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); font-size: 0.95rem; opacity: 0.5; pointer-events: none; }
+    .btn-admin-add { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.2rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .btn-admin-add:hover { background: var(--terra-lt); }
+    .category-nav, .alpha-nav { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .cat-btn { padding: 0.4rem 0.85rem; border: 1px solid rgba(61,92,58,0.2); border-radius: 8px; background: white; font-family: 'Jost', sans-serif; font-size: 0.78rem; letter-spacing: 0.05em; cursor: pointer; transition: all 0.15s; color: var(--ink); }
+    .cat-btn:hover { border-color: var(--forest); color: var(--forest); }
+    .cat-btn.active { background: var(--forest); color: white; border-color: var(--forest); }
+    .alpha-btn { width: 30px; height: 30px; border: 1px solid rgba(61,92,58,0.15); border-radius: 6px; background: white; font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 500; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; color: var(--ink); }
+    .alpha-btn:hover { border-color: var(--forest); color: var(--forest); }
+    .alpha-btn.active { background: var(--forest); color: white; border-color: var(--forest); }
+
+    /* ── COUNT ── */
+    .term-count { font-size: 0.78rem; color: rgba(28,24,16,0.45); margin-bottom: 1rem; letter-spacing: 0.05em; }
+
+    /* ── TERM-LISTA ── */
+    .term-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .cat-header { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--forest); padding: 1.2rem 0 0.4rem; border-bottom: 1px solid rgba(61,92,58,0.12); margin-bottom: 0.4rem; }
+    .cat-header:first-child { padding-top: 0.4rem; }
+    .term-card { background: white; border-radius: 12px; padding: 1.1rem 1.3rem; box-shadow: 0 2px 14px rgba(0,0,0,0.06); transition: transform 0.15s, box-shadow 0.15s; position: relative; }
+    .term-card:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.09); }
+    .term-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.35rem; }
+    .term-name { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 500; color: var(--forest-dk); line-height: 1.1; }
+    .term-cat-tag { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--terra); font-weight: 500; opacity: 0.75; }
+    .term-def { font-size: 0.92rem; line-height: 1.55; color: var(--ink); }
+    .term-example { font-size: 0.83rem; font-style: italic; color: rgba(28,24,16,0.6); padding-left: 0.85rem; border-left: 3px solid rgba(61,92,58,0.2); margin-top: 0.55rem; }
+    .term-edit-btn { display: none; position: absolute; top: 0.7rem; right: 0.7rem; background: none; border: 1px solid rgba(61,92,58,0.15); color: rgba(28,24,16,0.4); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.15s; }
+    .term-edit-btn:hover { border-color: var(--forest); color: var(--forest); }
+    .is-admin .term-edit-btn { display: flex; align-items: center; justify-content: center; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 3rem 1rem; color: rgba(28,24,16,0.35); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
+    .empty-state p { font-size: 0.95rem; }
+
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 18px; padding: 2rem; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.25); }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.2rem; color: var(--forest-dk); }
+    .modal label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.3rem; margin-top: 0.9rem; }
+    .modal label:first-of-type { margin-top: 0; }
+    .modal input, .modal textarea, .modal select { width: 100%; padding: 0.65rem 0.85rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--ink); background: #fafafa; outline: none; transition: border-color 0.2s; }
+    .modal input:focus, .modal textarea:focus, .modal select:focus { border-color: var(--forest); background: white; }
+    .modal textarea { resize: vertical; min-height: 70px; }
+    .modal-actions { display: flex; gap: 0.6rem; margin-top: 1.4rem; }
+    .btn-save { flex: 1; background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .btn-save:hover { background: var(--forest-lt); }
+    .btn-cancel { padding: 0.8rem 1.1rem; border: 1px solid #ddd; background: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; color: #666; border-radius: 8px; cursor: pointer; }
+    .btn-cancel:hover { background: #f5f5f5; }
+    .btn-delete { padding: 0.8rem 1.1rem; border: 1px solid var(--terra); background: white; color: var(--terra); font-family: 'Jost', sans-serif; font-size: 0.82rem; letter-spacing: 0.05em; border-radius: 8px; cursor: pointer; }
+    .btn-delete:hover { background: var(--terra); color: white; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"     data-en="Home"      data-es="Inicio">Home</a>
+      <a href="base.html"      data-en="Base"      data-es="Base">Base</a>
+      <a href="combat.html"    data-en="Combat"    data-es="Combate">Combat</a>
+      <a href="alliance.html"  data-en="Alliance"  data-es="Alianza">Alliance</a>
+      <a href="tips.html" class="active" data-en="Tips" data-es="Consejos">Tips</a>
+      <a href="events.html"    data-en="Events"    data-es="Eventos">Events</a>
+      <a href="group.html"     data-en="Group"     data-es="Grupo">Group</a>
+      <a href="resources.html" data-en="Resources" data-es="Recursos">Resources</a>
+      <div class="nav-mobile-footer">
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">📖</div>
+      <h1 data-en="Jargon" data-es="Jerga">Jargon</h1>
+      <p class="hero-sub"
+         data-en="Game terms and abbreviations explained — so you can follow chat without having to ask."
+         data-es="Términos y abreviaturas del juego — para que sigas el chat sin tener que preguntar.">
+        Game terms and abbreviations explained — so you can follow chat without having to ask.
+      </p>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="toolbar">
+      <div class="toolbar-row">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" oninput="renderTerms()"
+                 data-en-placeholder="Search term or definition…"
+                 data-es-placeholder="Buscar término o definición…"
+                 placeholder="Search term or definition…" />
+        </div>
+        <button class="btn-admin-add" id="btnAdminAdd" onclick="openAddModal()" style="display:none"
+                data-en="+ Add term" data-es="+ Añadir término">+ Add term</button>
+      </div>
+      <div class="category-nav" id="categoryNav"></div>
+      <div class="alpha-nav" id="alphaNav"></div>
+    </div>
+
+    <div class="term-count" id="termCount"></div>
+    <div class="term-list" id="termList">
+      <div class="empty-state"><div class="icon">📖</div><p data-en="Loading…" data-es="Cargando…">Loading…</p></div>
+    </div>
+  </main>
+
+  <!-- ADMIN MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlay(event)">
+    <div class="modal">
+      <h2 id="modalTitle" data-en="Add term" data-es="Añadir término">Add term</h2>
+
+      <label data-en="Term" data-es="Término">Term</label>
+      <input type="text" id="newTerm" placeholder="RSS" />
+
+      <label data-en="Category" data-es="Categoría">Category</label>
+      <select id="newCategory">
+        <option value="combat"    data-en="Combat mechanics" data-es="Mecánicas de combate">Combat mechanics</option>
+        <option value="events"    data-en="Events"           data-es="Eventos">Events</option>
+        <option value="troops"    data-en="Troops"           data-es="Tropas">Troops</option>
+        <option value="resources" data-en="Resources"        data-es="Recursos">Resources</option>
+        <option value="general"   data-en="General"          data-es="General">General</option>
+      </select>
+
+      <label data-en="Definition (English)" data-es="Definición (inglés)">Definition (English)</label>
+      <textarea id="newDefEn" rows="2" placeholder="Resources — food, wood, stone, iron."></textarea>
+
+      <label data-en="Definition (Spanish)" data-es="Definición (español)">Definition (Spanish)</label>
+      <textarea id="newDefEs" rows="2" placeholder="Recursos — comida, madera, piedra, hierro."></textarea>
+
+      <label data-en="Example in English (optional)" data-es="Ejemplo en inglés (opcional)">Example in English (optional)</label>
+      <input type="text" id="newExEn" placeholder='"Send me your spare RSS"' />
+
+      <label data-en="Example in Spanish (optional)" data-es="Ejemplo en español (opcional)">Example in Spanish (optional)</label>
+      <input type="text" id="newExEs" placeholder='"Mándame tus RSS sobrantes"' />
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()" data-en="Cancel" data-es="Cancelar">Cancel</button>
+        <button class="btn-delete" id="btnDelete" onclick="deleteCurrent()" style="display:none"
+                data-en="Delete" data-es="Eliminar">Delete</button>
+        <button class="btn-save" onclick="saveTerm()" data-en="Save" data-es="Guardar">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
+    const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+    const ADMIN_EMAILS  = ['pealmab@hotmail.com'];
+
+    const CATEGORIES = [
+      { key: 'combat',    en: 'Combat mechanics', es: 'Mecánicas de combate' },
+      { key: 'events',    en: 'Events',           es: 'Eventos' },
+      { key: 'troops',    en: 'Troops',           es: 'Tropas' },
+      { key: 'resources', en: 'Resources',        es: 'Recursos' },
+      { key: 'general',   en: 'General',          es: 'General' }
+    ];
+
+    // Recovery/invite-hash -> login
+    const _h = window.location.hash, _s = window.location.search;
+    if ((_h && (_h.includes('type=recovery') || _h.includes('type=invite'))) || (_s && _s.includes('code='))) {
+      window.location.replace('login.html' + _s + _h);
+    }
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
+
+    let allTerms   = [];
+    let activeCat  = 'all';
+    let activeAlpha = 'all';
+    let isAdmin    = false;
+    let editingId  = null;
+
+    sb.auth.getSession().then(({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      const email = (data.session.user.email || '').toLowerCase();
+      isAdmin = ADMIN_EMAILS.includes(email);
+      if (isAdmin) {
+        document.getElementById('btnAdminAdd').style.display = '';
+        document.querySelector('.main').classList.add('is-admin');
+      }
+      buildCategoryNav();
+      buildAlphaNav();
+      loadTerms();
+    });
+
+    function logOut() { window.location.href = 'logout.html'; }
+
+    async function loadTerms() {
+      const { data, error } = await sb.from('jargon_terms').select('*').order('term', { ascending: true });
+      if (error) { console.error(error); return; }
+      allTerms = data || [];
+      renderTerms();
+    }
+
+    function buildCategoryNav() {
+      const nav = document.getElementById('categoryNav');
+      const all = document.createElement('button');
+      all.className = 'cat-btn active';
+      all.dataset.cat = 'all';
+      all.dataset.en  = 'All';
+      all.dataset.es  = 'Todo';
+      all.textContent = 'All';
+      all.onclick = () => setCategory('all', all);
+      nav.appendChild(all);
+      CATEGORIES.forEach(c => {
+        const b = document.createElement('button');
+        b.className = 'cat-btn';
+        b.dataset.cat = c.key;
+        b.dataset.en  = c.en;
+        b.dataset.es  = c.es;
+        b.textContent = c.en;
+        b.onclick = () => setCategory(c.key, b);
+        nav.appendChild(b);
+      });
+    }
+
+    function setCategory(cat, btn) {
+      activeCat = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTerms();
+    }
+
+    function buildAlphaNav() {
+      const nav = document.getElementById('alphaNav');
+      const letters = ['all', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')];
+      letters.forEach(l => {
+        const b = document.createElement('button');
+        b.className = 'alpha-btn' + (l === 'all' ? ' active' : '');
+        b.textContent = l === 'all' ? '★' : l;
+        b.onclick = () => {
+          activeAlpha = l;
+          document.querySelectorAll('.alpha-btn').forEach(x => x.classList.remove('active'));
+          b.classList.add('active');
+          renderTerms();
+        };
+        nav.appendChild(b);
+      });
+    }
+
+    function getFiltered() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      return allTerms.filter(t => {
+        const matchCat   = activeCat === 'all' || t.category === activeCat;
+        const matchAlpha = activeAlpha === 'all' || (t.term[0] || '').toUpperCase() === activeAlpha;
+        const matchQ     = !q
+          || t.term.toLowerCase().includes(q)
+          || (t.definition_en || '').toLowerCase().includes(q)
+          || (t.definition_es || '').toLowerCase().includes(q);
+        return matchCat && matchAlpha && matchQ;
+      });
+    }
+
+    function catLabel(key) {
+      const c = CATEGORIES.find(x => x.key === key);
+      if (!c) return key;
+      return LANG === 'es' ? c.es : c.en;
+    }
+
+    function renderTerms() {
+      const container = document.getElementById('termList');
+      const filtered  = getFiltered();
+      const totalLbl  = LANG === 'es' ? 'términos' : 'terms';
+      const showLbl   = LANG === 'es' ? 'mostrando' : 'showing';
+      document.getElementById('termCount').textContent =
+        `${allTerms.length} ${totalLbl}${filtered.length !== allTerms.length ? ` · ${showLbl} ${filtered.length}` : ''}`;
+
+      if (!filtered.length) {
+        const msg = LANG === 'es'
+          ? (allTerms.length === 0 ? 'Aún no hay términos. ¡Añade el primero!' : 'No se encontraron términos.')
+          : (allTerms.length === 0 ? 'No terms yet. Add the first one!' : 'No terms found.');
+        container.innerHTML = `<div class="empty-state"><div class="icon">📖</div><p>${msg}</p></div>`;
+        return;
+      }
+
+      // Group by category only when "all" + no alpha + no search are active (i.e. raw browse)
+      const searchActive = document.getElementById('searchInput').value.trim() !== '';
+      const groupByCat   = activeCat === 'all' && activeAlpha === 'all' && !searchActive;
+
+      if (groupByCat) {
+        const groups = {};
+        CATEGORIES.forEach(c => groups[c.key] = []);
+        filtered.forEach(t => { (groups[t.category] = groups[t.category] || []).push(t); });
+        container.innerHTML = CATEGORIES
+          .filter(c => groups[c.key] && groups[c.key].length)
+          .map(c => `<div class="cat-header">${LANG === 'es' ? c.es : c.en}</div>${groups[c.key].map(termCard).join('')}`)
+          .join('');
+      } else {
+        container.innerHTML = filtered.map(termCard).join('');
+      }
+    }
+
+    function escapeHtml(s) {
+      return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function termCard(t) {
+      const def = LANG === 'es' ? (t.definition_es || t.definition_en) : (t.definition_en || t.definition_es);
+      const ex  = LANG === 'es' ? (t.example_es || t.example_en) : (t.example_en || t.example_es);
+      return `
+        <div class="term-card" id="term-${t.id}">
+          <button class="term-edit-btn" onclick="openEditModal('${t.id}')" title="Edit">✎</button>
+          <div class="term-header">
+            <div class="term-name">${escapeHtml(t.term)}</div>
+            <div class="term-cat-tag">${escapeHtml(catLabel(t.category))}</div>
+          </div>
+          <div class="term-def">${escapeHtml(def)}</div>
+          ${ex ? `<div class="term-example">${escapeHtml(ex)}</div>` : ''}
+        </div>
+      `;
+    }
+
+    // ── MODAL ──
+    function openAddModal() {
+      editingId = null;
+      document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Añadir término' : 'Add term';
+      ['newTerm','newDefEn','newDefEs','newExEn','newExEs'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('newCategory').value = 'general';
+      document.getElementById('btnDelete').style.display = 'none';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function openEditModal(id) {
+      if (!isAdmin) return;
+      const t = allTerms.find(x => x.id === id);
+      if (!t) return;
+      editingId = id;
+      document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Editar término' : 'Edit term';
+      document.getElementById('newTerm').value     = t.term || '';
+      document.getElementById('newCategory').value = t.category || 'general';
+      document.getElementById('newDefEn').value    = t.definition_en || '';
+      document.getElementById('newDefEs').value    = t.definition_es || '';
+      document.getElementById('newExEn').value     = t.example_en || '';
+      document.getElementById('newExEs').value     = t.example_es || '';
+      document.getElementById('btnDelete').style.display = '';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); editingId = null; }
+    function handleOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+    async function saveTerm() {
+      const term = document.getElementById('newTerm').value.trim();
+      const defEn = document.getElementById('newDefEn').value.trim();
+      const defEs = document.getElementById('newDefEs').value.trim();
+      if (!term)  { alert(LANG === 'es' ? 'Introduce un término.' : 'Enter a term.'); return; }
+      if (!defEn) { alert(LANG === 'es' ? 'Introduce la definición en inglés.' : 'Enter the English definition.'); return; }
+      if (!defEs) { alert(LANG === 'es' ? 'Introduce la definición en español.' : 'Enter the Spanish definition.'); return; }
+
+      const payload = {
+        term,
+        definition_en: defEn,
+        definition_es: defEs,
+        example_en:    document.getElementById('newExEn').value.trim() || null,
+        example_es:    document.getElementById('newExEs').value.trim() || null,
+        category:      document.getElementById('newCategory').value
+      };
+
+      let error;
+      if (editingId) {
+        ({ error } = await sb.from('jargon_terms').update(payload).eq('id', editingId));
+      } else {
+        ({ error } = await sb.from('jargon_terms').insert(payload));
+      }
+      if (error) { alert('Error: ' + error.message); return; }
+      closeModal();
+      await loadTerms();
+    }
+
+    async function deleteCurrent() {
+      if (!editingId) return;
+      const msg = LANG === 'es' ? '¿Eliminar este término?' : 'Delete this term?';
+      if (!confirm(msg)) return;
+      const { error } = await sb.from('jargon_terms').delete().eq('id', editingId);
+      if (error) { alert('Error: ' + error.message); return; }
+      closeModal();
+      await loadTerms();
+    }
+
+    // ── NAV TOGGLE ──
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      // Placeholders
+      document.querySelectorAll('[data-en-placeholder][data-es-placeholder]').forEach(el => {
+        el.placeholder = lang === 'es' ? el.dataset.esPlaceholder : el.dataset.enPlaceholder;
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+      // Re-render lists that depend on language
+      if (typeof allTerms !== 'undefined' && allTerms.length) renderTerms();
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
+            var b = document.createElement("div");
+            b.id = "update-banner";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            document.body.appendChild(b);
+          }
+        }).catch(function(){});
+      }, 300000);
+    })();
+  </script>
+</body>
+</html>
