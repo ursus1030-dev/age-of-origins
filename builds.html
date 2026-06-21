@@ -95,6 +95,14 @@
     .build-edit-btn:hover { border-color: var(--forest); color: var(--forest); }
     .is-admin .build-edit-btn { display: flex; }
 
+    /* ── BANK-TIER BADGES ── */
+    .tier-badge { display: inline-block; padding: 0.18rem 0.55rem; border-radius: 999px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-right: 0.4rem; }
+    .tier-badge.draft    { background: rgba(168,76,42,0.12); color: var(--terra); border: 1px solid rgba(168,76,42,0.3); }
+    .tier-badge.advanced { background: rgba(94,71,138,0.12); color: #5e478a; border: 1px solid rgba(94,71,138,0.3); }
+    .build-card.is-draft    { border-left-color: var(--terra) !important; }
+    .build-card.is-advanced { border-left-color: #5e478a !important; }
+    .tier-row { display: flex; gap: 0.4rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+
     /* ── DETAIL VIEW ── */
     .detail-view { background: white; border-radius: 14px; padding: 2rem 1.8rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
     .detail-back { background: none; border: 1px solid rgba(61,92,58,0.2); color: var(--forest); font-family: 'Jost', sans-serif; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; margin-bottom: 1.4rem; transition: all 0.15s; }
@@ -216,6 +224,20 @@
         <option value="mixed"    data-en="Mixed"      data-es="Mixto">Mixed</option>
       </select>
 
+      <label data-en="Status" data-es="Estado">Status</label>
+      <select id="newStatus">
+        <option value="draft"     data-en="Draft"     data-es="Borrador">Draft</option>
+        <option value="published" data-en="Published" data-es="Publicado">Published</option>
+      </select>
+
+      <div id="accessLevelRow" style="display:none">
+        <label data-en="Access level" data-es="Nivel de acceso">Access level</label>
+        <select id="newAccessLevel">
+          <option value="public"   data-en="Public — everyone"  data-es="Público — todos">Public — everyone</option>
+          <option value="advanced" data-en="Advanced — limited" data-es="Avanzado — limitado">Advanced — limited</option>
+        </select>
+      </div>
+
       <label data-en="Name (English / Spanish)" data-es="Nombre (inglés / español)">Name (English / Spanish)</label>
       <div class="lang-pair">
         <div><input type="text" id="newNameEn" placeholder="Economic Focus" /></div>
@@ -271,6 +293,7 @@
     let viewMode    = 'list';   // 'list' | 'detail'
     let openBuildId = null;
     let isAdmin     = false;
+    let userHasAdvanced = false;
     let editingId   = null;
     let stepsState  = [];        // [{title_en, title_es, desc_en, desc_es, is_milestone}, ...]
     let currentUserEmail = '';
@@ -279,6 +302,11 @@
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
       currentUserEmail = (data.session.user.email || '').toLowerCase();
       isAdmin = ADMIN_EMAILS.includes(currentUserEmail);
+      userHasAdvanced = !!(data.session.user.app_metadata && data.session.user.app_metadata.advanced_access);
+      if (isAdmin && userHasAdvanced) {
+        const arl = document.getElementById('accessLevelRow');
+        if (arl) arl.style.display = '';
+      }
       loadBuilds();
     });
 
@@ -287,7 +315,14 @@
     async function loadBuilds() {
       const { data, error } = await sb.from('build_orders').select('*').order('created_at', { ascending: false });
       if (error) { console.error(error); return; }
-      allBuilds = data || [];
+      let arr = data || [];
+      if (isAdmin) {
+        // Admin: drafts first (review order), then published in original order
+        const drafts    = arr.filter(b => b.status === 'draft');
+        const published = arr.filter(b => b.status !== 'draft');
+        arr = [...drafts, ...published];
+      }
+      allBuilds = arr;
       render();
     }
 
@@ -343,9 +378,19 @@
           const editBtn = isAdmin
             ? `<button class="build-edit-btn" onclick="event.stopPropagation(); openEditModal('${b.id}')" title="Edit">✎</button>`
             : '';
+          const isDraft    = b.status === 'draft';
+          const isAdvanced = b.access_level === 'advanced';
+          const tierCls    = isDraft ? ' is-draft' : (isAdvanced ? ' is-advanced' : '');
+          const badgesHtml = (isDraft || isAdvanced)
+            ? `<div class="tier-row">
+                 ${isDraft    ? `<span class="tier-badge draft">${LANG === 'es' ? 'Borrador' : 'Draft'}</span>` : ''}
+                 ${isAdvanced ? `<span class="tier-badge advanced">${LANG === 'es' ? 'Avanzado' : 'Advanced'}</span>` : ''}
+               </div>`
+            : '';
           return `
-            <div class="build-card focus-${b.focus || 'mixed'}" onclick="openDetail('${b.id}')">
+            <div class="build-card focus-${b.focus || 'mixed'}${tierCls}" onclick="openDetail('${b.id}')">
               ${editBtn}
+              ${badgesHtml}
               <div class="build-header">
                 <div class="build-name">${escapeHtml(name)}</div>
                 <span class="focus-tag focus-${b.focus || 'mixed'}">${escapeHtml(focusLabel(b.focus))}</span>
@@ -397,11 +442,21 @@
           }).join('')
         : `<div class="empty-state"><p>${LANG === 'es' ? 'Esta build aún no tiene pasos.' : 'This build has no steps yet.'}</p></div>`;
 
+      const dIsDraft    = b.status === 'draft';
+      const dIsAdvanced = b.access_level === 'advanced';
+      const dBadgesHtml = (dIsDraft || dIsAdvanced)
+        ? `<div class="tier-row" style="margin-bottom:0.6rem;">
+             ${dIsDraft    ? `<span class="tier-badge draft">${LANG === 'es' ? 'Borrador' : 'Draft'}</span>` : ''}
+             ${dIsAdvanced ? `<span class="tier-badge advanced">${LANG === 'es' ? 'Avanzado' : 'Advanced'}</span>` : ''}
+           </div>`
+        : '';
+
       area.innerHTML = `
         <button class="detail-back" onclick="backToList()">${backLbl}</button>
         <div class="detail-view" style="position:relative;">
           ${editBtn}
           <div class="detail-header">
+            ${dBadgesHtml}
             <span class="focus-tag focus-${b.focus || 'mixed'}">${escapeHtml(focusLabel(b.focus))}</span>
             <div class="detail-name" style="margin-top:0.4rem;">${escapeHtml(name)}</div>
             ${desc ? `<div class="detail-desc">${escapeHtml(desc)}</div>` : ''}
@@ -420,6 +475,8 @@
       stepsState = [];
       document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Añadir build' : 'Add build';
       document.getElementById('newFocus').value = 'mixed';
+      document.getElementById('newStatus').value = 'draft';
+      document.getElementById('newAccessLevel').value = 'public';
       ['newNameEn','newNameEs','newDescEn','newDescEs'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('btnDelete').style.display = 'none';
       addStep();  // start med en tom step-rad
@@ -433,6 +490,8 @@
       editingId = id;
       document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Editar build' : 'Edit build';
       document.getElementById('newFocus').value     = b.focus || 'mixed';
+      document.getElementById('newStatus').value    = b.status || 'draft';
+      document.getElementById('newAccessLevel').value = b.access_level || 'public';
       document.getElementById('newNameEn').value    = b.name_en || '';
       document.getElementById('newNameEs').value    = b.name_es || '';
       document.getElementById('newDescEn').value    = b.description_en || '';
@@ -516,6 +575,8 @@
         name_en:        nameEn,
         name_es:        nameEs,
         focus:          document.getElementById('newFocus').value,
+        status:         document.getElementById('newStatus').value,
+        access_level:   userHasAdvanced ? document.getElementById('newAccessLevel').value : 'public',
         description_en: document.getElementById('newDescEn').value.trim() || null,
         description_es: document.getElementById('newDescEs').value.trim() || null,
         steps:          cleanSteps,
