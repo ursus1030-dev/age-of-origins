@@ -67,6 +67,15 @@
     .toolbar-info { flex: 1; font-size: 0.78rem; color: rgba(28,24,16,0.5); letter-spacing: 0.05em; }
     .btn-admin-add { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.2rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
     .btn-admin-add:hover { background: var(--terra-lt); }
+    .btn-view-as-member { background: transparent; border: 1px solid var(--forest); color: var(--forest); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.55rem 0.9rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; display: none; }
+    .btn-view-as-member:hover { background: var(--forest); color: white; }
+    .btn-view-as-member.active { background: var(--forest); color: white; border-color: var(--forest); }
+    .main.is-admin .btn-view-as-member { display: inline-block; }
+    .main.is-admin.as-member .btn-admin-add { display: none !important; }
+    .main.is-admin.as-member .btn-edit-question { display: none !important; }
+    .main.is-admin.as-member .quiz-card.is-draft { border-left: 4px solid var(--forest) !important; }
+    .main.is-admin.as-member .quiz-card.is-advanced { border-left: 4px solid var(--forest) !important; }
+    .main.is-admin.as-member .tier-row { display: none !important; }
 
     /* ── CARD ── */
     .quiz-card { background: white; border-radius: 16px; padding: 2rem 1.8rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); position: relative; min-height: 200px; }
@@ -181,6 +190,8 @@
   <main class="main">
     <div class="toolbar">
       <div class="toolbar-info" id="toolbarInfo"></div>
+      <button class="btn-view-as-member" id="btnViewAsMember" onclick="toggleViewAsMember()"
+              data-en="View as member" data-es="Vista de miembro">View as member</button>
       <button class="btn-admin-add" id="btnAdminAdd" onclick="openAddModal()" style="display:none"
               data-en="+ Add question" data-es="+ Añadir pregunta">+ Add question</button>
     </div>
@@ -286,6 +297,7 @@
     let userHasAdvanced = false;
     let editingId    = null;
     let currentUserEmail = '';
+    let viewAsMember = localStorage.getItem('aoo_viewAsMember') === '1';
 
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
@@ -297,9 +309,32 @@
         document.querySelector('.main').classList.add('is-admin');
         const arl = document.getElementById('accessLevelRow');
         if (arl && userHasAdvanced) arl.style.display = '';
+        applyViewAsMember();
       }
       loadQuestions();
     });
+
+    function applyViewAsMember() {
+      const main = document.querySelector('.main');
+      const btn  = document.getElementById('btnViewAsMember');
+      if (!main || !btn) return;
+      if (viewAsMember) {
+        main.classList.add('as-member');
+        btn.classList.add('active');
+        btn.textContent = LANG === 'es' ? 'Vista de admin' : 'View as admin';
+      } else {
+        main.classList.remove('as-member');
+        btn.classList.remove('active');
+        btn.textContent = LANG === 'es' ? 'Vista de miembro' : 'View as member';
+      }
+    }
+
+    function toggleViewAsMember() {
+      viewAsMember = !viewAsMember;
+      localStorage.setItem('aoo_viewAsMember', viewAsMember ? '1' : '0');
+      applyViewAsMember();
+      startQuiz();
+    }
 
     function logOut() { window.location.href = 'logout.html'; }
 
@@ -311,13 +346,17 @@
     }
 
     function startQuiz() {
-      if (isAdmin) {
+      // View-as-member: dölj drafts + advanced från admin som tittar som vanlig spelare
+      const pool = (isAdmin && viewAsMember)
+        ? allQuestions.filter(q => q.status !== 'draft' && q.access_level !== 'advanced')
+        : allQuestions;
+      if (isAdmin && !viewAsMember) {
         // Admin: drafts first (review order), then published shuffled
-        const drafts    = allQuestions.filter(q => q.status === 'draft');
-        const published = shuffleArray(allQuestions.filter(q => q.status !== 'draft'));
+        const drafts    = pool.filter(q => q.status === 'draft');
+        const published = shuffleArray(pool.filter(q => q.status !== 'draft'));
         shuffled = [...drafts, ...published];
       } else {
-        shuffled = shuffleArray([...allQuestions]);
+        shuffled = shuffleArray([...pool]);
       }
       currentIdx = 0;
       renderCard();

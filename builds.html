@@ -66,6 +66,9 @@
     .toolbar-info { flex: 1; font-size: 0.78rem; color: rgba(28,24,16,0.5); letter-spacing: 0.05em; }
     .btn-admin-add { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.2rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
     .btn-admin-add:hover { background: var(--terra-lt); }
+    .btn-view-as-member { background: transparent; border: 1px solid var(--forest); color: var(--forest); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.55rem 0.9rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-view-as-member:hover { background: var(--forest); color: white; }
+    .btn-view-as-member.active { background: var(--forest); color: white; border-color: var(--forest); }
 
     /* ── FOCUS-FILTER ── */
     .focus-nav { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
@@ -297,6 +300,21 @@
     let editingId   = null;
     let stepsState  = [];        // [{title_en, title_es, desc_en, desc_es, is_milestone}, ...]
     let currentUserEmail = '';
+    let viewAsMember = localStorage.getItem('aoo_viewAsMember') === '1';
+
+    function toggleViewAsMember() {
+      viewAsMember = !viewAsMember;
+      localStorage.setItem('aoo_viewAsMember', viewAsMember ? '1' : '0');
+      if (viewMode === 'detail' && openBuildId) {
+        const b = allBuilds.find(x => x.id === openBuildId);
+        if (b && viewAsMember && (b.status === 'draft' || b.access_level === 'advanced')) {
+          // Den öppna build:n är hidden i member-view — bouncea tillbaka till listan
+          viewMode = 'list';
+          openBuildId = null;
+        }
+      }
+      render();
+    }
 
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
@@ -346,8 +364,12 @@
 
     function renderList() {
       const area = document.getElementById('mainArea');
-      const adminBtn = isAdmin
+      const showAdminUI = isAdmin && !viewAsMember;
+      const adminBtn = showAdminUI
         ? `<button class="btn-admin-add" onclick="openAddModal()" data-en="+ Add build" data-es="+ Añadir build">${LANG === 'es' ? '+ Añadir build' : '+ Add build'}</button>`
+        : '';
+      const viewAsBtn = isAdmin
+        ? `<button class="btn-view-as-member${viewAsMember ? ' active' : ''}" onclick="toggleViewAsMember()">${viewAsMember ? (LANG === 'es' ? 'Vista de admin' : 'View as admin') : (LANG === 'es' ? 'Vista de miembro' : 'View as member')}</button>`
         : '';
 
       const focuses = ['all', ...FOCUSES.map(f => f.key)];
@@ -357,9 +379,13 @@
         return `<button class="focus-btn${cls}" onclick="setFocus('${k}')">${escapeHtml(label)}</button>`;
       }).join('');
 
+      // View-as-member: dölj drafts + advanced från admin som tittar som vanlig spelare
+      const tierFiltered = (isAdmin && viewAsMember)
+        ? allBuilds.filter(b => b.status !== 'draft' && b.access_level !== 'advanced')
+        : allBuilds;
       const filtered = activeFocus === 'all'
-        ? allBuilds
-        : allBuilds.filter(b => b.focus === activeFocus);
+        ? tierFiltered
+        : tierFiltered.filter(b => b.focus === activeFocus);
 
       let listHtml = '';
       if (!filtered.length) {
@@ -375,7 +401,7 @@
           const desc = LANG === 'es' ? (b.description_es || b.description_en) : (b.description_en || b.description_es);
           const steps = Array.isArray(b.steps) ? b.steps : [];
           const milestoneCount = steps.filter(s => s && s.is_milestone).length;
-          const editBtn = isAdmin
+          const editBtn = showAdminUI
             ? `<button class="build-edit-btn" onclick="event.stopPropagation(); openEditModal('${b.id}')" title="Edit">✎</button>`
             : '';
           const isDraft    = b.status === 'draft';
@@ -406,7 +432,8 @@
 
       area.innerHTML = `
         <div class="toolbar">
-          <div class="toolbar-info">${allBuilds.length} ${LANG === 'es' ? 'builds' : 'builds'}</div>
+          <div class="toolbar-info">${tierFiltered.length} ${LANG === 'es' ? 'builds' : 'builds'}</div>
+          ${viewAsBtn}
           ${adminBtn}
         </div>
         <div class="focus-nav">${focusNav}</div>
@@ -423,7 +450,8 @@
       const steps = Array.isArray(b.steps) ? b.steps : [];
       const backLbl = LANG === 'es' ? '← Volver a todos' : '← Back to all';
       const milestoneLbl = LANG === 'es' ? 'HITO' : 'MILESTONE';
-      const editBtn = isAdmin
+      const dShowAdminUI = isAdmin && !viewAsMember;
+      const editBtn = dShowAdminUI
         ? `<button class="build-edit-btn" style="display:flex; top:1rem; right:1rem;" onclick="openEditModal('${b.id}')" title="Edit">✎</button>`
         : '';
       const stepsHtml = steps.length
@@ -442,8 +470,8 @@
           }).join('')
         : `<div class="empty-state"><p>${LANG === 'es' ? 'Esta build aún no tiene pasos.' : 'This build has no steps yet.'}</p></div>`;
 
-      const dIsDraft    = b.status === 'draft';
-      const dIsAdvanced = b.access_level === 'advanced';
+      const dIsDraft    = dShowAdminUI && b.status === 'draft';
+      const dIsAdvanced = dShowAdminUI && b.access_level === 'advanced';
       const dBadgesHtml = (dIsDraft || dIsAdvanced)
         ? `<div class="tier-row" style="margin-bottom:0.6rem;">
              ${dIsDraft    ? `<span class="tier-badge draft">${LANG === 'es' ? 'Borrador' : 'Draft'}</span>` : ''}

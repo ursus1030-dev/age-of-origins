@@ -69,6 +69,14 @@
     .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); font-size: 0.95rem; opacity: 0.5; pointer-events: none; }
     .btn-admin-add { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.2rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
     .btn-admin-add:hover { background: var(--terra-lt); }
+    .btn-view-as-member { background: transparent; border: 1px solid var(--forest); color: var(--forest); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.55rem 0.9rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; display: none; }
+    .btn-view-as-member:hover { background: var(--forest); color: white; }
+    .btn-view-as-member.active { background: var(--forest); color: white; border-color: var(--forest); }
+    .main.is-admin .btn-view-as-member { display: inline-block; }
+    .main.is-admin.as-member .btn-admin-add { display: none !important; }
+    .main.is-admin.as-member .tip-badges { display: none !important; }
+    .main.is-admin.as-member .tip-edit-btn { display: none !important; }
+    .main.is-admin.as-member .tip-card { opacity: 1 !important; border-left-color: var(--forest) !important; }
     .category-nav { display: flex; gap: 0.3rem; flex-wrap: wrap; }
     .cat-btn { padding: 0.4rem 0.85rem; border: 1px solid rgba(61,92,58,0.2); border-radius: 8px; background: white; font-family: 'Jost', sans-serif; font-size: 0.78rem; letter-spacing: 0.05em; cursor: pointer; transition: all 0.15s; color: var(--ink); }
     .cat-btn:hover { border-color: var(--forest); color: var(--forest); }
@@ -181,6 +189,9 @@
         </div>
         <button class="btn-admin-add" id="btnAdminAdd" onclick="openAddModal()" style="display:none"
                 data-en="+ Add tip" data-es="+ Añadir consejo">+ Add tip</button>
+        <button class="btn-view-as-member" id="btnViewAsMember" onclick="toggleViewAsMember()"
+                data-en="View as member" data-es="Vista de miembro"
+                data-en-on="View as admin" data-es-on="Vista de admin">View as member</button>
       </div>
       <div class="category-nav" id="categoryNav"></div>
     </div>
@@ -266,6 +277,7 @@
     let userHasAdvanced = false;
     let editingId  = null;
     let currentUserEmail = '';
+    let viewAsMember = localStorage.getItem('aoo_viewAsMember') === '1';
 
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
@@ -276,10 +288,33 @@
         document.getElementById('btnAdminAdd').style.display = '';
         document.querySelector('.main').classList.add('is-admin');
         if (userHasAdvanced) document.querySelector('.modal').classList.add('user-has-advanced');
+        applyViewAsMember();
       }
       buildCategoryNav();
       loadTips();
     });
+
+    function applyViewAsMember() {
+      const main = document.querySelector('.main');
+      const btn  = document.getElementById('btnViewAsMember');
+      if (!main || !btn) return;
+      if (viewAsMember) {
+        main.classList.add('as-member');
+        btn.classList.add('active');
+        btn.textContent = LANG === 'es' ? 'Vista de admin' : 'View as admin';
+      } else {
+        main.classList.remove('as-member');
+        btn.classList.remove('active');
+        btn.textContent = LANG === 'es' ? 'Vista de miembro' : 'View as member';
+      }
+    }
+
+    function toggleViewAsMember() {
+      viewAsMember = !viewAsMember;
+      localStorage.setItem('aoo_viewAsMember', viewAsMember ? '1' : '0');
+      applyViewAsMember();
+      renderTips();
+    }
 
     function logOut() { window.location.href = 'logout.html'; }
 
@@ -336,6 +371,12 @@
         const matchQ   = !q
           || (t.text_en || '').toLowerCase().includes(q)
           || (t.text_es || '').toLowerCase().includes(q);
+        // View-as-member: dölj drafts + advanced för admin som tittar som vanlig spelare
+        if (isAdmin && viewAsMember) {
+          const status = t.status || 'published';
+          const access = t.access_level || 'public';
+          if (status === 'draft' || access === 'advanced') return false;
+        }
         return matchCat && matchQ;
       });
     }
