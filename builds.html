@@ -243,14 +243,14 @@
 
       <label data-en="Name (English / Spanish)" data-es="Nombre (inglés / español)">Name (English / Spanish)</label>
       <div class="lang-pair">
-        <div><input type="text" id="newNameEn" placeholder="Economic Focus" /></div>
-        <div><input type="text" id="newNameEs" placeholder="Enfoque económico" /></div>
+        <div><input type="text" id="newNameEn" placeholder="(Build name in English)" /></div>
+        <div><input type="text" id="newNameEs" placeholder="(Nombre del build en español)" /></div>
       </div>
 
       <label data-en="Short description (English / Spanish)" data-es="Descripción corta (inglés / español)">Short description (English / Spanish)</label>
       <div class="lang-pair">
-        <div><textarea id="newDescEn" rows="2" placeholder="For players who want strong RSS production first."></textarea></div>
-        <div><textarea id="newDescEs" rows="2" placeholder="Para jugadores que quieren producción fuerte de RSS primero."></textarea></div>
+        <div><textarea id="newDescEn" rows="2" placeholder="(Short description in English, optional)"></textarea></div>
+        <div><textarea id="newDescEs" rows="2" placeholder="(Descripción corta en español, opcional)"></textarea></div>
       </div>
 
       <h3 data-en="Steps in order" data-es="Pasos en orden">Steps in order</h3>
@@ -549,13 +549,13 @@
           </div>
           <label>${LANG === 'es' ? 'Título (inglés / español)' : 'Title (English / Spanish)'}</label>
           <div class="lang-pair">
-            <div><input type="text" placeholder="C26 Alliance Hall" value="${escapeHtml(s.title_en)}" oninput="stepsState[${i}].title_en = this.value" /></div>
-            <div><input type="text" placeholder="C26 Sala de Alianza" value="${escapeHtml(s.title_es)}" oninput="stepsState[${i}].title_es = this.value" /></div>
+            <div><input type="text" placeholder="(Step title in English)" value="${escapeHtml(s.title_en)}" oninput="stepsState[${i}].title_en = this.value" /></div>
+            <div><input type="text" placeholder="(Título del paso en español)" value="${escapeHtml(s.title_es)}" oninput="stepsState[${i}].title_es = this.value" /></div>
           </div>
           <label>${LANG === 'es' ? 'Descripción (inglés / español)' : 'Description (English / Spanish)'}</label>
           <div class="lang-pair">
-            <div><textarea rows="2" placeholder="Unlocks alliance buffs, prioritize early." oninput="stepsState[${i}].desc_en = this.value">${escapeHtml(s.desc_en)}</textarea></div>
-            <div><textarea rows="2" placeholder="Desbloquea buffs de alianza, prioriza pronto." oninput="stepsState[${i}].desc_es = this.value">${escapeHtml(s.desc_es)}</textarea></div>
+            <div><textarea rows="2" placeholder="(Step description in English, optional)" oninput="stepsState[${i}].desc_en = this.value">${escapeHtml(s.desc_en)}</textarea></div>
+            <div><textarea rows="2" placeholder="(Descripción del paso en español, opcional)" oninput="stepsState[${i}].desc_es = this.value">${escapeHtml(s.desc_es)}</textarea></div>
           </div>
           <label class="inline" style="margin-top:0.7rem;">
             <input type="checkbox" ${s.is_milestone ? 'checked' : ''} onchange="toggleMilestone(${i}, this.checked)" />

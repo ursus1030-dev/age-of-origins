@@ -135,6 +135,7 @@
     .modal textarea { resize: vertical; min-height: 60px; }
     .option-row { display: grid; grid-template-columns: 30px 1fr 1fr; gap: 0.5rem; align-items: center; margin-top: 0.4rem; }
     .option-row-label { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--forest); text-align: center; }
+    .option-row-label.required { color: var(--terra); }
     .modal-actions { display: flex; gap: 0.6rem; margin-top: 1.4rem; }
     .btn-save { flex: 1; background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
     .btn-save:hover { background: var(--forest-lt); }
@@ -230,16 +231,16 @@
       </div>
 
       <label data-en="Question (English)" data-es="Pregunta (inglés)">Question (English)</label>
-      <textarea id="newQuestionEn" rows="2" placeholder="When is the best time to attack?"></textarea>
+      <textarea id="newQuestionEn" rows="2" placeholder="(Type the English question here)"></textarea>
 
       <label data-en="Question (Spanish)" data-es="Pregunta (español)">Question (Spanish)</label>
-      <textarea id="newQuestionEs" rows="2" placeholder="¿Cuándo es el mejor momento para atacar?"></textarea>
+      <textarea id="newQuestionEs" rows="2" placeholder="(Escribe la pregunta en español aquí)"></textarea>
 
-      <label data-en="Options (English / Spanish)" data-es="Opciones (inglés / español)">Options (English / Spanish)</label>
-      <div class="option-row"><div class="option-row-label">A</div><input type="text" id="optAen" placeholder="When shield is up" /><input type="text" id="optAes" placeholder="Cuando hay escudo" /></div>
-      <div class="option-row"><div class="option-row-label">B</div><input type="text" id="optBen" placeholder="When base is unshielded" /><input type="text" id="optBes" placeholder="Cuando no hay escudo" /></div>
-      <div class="option-row"><div class="option-row-label">C</div><input type="text" id="optCen" placeholder="Anytime" /><input type="text" id="optCes" placeholder="En cualquier momento" /></div>
-      <div class="option-row"><div class="option-row-label">D</div><input type="text" id="optDen" placeholder="Never" /><input type="text" id="optDes" placeholder="Nunca" /></div>
+      <label data-en="Options (English / Spanish) — A and B required, C and D optional" data-es="Opciones (inglés / español) — A y B obligatorias, C y D opcionales">Options (English / Spanish) — A and B required, C and D optional</label>
+      <div class="option-row"><div class="option-row-label required">A *</div><input type="text" id="optAen" placeholder="(Type option A in English)" /><input type="text" id="optAes" placeholder="(Opción A en español)" /></div>
+      <div class="option-row"><div class="option-row-label required">B *</div><input type="text" id="optBen" placeholder="(Type option B in English)" /><input type="text" id="optBes" placeholder="(Opción B en español)" /></div>
+      <div class="option-row"><div class="option-row-label">C</div><input type="text" id="optCen" placeholder="(Option C — optional)" /><input type="text" id="optCes" placeholder="(Opción C — opcional)" /></div>
+      <div class="option-row"><div class="option-row-label">D</div><input type="text" id="optDen" placeholder="(Option D — optional)" /><input type="text" id="optDes" placeholder="(Opción D — opcional)" /></div>
 
       <label data-en="Correct answer" data-es="Respuesta correcta">Correct answer</label>
       <select id="newCorrect">
@@ -250,10 +251,10 @@
       </select>
 
       <label data-en="Explanation in English (optional)" data-es="Explicación en inglés (opcional)">Explanation in English (optional)</label>
-      <textarea id="newExplanationEn" rows="2" placeholder="Why this is the answer."></textarea>
+      <textarea id="newExplanationEn" rows="2" placeholder="(Why this is the right answer — optional)"></textarea>
 
       <label data-en="Explanation in Spanish (optional)" data-es="Explicación en español (opcional)">Explanation in Spanish (optional)</label>
-      <textarea id="newExplanationEs" rows="2" placeholder="Por qué esta es la respuesta."></textarea>
+      <textarea id="newExplanationEs" rows="2" placeholder="(Por qué esta es la respuesta correcta — opcional)"></textarea>
 
       <div class="modal-actions">
         <button class="btn-cancel" onclick="closeModal()" data-en="Cancel" data-es="Cancelar">Cancel</button>
