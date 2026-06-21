@@ -95,6 +95,17 @@
     .term-edit-btn:hover { border-color: var(--forest); color: var(--forest); }
     .is-admin .term-edit-btn { display: flex; align-items: center; justify-content: center; }
 
+    /* ── BANK-TIER BADGES ── */
+    .term-badges { position: absolute; top: 0.7rem; left: 0.7rem; display: none; gap: 0.35rem; }
+    .is-admin .term-badges { display: flex; }
+    .badge { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 4px; line-height: 1; }
+    .badge-draft { background: #f4d35e; color: #6b4a00; }
+    .badge-advanced { background: #6c5ce7; color: white; }
+    .term-card.is-draft { border-left: 4px solid #d4a544; opacity: 0.85; padding-left: 1.05rem; }
+    .term-card.is-advanced { border-left: 4px solid #6c5ce7; padding-left: 1.05rem; }
+    .is-admin .term-card { padding-top: 2.2rem; }
+    .modal:not(.user-has-advanced) #accessRow { display: none; }
+
     /* ── EMPTY STATE ── */
     .empty-state { text-align: center; padding: 3rem 1rem; color: rgba(28,24,16,0.35); }
     .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
@@ -202,6 +213,20 @@
         <option value="general"   data-en="General"          data-es="General">General</option>
       </select>
 
+      <label data-en="Status" data-es="Estado">Status</label>
+      <select id="newStatus">
+        <option value="draft"     data-en="Draft (only admins see it)" data-es="Borrador (solo admins lo ven)">Draft (only admins see it)</option>
+        <option value="published" data-en="Published (live on site)"   data-es="Publicado (visible en el sitio)">Published (live on site)</option>
+      </select>
+
+      <div id="accessRow">
+        <label data-en="Access level" data-es="Nivel de acceso">Access level</label>
+        <select id="newAccess">
+          <option value="public"   data-en="Public (everyone)"               data-es="Público (todos)">Public (everyone)</option>
+          <option value="advanced" data-en="Advanced (advanced-access users)" data-es="Avanzado (usuarios con acceso avanzado)">Advanced (advanced-access users)</option>
+        </select>
+      </div>
+
       <label data-en="Definition (English)" data-es="Definición (inglés)">Definition (English)</label>
       <textarea id="newDefEn" rows="2" placeholder="Resources — food, wood, stone, iron."></textarea>
 
@@ -253,15 +278,18 @@
     let activeCat  = 'all';
     let activeAlpha = 'all';
     let isAdmin    = false;
+    let userHasAdvanced = false;
     let editingId  = null;
 
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
       const email = (data.session.user.email || '').toLowerCase();
       isAdmin = ADMIN_EMAILS.includes(email);
+      userHasAdvanced = !!(data.session.user.app_metadata && data.session.user.app_metadata.advanced_access);
       if (isAdmin) {
         document.getElementById('btnAdminAdd').style.display = '';
         document.querySelector('.main').classList.add('is-admin');
+        if (userHasAdvanced) document.querySelector('.modal').classList.add('user-has-advanced');
       }
       buildCategoryNav();
       buildAlphaNav();
@@ -273,7 +301,17 @@
     async function loadTerms() {
       const { data, error } = await sb.from('jargon_terms').select('*').order('term', { ascending: true });
       if (error) { console.error(error); return; }
-      allTerms = data || [];
+      let rows = data || [];
+      // Admin: sortera drafts först så review-kö syns överst
+      if (isAdmin) {
+        rows.sort((a, b) => {
+          const aDraft = (a.status || 'published') === 'draft' ? 0 : 1;
+          const bDraft = (b.status || 'published') === 'draft' ? 0 : 1;
+          if (aDraft !== bDraft) return aDraft - bDraft;
+          return (a.term || '').localeCompare(b.term || '');
+        });
+      }
+      allTerms = rows;
       renderTerms();
     }
 
@@ -382,8 +420,18 @@
     function termCard(t) {
       const def = LANG === 'es' ? (t.definition_es || t.definition_en) : (t.definition_en || t.definition_es);
       const ex  = LANG === 'es' ? (t.example_es || t.example_en) : (t.example_en || t.example_es);
+      const status = t.status || 'published';
+      const access = t.access_level || 'public';
+      const cardClasses = ['term-card'];
+      if (status === 'draft')      cardClasses.push('is-draft');
+      if (access === 'advanced')   cardClasses.push('is-advanced');
+      const badges = [];
+      if (status === 'draft')      badges.push('<span class="badge badge-draft">Draft</span>');
+      if (access === 'advanced')   badges.push('<span class="badge badge-advanced">Advanced</span>');
+      const badgesHtml = badges.length ? `<div class="term-badges">${badges.join('')}</div>` : '';
       return `
-        <div class="term-card" id="term-${t.id}">
+        <div class="${cardClasses.join(' ')}" id="term-${t.id}">
+          ${badgesHtml}
           <button class="term-edit-btn" onclick="openEditModal('${t.id}')" title="Edit">✎</button>
           <div class="term-header">
             <div class="term-name">${escapeHtml(t.term)}</div>
@@ -401,6 +449,8 @@
       document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Añadir término' : 'Add term';
       ['newTerm','newDefEn','newDefEs','newExEn','newExEs'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('newCategory').value = 'general';
+      document.getElementById('newStatus').value   = 'draft';
+      document.getElementById('newAccess').value   = 'public';
       document.getElementById('btnDelete').style.display = 'none';
       document.getElementById('modalOverlay').classList.add('open');
     }
@@ -413,6 +463,8 @@
       document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Editar término' : 'Edit term';
       document.getElementById('newTerm').value     = t.term || '';
       document.getElementById('newCategory').value = t.category || 'general';
+      document.getElementById('newStatus').value   = t.status || 'published';
+      document.getElementById('newAccess').value   = t.access_level || 'public';
       document.getElementById('newDefEn').value    = t.definition_en || '';
       document.getElementById('newDefEs').value    = t.definition_es || '';
       document.getElementById('newExEn').value     = t.example_en || '';
@@ -438,7 +490,10 @@
         definition_es: defEs,
         example_en:    document.getElementById('newExEn').value.trim() || null,
         example_es:    document.getElementById('newExEs').value.trim() || null,
-        category:      document.getElementById('newCategory').value
+        category:      document.getElementById('newCategory').value,
+        status:        document.getElementById('newStatus').value,
+        // Säkerhet: non-advanced users kan inte skapa advanced-rader, force public
+        access_level:  userHasAdvanced ? document.getElementById('newAccess').value : 'public'
       };
 
       let error;
