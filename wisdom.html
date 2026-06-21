@@ -91,6 +91,17 @@
     .tip-edit-btn:hover { border-color: var(--forest); color: var(--forest); }
     .is-admin .tip-edit-btn { display: flex; align-items: center; justify-content: center; }
 
+    /* ── BANK-TIER BADGES ── */
+    .tip-badges { position: absolute; top: 0.7rem; left: 0.7rem; display: none; gap: 0.35rem; }
+    .is-admin .tip-badges { display: flex; }
+    .badge { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 4px; line-height: 1; }
+    .badge-draft { background: #f4d35e; color: #6b4a00; }
+    .badge-advanced { background: #6c5ce7; color: white; }
+    .tip-card.is-draft { border-left-color: #d4a544; opacity: 0.85; }
+    .tip-card.is-advanced { border-left-color: #6c5ce7; }
+    /* Bara visa access-fält i modal om user har advanced */
+    .modal:not(.user-has-advanced) #accessRow { display: none; }
+
     /* ── EMPTY STATE ── */
     .empty-state { text-align: center; padding: 3rem 1rem; color: rgba(28,24,16,0.35); }
     .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
@@ -194,6 +205,20 @@
         <option value="general"  data-en="General"          data-es="General">General</option>
       </select>
 
+      <label data-en="Status" data-es="Estado">Status</label>
+      <select id="newStatus">
+        <option value="draft"     data-en="Draft (only admins see it)" data-es="Borrador (solo admins lo ven)">Draft (only admins see it)</option>
+        <option value="published" data-en="Published (live on site)"   data-es="Publicado (visible en el sitio)">Published (live on site)</option>
+      </select>
+
+      <div id="accessRow">
+        <label data-en="Access level" data-es="Nivel de acceso">Access level</label>
+        <select id="newAccess">
+          <option value="public"   data-en="Public (everyone)"               data-es="Público (todos)">Public (everyone)</option>
+          <option value="advanced" data-en="Advanced (advanced-access users)" data-es="Avanzado (usuarios con acceso avanzado)">Advanced (advanced-access users)</option>
+        </select>
+      </div>
+
       <label data-en="Tip (English)" data-es="Consejo (inglés)">Tip (English)</label>
       <textarea id="newTextEn" rows="3" placeholder="Keep your shield up before logging off."></textarea>
 
@@ -238,6 +263,7 @@
     let allTips    = [];
     let activeCat  = 'all';
     let isAdmin    = false;
+    let userHasAdvanced = false;
     let editingId  = null;
     let currentUserEmail = '';
 
@@ -245,9 +271,11 @@
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
       currentUserEmail = (data.session.user.email || '').toLowerCase();
       isAdmin = ADMIN_EMAILS.includes(currentUserEmail);
+      userHasAdvanced = !!(data.session.user.app_metadata && data.session.user.app_metadata.advanced_access);
       if (isAdmin) {
         document.getElementById('btnAdminAdd').style.display = '';
         document.querySelector('.main').classList.add('is-admin');
+        if (userHasAdvanced) document.querySelector('.modal').classList.add('user-has-advanced');
       }
       buildCategoryNav();
       loadTips();
@@ -258,7 +286,17 @@
     async function loadTips() {
       const { data, error } = await sb.from('wisdom').select('*').order('created_at', { ascending: false });
       if (error) { console.error(error); return; }
-      allTips = data || [];
+      let rows = data || [];
+      // Admin: sortera drafts först så review-kö syns överst
+      if (isAdmin) {
+        rows.sort((a, b) => {
+          const aDraft = (a.status || 'published') === 'draft' ? 0 : 1;
+          const bDraft = (b.status || 'published') === 'draft' ? 0 : 1;
+          if (aDraft !== bDraft) return aDraft - bDraft;
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+      }
+      allTips = rows;
       renderTips();
     }
 
@@ -352,8 +390,18 @@
 
     function tipCard(t) {
       const text = LANG === 'es' ? (t.text_es || t.text_en) : (t.text_en || t.text_es);
+      const status = t.status || 'published';
+      const access = t.access_level || 'public';
+      const cardClasses = ['tip-card'];
+      if (status === 'draft')      cardClasses.push('is-draft');
+      if (access === 'advanced')   cardClasses.push('is-advanced');
+      const badges = [];
+      if (status === 'draft')      badges.push('<span class="badge badge-draft">Draft</span>');
+      if (access === 'advanced')   badges.push('<span class="badge badge-advanced">Advanced</span>');
+      const badgesHtml = badges.length ? `<div class="tip-badges">${badges.join('')}</div>` : '';
       return `
-        <div class="tip-card" id="tip-${t.id}">
+        <div class="${cardClasses.join(' ')}" id="tip-${t.id}">
+          ${badgesHtml}
           <button class="tip-edit-btn" onclick="openEditModal('${t.id}')" title="Edit">✎</button>
           <div class="tip-text">${escapeHtml(text)}</div>
           <div class="tip-footer">
@@ -370,6 +418,8 @@
       document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Añadir consejo' : 'Add tip';
       ['newTextEn','newTextEs'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('newCategory').value = 'general';
+      document.getElementById('newStatus').value   = 'draft';
+      document.getElementById('newAccess').value   = 'public';
       document.getElementById('btnDelete').style.display = 'none';
       document.getElementById('modalOverlay').classList.add('open');
     }
@@ -381,6 +431,8 @@
       editingId = id;
       document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Editar consejo' : 'Edit tip';
       document.getElementById('newCategory').value = t.category || 'general';
+      document.getElementById('newStatus').value   = t.status || 'published';
+      document.getElementById('newAccess').value   = t.access_level || 'public';
       document.getElementById('newTextEn').value   = t.text_en || '';
       document.getElementById('newTextEs').value   = t.text_es || '';
       document.getElementById('btnDelete').style.display = '';
@@ -399,7 +451,10 @@
       const payload = {
         text_en:  textEn,
         text_es:  textEs,
-        category: document.getElementById('newCategory').value
+        category: document.getElementById('newCategory').value,
+        status:   document.getElementById('newStatus').value,
+        // Säkerhet: non-advanced users kan inte skapa advanced-rader, force public
+        access_level: userHasAdvanced ? document.getElementById('newAccess').value : 'public'
       };
 
       let error;
