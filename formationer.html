@@ -155,6 +155,27 @@
       color: rgba(28,24,16,0.5);
       font-size: 0.88rem;
     }
+    .section h3 {
+      font-family: 'Jost', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--forest-dk);
+      margin: 1.2rem 0 0.4rem;
+      letter-spacing: 0.01em;
+    }
+    .section ul { margin: 0.3rem 0 0.9rem; padding-left: 1.2rem; }
+    .section li {
+      font-size: 0.95rem; line-height: 1.6;
+      color: rgba(28,24,16,0.78); margin-bottom: 0.4rem;
+    }
+    .callout {
+      background: var(--sand);
+      border-left: 3px solid var(--terra);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      margin: 0.9rem 0 0.2rem;
+      font-size: 0.9rem; line-height: 1.55;
+      color: rgba(28,24,16,0.82);
+    }
     .breadcrumb {
       max-width: 760px; margin: 1.5rem auto 0;
       padding: 0 1.5rem;
@@ -214,30 +235,54 @@
   <main class="content">
     <section class="section">
       <h2 data-en="The basics" data-es="Lo básico">The basics</h2>
-      <p data-en="Every march has a front line, a support layer, and ranged behind. What you put where decides who dies first."
-         data-es="Cada marcha tiene una primera línea, una capa de apoyo y a distancia detrás. Lo que pongas dónde decide quién muere primero.">
-        Every march has a front line, a support layer, and ranged behind. What you put where decides who dies first.
+      <p data-en="A formation in Age of Origins is the mix of troops you send. One backbone works for almost every attack: one soldier of each type, plus the maximum of snipers and long-range cannons you can field. Everything else you add or drop depending on the job."
+         data-es="Una formación en Age of Origins es la mezcla de tropas que envías. Una misma base sirve para casi todos los ataques: un soldado de cada tipo, más el máximo de francotiradores y cañones de largo alcance que puedas. Todo lo demás lo añades o lo quitas según la tarea.">
+        A formation in Age of Origins is the mix of troops you send. One backbone works for almost every attack: one soldier of each type, plus the maximum of snipers and long-range cannons you can field. Everything else you add or drop depending on the job.
       </p>
-      <p class="placeholder" data-en="To fill in: diagram of standard formation, with each role explained."
-                             data-es="Por completar: diagrama de formación estándar, con cada rol explicado.">
-        To fill in: diagram of standard formation, with each role explained.
+      <p class="callout" data-en="This same backbone is what you use for a synchronized attack (SA), and for a solo SOS run."
+                         data-es="Esta misma base es la que usas para un ataque sincronizado (SA) y para una jugada en solitario con SOS.">
+        This same backbone is what you use for a synchronized attack (SA), and for a solo SOS run.
       </p>
     </section>
 
     <section class="section">
       <h2 data-en="When to bring what" data-es="Cuándo llevar qué">When to bring what</h2>
-      <p class="placeholder" data-en="Defensive vs offensive setups, and how to read the enemy before you commit your formation."
-                             data-es="Configuraciones defensivas vs ofensivas, y cómo leer al enemigo antes de comprometer tu formación.">
-        Defensive vs offensive setups, and how to read the enemy before you commit your formation.
+      <p data-en="Start from the backbone, then adjust for the job in front of you."
+         data-es="Parte de la base y luego ajusta según la tarea que tengas delante.">
+        Start from the backbone, then adjust for the job in front of you.
+      </p>
+
+      <h3 data-en="Fake attack" data-es="Ataque falso">Fake attack</h3>
+      <p data-en="One soldier of each type — nothing more. It looks like a march without committing real force, so you can bait a reaction or scout without risking troops."
+         data-es="Un soldado de cada tipo — nada más. Parece una marcha sin comprometer fuerza real, así que puedes provocar una reacción o explorar sin arriesgar tropas.">
+        One soldier of each type — nothing more. It looks like a march without committing real force, so you can bait a reaction or scout without risking troops.
+      </p>
+
+      <h3 data-en="Group attack" data-es="Ataque en grupo">Group attack</h3>
+      <p data-en="The full backbone: one of each type plus max snipers and long-range cannons. This is the standard rally march."
+         data-es="La base completa: uno de cada tipo más el máximo de francotiradores y cañones de largo alcance. Es la marcha de asamblea estándar.">
+        The full backbone: one of each type plus max snipers and long-range cannons. This is the standard rally march.
+      </p>
+
+      <h3 data-en="Solo attack" data-es="Ataque en solitario">Solo attack</h3>
+      <p data-en="Backbone plus staying power: 2,000–5,000 shredders scaled to the enemy's strength, as many zombies as you can bring, and lasers depending on their level."
+         data-es="La base más resistencia: 2.000–5.000 trituradores según la fuerza del enemigo, tantos zombis como puedas llevar y láseres según su nivel.">
+        Backbone plus staying power: 2,000–5,000 shredders scaled to the enemy's strength, as many zombies as you can bring, and lasers depending on their level.
       </p>
     </section>
 
     <section class="section">
       <h2 data-en="Common mistakes" data-es="Errores comunes">Common mistakes</h2>
-      <p class="placeholder" data-en="The setups that look smart but bleed troops. Things to avoid."
-                             data-es="Las configuraciones que parecen inteligentes pero hacen perder tropas. Cosas a evitar.">
-        The setups that look smart but bleed troops. Things to avoid.
-      </p>
+      <ul>
+        <li data-en="Sending a solo march at an online player without speedups ready — you can't pull out of a trap in time."
+            data-es="Enviar una marcha en solitario contra un jugador en línea sin aceleradores listos — no puedes salir de una trampa a tiempo.">Sending a solo march at an online player without speedups ready — you can't pull out of a trap in time.</li>
+        <li data-en="Hitting a city while its troops are out — you spend a full march on an empty target."
+            data-es="Golpear una ciudad mientras sus tropas están fuera — gastas una marcha entera en un objetivo vacío.">Hitting a city while its troops are out — you spend a full march on an empty target.</li>
+        <li data-en="Pouring reinforcements into what's actually a fake attack — check for a titan or a plane first; if neither is there, it's bait."
+            data-es="Volcar refuerzos en lo que en realidad es un ataque falso — busca primero un titán o un avión; si no hay ninguno, es un cebo.">Pouring reinforcements into what's actually a fake attack — check for a titan or a plane first; if neither is there, it's bait.</li>
+        <li data-en="Committing a rally before checking fog — probe first so you know how many defenders are really there."
+            data-es="Comprometer una asamblea antes de comprobar la niebla — sondea primero para saber cuántos defensores hay de verdad.">Committing a rally before checking fog — probe first so you know how many defenders are really there.</li>
+      </ul>
     </section>
   </main>
 

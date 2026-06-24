@@ -155,6 +155,27 @@
       color: rgba(28,24,16,0.5);
       font-size: 0.88rem;
     }
+    .section h3 {
+      font-family: 'Jost', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--forest-dk);
+      margin: 1.2rem 0 0.4rem;
+      letter-spacing: 0.01em;
+    }
+    .section ul { margin: 0.3rem 0 0.9rem; padding-left: 1.2rem; }
+    .section li {
+      font-size: 0.95rem; line-height: 1.6;
+      color: rgba(28,24,16,0.78); margin-bottom: 0.4rem;
+    }
+    .callout {
+      background: var(--sand);
+      border-left: 3px solid var(--terra);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      margin: 0.9rem 0 0.2rem;
+      font-size: 0.9rem; line-height: 1.55;
+      color: rgba(28,24,16,0.82);
+    }
     .breadcrumb {
       max-width: 760px; margin: 1.5rem auto 0;
       padding: 0 1.5rem;
@@ -214,29 +235,105 @@
   <main class="content">
     <section class="section">
       <h2 data-en="Solo attacks" data-es="Ataques en solitario">Solo attacks</h2>
-      <p data-en="When it's safe to attack alone, when it isn't, and how to scout before you commit your troops."
-         data-es="Cuándo es seguro atacar solo, cuándo no lo es y cómo explorar antes de comprometer tus tropas.">
-        When it's safe to attack alone, when it isn't, and how to scout before you commit your troops.
+      <p data-en="Hitting a target alone is the fastest way to kill enemy troops — and the fastest way to lose your own if you walk into a trap. Two habits keep you safe: scout before you send, and never touch an online player without speedups ready."
+         data-es="Atacar a un objetivo en solitario es la forma más rápida de matar tropas enemigas — y la más rápida de perder las tuyas si caes en una trampa. Dos hábitos te mantienen a salvo: explora antes de enviar y nunca toques a un jugador en línea sin aceleradores listos.">
+        Hitting a target alone is the fastest way to kill enemy troops — and the fastest way to lose your own if you walk into a trap. Two habits keep you safe: scout before you send, and never touch an online player without speedups ready.
       </p>
-      <p class="placeholder" data-en="To fill in: scouting workflow + how to read a target's power."
-                             data-es="Por completar: flujo de exploración + cómo leer el poder de un objetivo.">
-        To fill in: scouting workflow + how to read a target's power.
+
+      <h3 data-en="Your solo march" data-es="Tu marcha en solitario">Your solo march</h3>
+      <p data-en="Start from the standard group march — one soldier of each type, plus as many snipers and long-range cannons as you can field. For a solo hit, add to that:"
+         data-es="Parte de la marcha de grupo estándar — un soldado de cada tipo, más todos los francotiradores y cañones de largo alcance que puedas. Para un ataque en solitario, añade a eso:">
+        Start from the standard group march — one soldier of each type, plus as many snipers and long-range cannons as you can field. For a solo hit, add to that:
+      </p>
+      <ul>
+        <li data-en="2,000–5,000 shredders, scaled to how strong the enemy is."
+            data-es="2.000–5.000 trituradores, según lo fuerte que sea el enemigo.">2,000–5,000 shredders, scaled to how strong the enemy is.</li>
+        <li data-en="As many zombies as you can bring."
+            data-es="Tantos zombis como puedas llevar.">As many zombies as you can bring.</li>
+        <li data-en="Lasers, depending on their level."
+            data-es="Láseres, según su nivel.">Lasers, depending on their level.</li>
+      </ul>
+
+      <h3 data-en="Timing" data-es="Momento">Timing</h3>
+      <p data-en="If your goal is to kill troops, attack when all of theirs are home — an empty city gives you nothing. Online targets are always riskier, so observe first and wait for the right moment instead of sending on impulse."
+         data-es="Si tu objetivo es matar tropas, ataca cuando todas las suyas estén en casa — una ciudad vacía no te da nada. Los objetivos en línea siempre son más arriesgados, así que observa primero y espera el momento adecuado en vez de enviar por impulso.">
+        If your goal is to kill troops, attack when all of theirs are home — an empty city gives you nothing. Online targets are always riskier, so observe first and wait for the right moment instead of sending on impulse.
+      </p>
+
+      <p class="callout" data-en="Watch out: against an online player, always keep speed ready. Without it you can't pull back from a trap in time."
+                         data-es="Cuidado: contra un jugador en línea, ten siempre velocidad lista. Sin ella no puedes retirarte de una trampa a tiempo.">
+        Watch out: against an online player, always keep speed ready. Without it you can't pull back from a trap in time.
+      </p>
+
+      <p class="callout" data-en="SOS cancels your troop losses in a fight — but only when you fight completely alone, and only once a day. It does nothing in a group."
+                         data-es="SOS anula tus pérdidas de tropas en un combate — pero solo cuando luchas completamente solo, y solo una vez al día. No hace nada en grupo.">
+        SOS cancels your troop losses in a fight — but only when you fight completely alone, and only once a day. It does nothing in a group.
       </p>
     </section>
 
     <section class="section">
       <h2 data-en="Rally attacks" data-es="Ataques en asamblea">Rally attacks</h2>
-      <p class="placeholder" data-en="When to lead, when to join, how rally timers work, and what each slot contributes."
-                             data-es="Cuándo liderar, cuándo unirse, cómo funcionan los temporizadores de asamblea y qué aporta cada slot.">
-        When to lead, when to join, how rally timers work, and what each slot contributes.
+      <p data-en="A rally is the whole alliance hitting one target together. There are two ways to coordinate, depending on whether the target is awake."
+         data-es="Una asamblea es toda la alianza golpeando un mismo objetivo a la vez. Hay dos formas de coordinarse, según si el objetivo está despierto.">
+        A rally is the whole alliance hitting one target together. There are two ways to coordinate, depending on whether the target is awake.
+      </p>
+
+      <h3 data-en="SA — synchronized attack" data-es="SA — ataque sincronizado">SA — synchronized attack</h3>
+      <p data-en="Used for precision, often against online targets. The lead picks a time from the 'Time Gift' countdown in the top-right corner, posts it in Alliance Chat, and at that exact second everyone presses send and speeds in. No hesitation — if you trust the team, you send."
+         data-es="Se usa para precisión, a menudo contra objetivos en línea. El líder elige una hora de la cuenta atrás 'Time Gift' en la esquina superior derecha, la publica en el Chat de Alianza, y en ese segundo exacto todos pulsan enviar y aceleran. Sin dudar — si confías en el equipo, envías.">
+        Used for precision, often against online targets. The lead picks a time from the 'Time Gift' countdown in the top-right corner, posts it in Alliance Chat, and at that exact second everyone presses send and speeds in. No hesitation — if you trust the team, you send.
+      </p>
+
+      <h3 data-en="TA — timed rally" data-es="TA — asamblea cronometrada">TA — timed rally</h3>
+      <p data-en="The classic rally on an offline target. Each player calls out their march time; the one farthest away starts, and everyone else lines up to land at the same moment."
+         data-es="La asamblea clásica sobre un objetivo desconectado. Cada jugador anuncia su tiempo de marcha; el que está más lejos empieza, y los demás se ajustan para llegar en el mismo momento.">
+        The classic rally on an offline target. Each player calls out their march time; the one farthest away starts, and everyone else lines up to land at the same moment.
+      </p>
+
+      <h3 data-en="Check before you commit" data-es="Comprueba antes de comprometerte">Check before you commit</h3>
+      <p data-en="Before the rally lands, make sure the target hasn't reinforced, recalled, or bubbled — all visible in Alliance Battles. If the target is in fog, you can't see their reinforcements directly: launch a probe rally, open Alliance Battles, and count the defenders. It should be one (or zero for a flag). Then cancel the rally."
+         data-es="Antes de que llegue la asamblea, asegúrate de que el objetivo no se haya reforzado, retirado ni puesto burbuja — todo visible en Batallas de Alianza. Si el objetivo está en niebla, no puedes ver sus refuerzos directamente: lanza una asamblea de sondeo, abre Batallas de Alianza y cuenta a los defensores. Debe ser uno (o cero para una bandera). Luego cancela la asamblea.">
+        Before the rally lands, make sure the target hasn't reinforced, recalled, or bubbled — all visible in Alliance Battles. If the target is in fog, you can't see their reinforcements directly: launch a probe rally, open Alliance Battles, and count the defenders. It should be one (or zero for a flag). Then cancel the rally.
+      </p>
+
+      <p class="callout" data-en="If a bubble goes up mid-rally, everyone recalls. Landing on a bubble wastes the march and can set up a counter-trap."
+                         data-es="Si aparece una burbuja a mitad de asamblea, todos se retiran. Llegar contra una burbuja desperdicia la marcha y puede preparar una contra-trampa.">
+        If a bubble goes up mid-rally, everyone recalls. Landing on a bubble wastes the march and can set up a counter-trap.
       </p>
     </section>
 
     <section class="section">
       <h2 data-en="Reading battle reports" data-es="Leer informes de batalla">Reading battle reports</h2>
-      <p class="placeholder" data-en="What the numbers actually mean, how to spot a trap, and what to learn from a loss."
-                             data-es="Qué significan realmente los números, cómo detectar una trampa y qué aprender de una derrota.">
-        What the numbers actually mean, how to spot a trap, and what to learn from a loss.
+      <p data-en="Half of attacking well is reading what's in front of you — before you send, and after the dust settles."
+         data-es="La mitad de atacar bien es leer lo que tienes delante — antes de enviar y después de que se asiente el polvo.">
+        Half of attacking well is reading what's in front of you — before you send, and after the dust settles.
+      </p>
+
+      <h3 data-en="Real attack or fake?" data-es="¿Ataque real o falso?">Real attack or fake?</h3>
+      <p data-en="Look at the fleet on the field. A real attack brings a titan or a plane. If you see neither, it's a fake attack meant to bait a reaction — don't overcommit your reinforcements to it."
+         data-es="Mira la flota en el campo. Un ataque real lleva un titán o un avión. Si no ves ninguno, es un ataque falso para provocar una reacción — no comprometas en exceso tus refuerzos.">
+        Look at the fleet on the field. A real attack brings a titan or a plane. If you see neither, it's a fake attack meant to bait a reaction — don't overcommit your reinforcements to it.
+      </p>
+
+      <h3 data-en="How group battles count" data-es="Cómo cuentan las batallas de grupo">How group battles count</h3>
+      <p data-en="When several cities hit one target together, the report isn't a simple sum. A few rules from testing:"
+         data-es="Cuando varias ciudades golpean un objetivo juntas, el informe no es una suma simple. Algunas reglas comprobadas:">
+        When several cities hit one target together, the report isn't a simple sum. A few rules from testing:
+      </p>
+      <ul>
+        <li data-en="Troop stats are averaged across the group, weighted by how many troops of each type are present."
+            data-es="Las estadísticas de tropas se promedian en el grupo, ponderadas por cuántas tropas de cada tipo hay.">Troop stats are averaged across the group, weighted by how many troops of each type are present.</li>
+        <li data-en="Troop tiers are not averaged — a higher tier keeps its own kill-and-loss advantage."
+            data-es="Los niveles de tropas no se promedian — un nivel superior conserva su propia ventaja de bajas y pérdidas.">Troop tiers are not averaged — a higher tier keeps its own kill-and-loss advantage.</li>
+        <li data-en="A weak city in the group can drag down a strong city's individual result."
+            data-es="Una ciudad débil en el grupo puede arrastrar el resultado individual de una ciudad fuerte.">A weak city in the group can drag down a strong city's individual result.</li>
+        <li data-en="Titan stats stack instead of averaging, and titan kills are split by each player's titan strength — while troop kills come out equal for both sides."
+            data-es="Las estadísticas de titán se acumulan en vez de promediarse, y las bajas de titán se reparten según la fuerza de titán de cada jugador — mientras que las bajas de tropas salen iguales para ambos bandos.">Titan stats stack instead of averaging, and titan kills are split by each player's titan strength — while troop kills come out equal for both sides.</li>
+      </ul>
+
+      <p class="callout" data-en="Takeaway: in a group hit, what you bring that can't be averaged away — tier and titan strength — is what moves the result."
+                         data-es="Conclusión: en un ataque de grupo, lo que aportas y no se puede promediar — nivel y fuerza de titán — es lo que cambia el resultado.">
+        Takeaway: in a group hit, what you bring that can't be averaged away — tier and titan strength — is what moves the result.
       </p>
     </section>
   </main>
