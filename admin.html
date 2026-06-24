@@ -489,9 +489,9 @@ function addPrivateNavLinks(email) {
       auth: { flowType: 'pkce' }
     });
     const ADMIN_EMAILS = [
-      'pealmab@hotmail.com', // Byt ut mot era admin-adresser
-      
-      ''
+      'pealmab@hotmail.com',
+      'werchnowm@gmail.com',
+      'camellogamel@gmail.com'
     ];
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
     sb.auth.getSession().then(({ data }) => {
