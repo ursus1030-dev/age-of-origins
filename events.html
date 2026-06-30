@@ -305,5 +305,22 @@
       }, 300000);
     })();
   </script>
+  <style>
+  .lgx-banner{background:var(--sand,#E8DCC8);border-top:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#A84C2A);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#6B4C35);}
+  </style>
+  <script>
+  (function(){
+    var nav=document.querySelector('nav');
+    var w=document.createElement('div');
+    w.className='lgx-banner';
+    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
+    function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
+    sync();
+    document.querySelectorAll('#langBtn,#langBtnMobile').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,30);});});
+  })();
+  </script>
 </body>
 </html>
