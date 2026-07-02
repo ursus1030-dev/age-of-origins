@@ -4,27 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-en="Base — Age of Origins" data-es="Base — Age of Origins">Base — Age of Origins</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --forest:    #3D5C3A;
-      --forest-dk: #2a3f28;
-      --forest-lt: #4e7349;
-      --terra:     #A84C2A;
-      --terra-lt:  #c4603a;
-      --cream:     #F5F0E8;
-      --sand:      #E8DCC8;
-      --bark:      #6B4C35;
-      --ink:       #1C1810;
+      --forest:    #1C1C1E;
+      --forest-dk: #0B0B0B;
+      --forest-lt: #2C2C2E;
+      --terra:     #D4AF37;
+      --terra-lt:  #8B6F2A;
+      --cream:     #E8E6E1;
+      --sand:      #1C1C1E;
+      --bark:      #B8B2A6;
+      --ink:       #E8E6E1;
+      --gold:      #D4AF37;
+      --red:       #B31217;
     }
 
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Jost', sans-serif;
-      background: #F0EBE0;
+      background: #0B0B0B;
       color: var(--ink);
       min-height: 100vh;
     }
@@ -32,15 +34,15 @@
     /* ── NAV ── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(61,92,58,0.96);
+      background: rgba(11,11,11,0.96);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(212,175,55,0.25);
       padding: 0 2rem;
       display: flex; align-items: center; justify-content: space-between;
       height: 60px;
     }
     .nav-brand {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Cinzel', serif;
       font-size: 1.25rem; color: var(--cream);
       letter-spacing: 0.04em; text-decoration: none;
     }
@@ -59,11 +61,11 @@
       white-space: nowrap;
     }
     .nav-links a:hover, .nav-links a.active {
-      background: rgba(255,255,255,0.12); color: var(--cream);
+      background: rgba(212,175,55,0.15); color: var(--gold);
     }
     .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .nav-lang, .nav-logout {
-      background: none; border: 1px solid rgba(245,240,232,0.25);
+      background: none; border: 1px solid rgba(212,175,55,0.4);
       color: rgba(245,240,232,0.7);
       font-family: 'Jost', sans-serif; font-size: 0.75rem;
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -111,7 +113,7 @@
     .hero::before {
       content: ''; position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse at 20% 80%, rgba(168,76,42,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(212,175,55,0.15) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
     }
     .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
@@ -120,9 +122,9 @@
       filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
     }
     .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Cinzel', serif;
       font-size: clamp(2.2rem, 6vw, 3.5rem);
-      font-weight: 300; color: var(--cream);
+      font-weight: 300; color: var(--gold);
       letter-spacing: 0.04em; line-height: 1.1; margin-bottom: 0.8rem;
     }
     .hero-sub {
@@ -140,29 +142,29 @@
       max-width: 900px; margin: 0 auto;
     }
     .card {
-      background: var(--cream);
+      background: #141416;
       border-radius: 16px; padding: 2rem 1.8rem;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(61,92,58,0.08);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(212,175,55,0.08);
       transition: transform 0.25s, box-shadow 0.25s;
       text-decoration: none; color: inherit;
       display: flex; flex-direction: column; min-height: 220px;
     }
     .card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(61,92,58,0.18);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(212,175,55,0.18);
     }
     .card-icon {
       font-size: 2.2rem; color: var(--terra);
       margin-bottom: 0.8rem;
     }
     .card h2 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Cinzel', serif;
       font-size: 1.7rem; font-weight: 400;
-      color: var(--forest-dk); margin-bottom: 0.6rem;
+      color: var(--gold); margin-bottom: 0.6rem;
     }
     .card p {
       font-size: 0.95rem; line-height: 1.55;
-      color: rgba(28,24,16,0.7); flex: 1;
+      color: rgba(232,230,225,0.7); flex: 1;
     }
     .card-cta {
       margin-top: 1.2rem; font-size: 0.78rem;
@@ -308,10 +310,10 @@
           if (d.version !== stored && !document.getElementById("update-banner")) {
             var b = document.createElement("div");
             b.id = "update-banner";
-            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#1C1C1E;color:#E8E6E1;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
             const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
             const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
-            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#D4AF37;color:#0B0B0B;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
             document.body.appendChild(b);
           }
         }).catch(function(){});
@@ -319,9 +321,9 @@
     })();
   </script>
   <style>
-  .lgx-banner{background:var(--sand,#E8DCC8);border-top:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);padding:12px 18px;text-align:center;}
-  .lgx-team{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#A84C2A);text-transform:uppercase;}
-  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#6B4C35);}
+  .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#D4AF37);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#B8B2A6);}
   </style>
   <script>
   (function(){
