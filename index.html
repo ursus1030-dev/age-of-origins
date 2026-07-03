@@ -105,16 +105,25 @@
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 50%, var(--forest-lt) 100%);
-      padding: 5rem 2rem 4rem;
+      background-image:
+        radial-gradient(ellipse at 20% 80%, rgba(212,175,55,0.12) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(11,11,11,0.30) 0%, rgba(11,11,11,0.58) 45%, rgba(11,11,11,0.92) 100%),
+        url('hero-banner.png');
+      background-size: cover, cover, cover;
+      background-position: center, center, 68% 42%;
+      background-repeat: no-repeat, no-repeat, no-repeat;
+      padding: 6rem 2rem 4.5rem;
+      min-height: 440px;
+      display: flex; align-items: center; justify-content: center;
       text-align: center;
       position: relative; overflow: hidden;
     }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 80%, rgba(212,175,55,0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+    @media (max-width: 600px) {
+      .hero {
+        min-height: 380px;
+        padding: 5rem 1.25rem 3.5rem;
+        background-position: center, center, 72% 38%;
+      }
     }
     .hero-content { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
     .hero-icon {
