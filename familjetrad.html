@@ -1,380 +1,206 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Familjeträdet — Familjesajten</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <title data-en="Tech tree — Age of Origins" data-es="Árbol tecnológico — Age of Origins">Tech tree — Age of Origins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --forest: #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
-      --terra: #A84C2A; --terra-lt: #c4603a;
-      --cream: #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
-      --ink: #1C1810; --bg: #F0EBE0;
+      --forest:    #1C1C1E;
+      --forest-dk: #0B0B0B;
+      --forest-lt: #2C2C2E;
+      --terra:     #D4AF37;
+      --terra-lt:  #8B6F2A;
+      --gold:      #D4AF37;
+      --cream:     #E8E6E1;
+      --sand:      #1C1C1E;
+      --bark:      #B8B2A6;
+      --ink:       #E8E6E1;
+      --bg:        #0B0B0B;
+      --red:       #B31217;
     }
+
     html { scroll-behavior: smooth; }
     body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
 
-    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
-    .nav-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: flex-start; padding: 0 0.5rem; }
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(11,11,11,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212,175,55,0.25); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cinzel', serif; font-size: 1.25rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
     .nav-links::-webkit-scrollbar { display: none; }
-    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
-    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
-    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
-    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
-    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(212,175,55,0.15); color: var(--gold); }
     .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout { background: none; border: 1px solid rgba(212,175,55,0.4); color: rgba(245,240,232,0.7); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.6rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-mobile-footer { display: none !important; }
-    @media (max-width: 1100px) {
+    @media (max-width: 900px) {
       nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
       .nav-brand { flex: 1; }
       .nav-hamburger { display: flex; align-items: center; }
       .nav-right { display: none; }
       .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
       .nav-links.open { display: flex; }
-      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
-      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex !important; gap: 0.5rem; padding: 0.6rem 0.8rem 0.3rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
     }
 
-    .hero { background: linear-gradient(160deg, #2a3f28 0%, #3D5C3A 50%, #5a4a2a 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 80%, rgba(107,76,53,0.3) 0%, transparent 60%); }
-    .hero-content { position: relative; z-index: 1; }
-    .hero-icon { font-size: 3rem; margin-bottom: 0.8rem; }
-    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
-    .hero h1 em { font-style: italic; color: var(--sand); }
-    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 55%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 20%, rgba(201,169,110,0.18) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 0.8rem; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)); }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--gold); letter-spacing: 0.04em; }
+    .hero-sub { font-size: 0.9rem; font-weight: 300; color: rgba(245,240,232,0.75); max-width: 540px; margin: 0.6rem auto 0; line-height: 1.5; }
 
-    .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    /* ── MAIN ── */
+    .main { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .empty-state { background: #2C2C2E; border-radius: 14px; padding: 3.5rem 1.5rem; text-align: center; color: rgba(232,230,225,0.5); box-shadow: 0 2px 14px rgba(0,0,0,0.05); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
+    .empty-state p { font-size: 0.95rem; }
 
-    .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap; }
-    .search-box { flex: 1; max-width: 320px; position: relative; }
-    .search-box input { width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem; border: 1px solid #ddd; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.9rem; background: white; }
-    .search-box input:focus { outline: none; border-color: var(--forest); }
-    .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 1rem; pointer-events: none; }
-    .btn-primary { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.3rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
-    .btn-primary:hover { background: var(--terra-lt); }
-
-    /* TREE VISUALIZATION */
-    .tree-container { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 2rem; overflow-x: auto; min-height: 300px; }
-    .tree-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 0.8rem; }
-    .tree-hint { color: #bbb; font-size: 0.85rem; font-style: italic; }
-
-    /* FAMILY TREE SVG AREA */
-    #treeSvg { width: 100%; overflow-x: auto; }
-
-    /* NOTES LIST */
-    .notes-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-    .note-card { background: white; border-radius: 12px; padding: 1.3rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--forest); }
-    .note-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .note-years { font-size: 0.8rem; color: #888; margin-bottom: 0.4rem; }
-    .note-relation { display: inline-block; background: rgba(61,92,58,0.1); color: var(--forest); font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 20px; margin-bottom: 0.6rem; }
-    .note-text { font-size: 0.88rem; color: #555; line-height: 1.6; }
-    .note-footer { margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid rgba(0,0,0,0.06); font-size: 0.75rem; color: #bbb; display: flex; justify-content: space-between; }
-    .note-delete { background: none; border: none; color: #ddd; cursor: pointer; font-size: 0.9rem; transition: color 0.2s; }
-    .note-delete:hover { color: var(--terra); }
-
-    .section-head { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
-
-    .empty-state { text-align: center; padding: 3rem 2rem; color: #aaa; }
-    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; }
-
-    /* MODAL */
-    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400; align-items: center; justify-content: center; }
-    .modal-backdrop.open { display: flex; }
-    .modal { background: white; border-radius: 16px; padding: 2rem; width: min(520px, 92vw); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.5rem; }
-    .form-row { margin-bottom: 1.1rem; }
-    .form-row label { display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 0.4rem; }
-    .form-row input, .form-row textarea, .form-row select { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.95rem; transition: border-color 0.2s; }
-    .form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline: none; border-color: var(--forest); }
-    .form-row textarea { resize: vertical; min-height: 90px; }
-    .year-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
-    .btn-cancel { background: none; border: 1px solid #ddd; color: #888; font-family: 'Jost', sans-serif; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
-    .btn-cancel:hover { border-color: #bbb; color: #555; }
-    .btn-save { background: var(--forest); border: none; color: white; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
-    .btn-save:hover { background: var(--forest-lt); }
-
-    footer { background: var(--forest-dk); color: rgba(245,240,232,0.5); text-align: center; padding: 2rem; font-size: 0.8rem; letter-spacing: 0.1em; margin-top: 4rem; }
-      .private-dropdown { position: relative; display: inline-flex; align-items: center; }
-    .private-btn { background: none; border: 1px solid rgba(245,220,180,0.4); color: rgba(245,220,180,0.9); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-    .private-btn:hover { background: rgba(245,220,180,0.15); }
-    .private-menu { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #2a3f28; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.4rem; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
-    .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
-    .private-menu a:hover { background: rgba(255,255,255,0.1); color: white; }
+    /* ── FOOTER ── */
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
   <nav>
-    <a class="nav-brand" href="index.html">🏰 Age of Origins</a>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
     <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="base.html" class="active">Base</a>
-      <a href="combat.html">Combat</a>
-      <a href="alliance.html">Alliance</a>
-      <a href="tips.html">Tips</a>
-      <a href="events.html">Events</a>
-      <a href="group.html">Group</a>
-      <a href="resources.html">Resources</a>
+      <a href="index.html" data-en="Home" data-es="Inicio">Home</a>
+      <a href="base.html" class="active" data-en="Base" data-es="Base">Base</a>
+      <a href="combat.html" data-en="Combat" data-es="Combate">Combat</a>
+      <a href="alliance.html" data-en="Alliance" data-es="Alianza">Alliance</a>
+      <a href="tips.html" data-en="Tips" data-es="Consejos">Tips</a>
+      <a href="events.html" data-en="Events" data-es="Eventos">Events</a>
+      <a href="group.html" data-en="Group" data-es="Grupo">Group</a>
+      <a href="forum.html" data-en="Forum" data-es="Foro">Forum</a>
+      <a href="resources.html" data-en="Resources" data-es="Recursos">Resources</a>
       <div class="nav-mobile-footer">
-        <button class="nav-logout" onclick="logOut()">Log out</button>
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
       </div>
     </div>
     <div class="nav-right">
-      <button class="nav-logout" onclick="logOut()">Log out</button>
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
     </div>
   </nav>
 
+  <!-- HERO -->
   <header class="hero">
     <div class="hero-content">
       <div class="hero-icon">🌳</div>
-      <h1>Familje<em>trädet</em></h1>
-      <p>Vår historia och släktforskning</p>
+      <h1 data-en="Tech tree" data-es="Árbol tecnológico">Tech tree</h1>
+      <p class="hero-sub"
+         data-en="Research paths explained. Which techs matter early, which can wait, and what unlocks what."
+         data-es="Rutas de investigación explicadas. Qué tecnologías importan al principio, cuáles pueden esperar y qué desbloquea qué.">
+        Research paths explained. Which techs matter early, which can wait, and what unlocks what.
+      </p>
     </div>
   </header>
 
-  <div class="main">
-    <!-- Built-in family tree for current family -->
-    <div class="tree-container">
-      <div class="tree-title">🌳 Familjeöversikt</div>
-      <div id="builtinTree"></div>
+  <!-- MAIN -->
+  <main class="main">
+    <div class="empty-state">
+      <div class="icon"><i class="fa-solid fa-hammer"></i></div>
+      <p data-en="Coming soon — this page is being built." data-es="Próximamente — esta página está en construcción.">Coming soon — this page is being built.</p>
     </div>
-
-    <div class="toolbar">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Sök på namn..." oninput="renderNotes()" />
-      </div>
-      <button class="btn-primary" id="btnAdd">+ Lägg till släkting / not</button>
-    </div>
-
-    <div class="section-head">Anteckningar &amp; Äldre släktingar</div>
-    <div class="notes-list" id="notesList"></div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🌳</div>
-      <p>Inga anteckningar ännu — börja dokumentera familjehistoriken!</p>
-    </div>
-  </div>
-
-  <!-- ADD MODAL -->
-  <div class="modal-backdrop" id="modal">
-    <div class="modal">
-      <h2>🌳 Lägg till person / not</h2>
-      <div class="form-row">
-        <label>Namn *</label>
-        <input type="text" id="fNamn" placeholder="Fullständigt namn..." />
-      </div>
-      <div class="form-row">
-        <label>Relation till familjen</label>
-        <select id="fRelation">
-          <option value="Farmor/farfar">Farmor / Farfar</option>
-          <option value="Morfar/mormor">Morfar / Mormor</option>
-          <option value="Morbror/moster">Morbror / Moster</option>
-          <option value="Farbror/faster">Farbror / Faster</option>
-          <option value="Kusin">Kusin</option>
-          <option value="Anfader">Anfader / Anmoder</option>
-          <option value="Övrigt">Övrigt</option>
-        </select>
-      </div>
-      <div class="year-row">
-        <div class="form-row">
-          <label>Födelseår</label>
-          <input type="number" id="fFodd" placeholder="t.ex. 1940" min="1800" max="2025" />
-        </div>
-        <div class="form-row">
-          <label>Dödsår (valfritt)</label>
-          <input type="number" id="fAvliden" placeholder="lämna tomt om levande" min="1800" max="2025" />
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Anteckningar / Historia</label>
-        <textarea id="fNotat" placeholder="Skriv vad du vet om den här personen — var de bodde, vad de jobbade med, minnen..."></textarea>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-cancel" id="btnCancel">Avbryt</button>
-        <button class="btn-save" id="btnSave">Spara</button>
-      </div>
-    </div>
-  </div>
+  </main>
 
   <footer>
-    <p>Din familjesajt &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2026</p>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-function addPrivateNavLinks(email) {
-      const links = [];
-      // Privata mappar konfigureras av familjen själva
-      if (!links.length) return;
-      const navRight = document.querySelector('.nav-right');
-      if (!navRight) return;
-      const wrap = document.createElement('div');
-      wrap.className = 'private-dropdown';
-      wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
-      navRight.insertBefore(wrap, navRight.firstChild);
-      wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
-      document.addEventListener('click', () => wrap.classList.remove('open'));
-    }
-</script>
   <script>
     const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
     const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    let currentUser = null;
-    let allNotes = [];
-
-    // Built-in family tree data
-    const builtinFamily = [
-      { gen: 'Generationen ovan', members: [
-        { name: 'Familjemedlem', years: '?–?', note: '' },
-        { name: 'Familjemedlem', years: '?–?', note: '' },
-      ]},
-      { gen: 'Vår generation', members: [
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-      ]},
-      { gen: 'Barnen', members: [
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-      ]},
-      { gen: 'Barnbarnen', members: [
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-        { name: 'Familjemedlem', years: '?–', note: '' },
-      ]},
-    ];
-
-    function renderBuiltinTree() {
-      const container = document.getElementById('builtinTree');
-      container.innerHTML = builtinFamily.map(gen => `
-        <div style="margin-bottom:1.5rem;">
-          <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:0.7rem;">${gen.gen}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
-            ${gen.members.map(m => `
-              <div style="background:rgba(61,92,58,0.07);border:1px solid rgba(61,92,58,0.15);border-radius:10px;padding:0.6rem 1rem;min-width:160px;">
-                <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;">${esc(m.name)}</div>
-                <div style="font-size:0.72rem;color:#aaa;">${esc(m.years)} · ${esc(m.note)}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `).join('');
+    // Recovery/invite-hash -> login
+    const _h = window.location.hash, _s = window.location.search;
+    if ((_h && (_h.includes('type=recovery') || _h.includes('type=invite'))) || (_s && _s.includes('code='))) {
+      window.location.replace('login.html' + _s + _h);
     }
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
+
+    function logOut() { sb.auth.signOut().then(() => { window.location.href = 'login.html?logout=1'; }); }
 
     sb.auth.getSession().then(({ data }) => {
-      if (!data.session) { window.location.href = 'login.html'; return; }
-      addPrivateNavLinks((data.session||data?.session).user.email.toLowerCase());
-      currentUser = data.session.user;
-      renderBuiltinTree();
-      loadNotes();
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
     });
 
-    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
-
-    async function loadNotes() {
-      const { data } = await sb.from('slakt_noter').select('*').order('fodd', { ascending: true, nullsFirst: false });
-      allNotes = data || [];
-      renderNotes();
-    }
-
-    function renderNotes() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const list = document.getElementById('notesList');
-      const empty = document.getElementById('emptyState');
-      const filtered = allNotes.filter(n => !q || n.namn?.toLowerCase().includes(q) || n.relation?.toLowerCase().includes(q) || n.notat?.toLowerCase().includes(q));
-      if (!filtered.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
-      empty.style.display = 'none';
-      list.innerHTML = filtered.map(n => {
-        const years = [n.fodd, n.avliden ? `†${n.avliden}` : ''].filter(Boolean).join(' – ');
-        return `<div class="note-card">
-          <div class="note-name">${esc(n.namn)}</div>
-          ${years ? `<div class="note-years">${years}</div>` : ''}
-          ${n.relation ? `<span class="note-relation">${esc(n.relation)}</span>` : ''}
-          ${n.notat ? `<div class="note-text">${esc(n.notat)}</div>` : ''}
-          <div class="note-footer">
-            <span>${esc(n.skapad_av || '')} · ${new Date(n.created_at).toLocaleDateString('sv-SE')}</span>
-            <button class="note-delete" onclick="deleteNote('${n.id}')">🗑</button>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-    async function deleteNote(id) {
-      if (!confirm('Ta bort denna anteckning?')) return;
-      await sb.from('slakt_noter').delete().eq('id', id);
-      allNotes = allNotes.filter(n => n.id !== id);
-      renderNotes();
-    }
-
-    // Modal
-    document.getElementById('btnAdd').onclick = () => document.getElementById('modal').classList.add('open');
-    document.getElementById('btnCancel').onclick = closeModal;
-
-    function closeModal() {
-      document.getElementById('modal').classList.remove('open');
-      ['fNamn','fFodd','fAvliden','fNotat'].forEach(id => document.getElementById(id).value = '');
-    }
-
-    document.getElementById('btnSave').onclick = async () => {
-      const namn = document.getElementById('fNamn').value.trim();
-      if (!namn) { alert('Ange ett namn!'); return; }
-      const { error } = await sb.from('slakt_noter').insert({
-        namn,
-        relation: document.getElementById('fRelation').value,
-        fodd: parseInt(document.getElementById('fFodd').value) || null,
-        avliden: parseInt(document.getElementById('fAvliden').value) || null,
-        notat: document.getElementById('fNotat').value.trim(),
-        skapad_av: currentUser?.email?.split('@')[0] || 'Okänd'
-      });
-      if (error) { alert('Kunde inte spara: ' + error.message); return; }
-      closeModal();
-      loadNotes();
-    };
-  
-    function toggleNav() {
-      const nl = document.getElementById('navLinks');
-      nl.classList.toggle('open');
-    }
+    // ── NAV TOGGLE ──
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
     document.addEventListener('DOMContentLoaded', function() {
       const nl = document.getElementById('navLinks');
       if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
     });
-  </script>
-  <script>
-    (function(){
-      var VERS_URL = "version.json?t=" + Date.now();
-      var stored;
-      fetch(VERS_URL).then(function(r){return r.json();}).then(function(d){
-        stored = d.version;
-      }).catch(function(){});
-      setInterval(function(){
-        if(!stored) return;
-        fetch("version.json?t=" + Date.now()).then(function(r){return r.json();}).then(function(d){
-          if(d.version !== stored && !document.getElementById("update-banner")){
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
             var b = document.createElement("div");
             b.id = "update-banner";
-            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
-            b.innerHTML = "✨ Sajten har uppdaterats! <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>Ladda om</button>";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#1C1C1E;color:#E8E6E1;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#D4AF37;color:#0B0B0B;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
             document.body.appendChild(b);
           }
         }).catch(function(){});
       }, 300000);
     })();
+  </script>
+  <style>
+  .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#D4AF37);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#B8B2A6);}
+  </style>
+  <script>
+  (function(){
+    var nav=document.querySelector('nav');
+    var w=document.createElement('div');
+    w.className='lgx-banner';
+    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
+    function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
+    sync();
+    document.querySelectorAll('#langBtn,#langBtnMobile').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,30);});});
+  })();
   </script>
 </body>
 </html>
