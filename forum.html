@@ -88,6 +88,24 @@
     .msg-delete-btn:hover { color: var(--red); }
     .empty-msg { margin: auto; text-align: center; color: rgba(232,230,225,0.4); font-size: 0.85rem; padding: 2rem; }
 
+    /* ── TOPICS (ämnestrådar) ── */
+    .topic-list { flex: 1; overflow-y: auto; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .new-topic-toggle-btn { align-self: flex-start; background: var(--terra); color: #0B0B0B; border: none; border-radius: 8px; padding: 0.5rem 1rem; font-family: 'Jost', sans-serif; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.75rem; cursor: pointer; margin-bottom: 0.4rem; transition: background 0.2s; }
+    .new-topic-toggle-btn:hover { background: var(--terra-lt); }
+    .topic-card { background: #232325; border-radius: 12px; padding: 0.8rem 1.1rem; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.15); transition: transform 0.15s, box-shadow 0.15s; }
+    .topic-card:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(0,0,0,0.2); }
+    .topic-title { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--gold); margin-bottom: 0.25rem; }
+    .topic-meta { font-size: 0.72rem; color: rgba(232,230,225,0.45); }
+    .topic-header { display: none; align-items: center; gap: 0.7rem; padding: 0.7rem 1.1rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
+    .topic-back-btn { background: none; border: 1px solid rgba(212,175,55,0.3); color: var(--gold); border-radius: 8px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+    .topic-back-btn:hover { background: rgba(212,175,55,0.1); }
+    .topic-header-title { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--cream); }
+    .new-topic-form { display: none; flex-direction: column; gap: 0.5rem; padding: 0.9rem 1.1rem; border-bottom: 1px solid rgba(212,175,55,0.15); background: rgba(0,0,0,0.15); }
+    .new-topic-form input, .new-topic-form textarea { border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); background: #2C2C2E; color: var(--ink); font-family: 'Jost', sans-serif; padding: 0.55rem 0.8rem; font-size: 0.85rem; outline: none; resize: vertical; }
+    .new-topic-form input:focus, .new-topic-form textarea:focus { border-color: var(--gold); }
+    .new-topic-form button { align-self: flex-end; background: var(--terra); color: #0B0B0B; border: none; border-radius: 8px; padding: 0.5rem 1.1rem; font-family: 'Jost', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; cursor: pointer; transition: background 0.2s; }
+    .new-topic-form button:hover { background: var(--terra-lt); }
+
     .compose { display: flex; gap: 0.6rem; padding: 0.9rem 1rem; border-top: 1px solid rgba(212,175,55,0.15); background: rgba(0,0,0,0.15); }
     .compose textarea { flex: 1; resize: none; border-radius: 10px; border: 1px solid rgba(212,175,55,0.2); background: #2C2C2E; color: var(--ink); font-family: 'Jost', sans-serif; padding: 0.65rem 0.9rem; font-size: 0.88rem; outline: none; transition: border-color 0.2s; max-height: 5.5rem; }
     .compose textarea:focus { border-color: var(--gold); }
@@ -144,10 +162,24 @@
     <div class="forum-layout">
       <div class="room-list" id="roomList"></div>
       <div class="forum-main">
+        <div class="topic-header" id="topicHeader">
+          <button class="topic-back-btn" id="topicBackBtn">&larr;</button>
+          <span class="topic-header-title" id="topicHeaderTitle"></span>
+        </div>
+        <div class="topic-list" id="topicList" style="display:none;"></div>
+        <div class="new-topic-form" id="newTopicForm">
+          <input type="text" id="newTopicTitle" maxlength="120"
+            data-en-placeholder="Topic title…" data-es-placeholder="Título del tema…"
+            placeholder="Topic title…" />
+          <textarea id="newTopicMsg" rows="2"
+            data-en-placeholder="First message…" data-es-placeholder="Primer mensaje…"
+            placeholder="First message…"></textarea>
+          <button id="newTopicSendBtn" data-en="Create" data-es="Crear">Create</button>
+        </div>
         <div class="message-list" id="messageList">
           <div class="empty-msg" data-en="Loading…" data-es="Cargando…">Loading…</div>
         </div>
-        <div class="compose">
+        <div class="compose" id="composeBar">
           <textarea id="composeInput" rows="1"
             data-en-placeholder="Write a message…" data-es-placeholder="Escribe un mensaje…"
             placeholder="Write a message…"></textarea>
@@ -176,6 +208,8 @@
 
     let profile = null;
     let currentRoomId = null;
+    let currentRoom = null;
+    let currentTopicId = null;
     let pollTimer = null;
     let roomsCache = [];
 
@@ -213,20 +247,131 @@
 
     async function selectRoom(id) {
       currentRoomId = id;
+      currentRoom = roomsCache.find(r => r.id === id) || null;
+      currentTopicId = null;
       renderRoomList();
-      await loadMessages();
       if (pollTimer) clearInterval(pollTimer);
+      if (currentRoom && currentRoom.use_topics) {
+        showTopicsView();
+        await loadTopics();
+        pollTimer = setInterval(loadTopics, 10000);
+      } else {
+        showChatView();
+        await loadMessages();
+        pollTimer = setInterval(loadMessages, 10000);
+      }
+    }
+
+    function showTopicsView() {
+      document.getElementById('topicHeader').style.display = 'none';
+      document.getElementById('topicList').style.display = 'flex';
+      document.getElementById('newTopicForm').style.display = 'none';
+      document.getElementById('messageList').style.display = 'none';
+      document.getElementById('composeBar').style.display = 'none';
+    }
+    function showTopicView(title) {
+      document.getElementById('topicHeader').style.display = 'flex';
+      document.getElementById('topicHeaderTitle').textContent = title;
+      document.getElementById('topicList').style.display = 'none';
+      document.getElementById('newTopicForm').style.display = 'none';
+      document.getElementById('messageList').style.display = 'flex';
+      document.getElementById('composeBar').style.display = 'flex';
+    }
+    function showChatView() {
+      document.getElementById('topicHeader').style.display = 'none';
+      document.getElementById('topicList').style.display = 'none';
+      document.getElementById('newTopicForm').style.display = 'none';
+      document.getElementById('messageList').style.display = 'flex';
+      document.getElementById('composeBar').style.display = 'flex';
+    }
+
+    async function loadTopics() {
+      if (!currentRoomId) return;
+      const { data: topics, error } = await sb
+        .from('topics')
+        .select('id, title, created_at, last_activity_at, author_id, profiles(username)')
+        .eq('room_id', currentRoomId)
+        .order('last_activity_at', { ascending: false })
+        .limit(100);
+      if (error) { console.error(error); return; }
+      renderTopics(topics || []);
+    }
+
+    function renderTopics(topics) {
+      const el = document.getElementById('topicList');
+      el.innerHTML = '';
+      const newBtn = document.createElement('button');
+      newBtn.className = 'new-topic-toggle-btn';
+      newBtn.textContent = LANG === 'es' ? '+ Nuevo tema' : '+ New topic';
+      newBtn.onclick = toggleNewTopicForm;
+      el.appendChild(newBtn);
+      if (!topics.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-msg';
+        empty.textContent = LANG === 'es' ? 'Aún no hay temas. Crea el primero.' : 'No topics yet. Create the first one.';
+        el.appendChild(empty);
+      }
+      topics.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'topic-card';
+        const author = t.profiles ? t.profiles.username : '?';
+        const time = new Date(t.last_activity_at).toLocaleString(LANG === 'es' ? 'es-ES' : 'en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const title = document.createElement('div'); title.className = 'topic-title'; title.textContent = t.title;
+        const meta = document.createElement('div'); meta.className = 'topic-meta'; meta.textContent = author + ' · ' + time;
+        card.appendChild(title); card.appendChild(meta);
+        card.onclick = () => openTopic(t.id, t.title);
+        el.appendChild(card);
+      });
+    }
+
+    function toggleNewTopicForm() {
+      const f = document.getElementById('newTopicForm');
+      f.style.display = (f.style.display === 'none' || !f.style.display) ? 'flex' : 'none';
+    }
+
+    async function createTopic() {
+      const titleInput = document.getElementById('newTopicTitle');
+      const msgInput = document.getElementById('newTopicMsg');
+      const title = titleInput.value.trim();
+      const msg = msgInput.value.trim();
+      if (!title || !msg || !currentRoomId) return;
+      const btn = document.getElementById('newTopicSendBtn');
+      btn.disabled = true;
+      const { data: topic, error } = await sb.from('topics').insert({ room_id: currentRoomId, title, author_id: profile.id }).select().single();
+      if (error) { alert(error.message); btn.disabled = false; return; }
+      const { error: msgError } = await sb.from('messages').insert({ room_id: currentRoomId, topic_id: topic.id, author_id: profile.id, content: msg });
+      btn.disabled = false;
+      if (msgError) { alert(msgError.message); return; }
+      titleInput.value = ''; msgInput.value = '';
+      document.getElementById('newTopicForm').style.display = 'none';
+      await openTopic(topic.id, topic.title);
+    }
+
+    async function openTopic(id, title) {
+      currentTopicId = id;
+      if (pollTimer) clearInterval(pollTimer);
+      showTopicView(title);
+      await loadMessages();
       pollTimer = setInterval(loadMessages, 10000);
+    }
+
+    function backToTopics() {
+      currentTopicId = null;
+      if (pollTimer) clearInterval(pollTimer);
+      showTopicsView();
+      loadTopics();
+      pollTimer = setInterval(loadTopics, 10000);
     }
 
     async function loadMessages() {
       if (!currentRoomId) return;
-      const { data: messages, error } = await sb
+      if (currentRoom && currentRoom.use_topics && !currentTopicId) return;
+      let q = sb
         .from('messages')
         .select('id, content, created_at, author_id, profiles(username)')
-        .eq('room_id', currentRoomId)
-        .order('created_at', { ascending: true })
-        .limit(200);
+        .eq('room_id', currentRoomId);
+      if (currentTopicId) q = q.eq('topic_id', currentTopicId);
+      const { data: messages, error } = await q.order('created_at', { ascending: true }).limit(200);
       if (error) { console.error(error); return; }
       renderMessages(messages || []);
     }
@@ -272,9 +417,12 @@
       const ta = document.getElementById('composeInput');
       const text = ta.value.trim();
       if (!text || !currentRoomId) return;
+      if (currentRoom && currentRoom.use_topics && !currentTopicId) return;
       const btn = document.getElementById('sendBtn');
       ta.disabled = true; btn.disabled = true;
-      const { error } = await sb.from('messages').insert({ room_id: currentRoomId, author_id: profile.id, content: text });
+      const payload = { room_id: currentRoomId, author_id: profile.id, content: text };
+      if (currentTopicId) payload.topic_id = currentTopicId;
+      const { error } = await sb.from('messages').insert(payload);
       ta.disabled = false; btn.disabled = false;
       if (error) { alert(error.message); return; }
       ta.value = '';
@@ -295,6 +443,8 @@
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
     document.getElementById('sendBtn').addEventListener('click', sendMessage);
+    document.getElementById('topicBackBtn').addEventListener('click', backToTopics);
+    document.getElementById('newTopicSendBtn').addEventListener('click', createTopic);
 
     // ── NAV TOGGLE ──
     function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
@@ -322,7 +472,13 @@
       document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
       localStorage.setItem('aoo-lang', lang);
       if (roomsCache.length) renderRoomList();
-      if (currentRoomId) loadMessages();
+      if (currentRoomId) {
+        if (currentRoom && currentRoom.use_topics) {
+          if (currentTopicId) loadMessages(); else loadTopics();
+        } else {
+          loadMessages();
+        }
+      }
     }
     function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
     applyLang(LANG);
