@@ -91,6 +91,9 @@
     .antique-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.9rem; }
     .antique-card { background: var(--forest-lt); border-radius: 12px; padding: 1rem 1.1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
     .antique-card.pending { border: 1px dashed rgba(179,18,23,0.5); }
+    .antique-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+    .antique-img { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; background: rgba(0,0,0,0.18); flex-shrink: 0; }
+    .antique-head-text { flex: 1; min-width: 0; }
     .antique-name { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.3rem; }
     .antique-set-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); background: rgba(212,175,55,0.12); border-radius: 6px; padding: 0.15rem 0.5rem; margin-bottom: 0.5rem; }
     .antique-bonus { font-size: 0.82rem; color: var(--bark); line-height: 1.45; margin-bottom: 0.4rem; }
@@ -325,9 +328,16 @@
         const bonus = lang === 'es' ? a.bes : a.ben;
         const valClass = a.p ? 'antique-value pending-val' : 'antique-value';
         const val = a.p ? (lang === 'es' ? 'Pendiente de verificación' : 'Pending verification') : a.v;
+        const slug = a.n.toLowerCase().replace(/:/g, '').replace(/'/g, '_').replace(/\s+/g, '_');
+        const imgSrc = 'antiques/antique_' + slug + '.webp';
         return '<div class="antique-card' + (a.p ? ' pending' : '') + '">' +
-          '<div class="antique-name">' + a.n + '</div>' +
-          '<div class="antique-set-badge">' + a.s + '</div>' +
+          '<div class="antique-head">' +
+            '<img class="antique-img" src="' + imgSrc + '" alt="' + a.n + '" loading="lazy" onerror="this.style.display=\'none\'">' +
+            '<div class="antique-head-text">' +
+              '<div class="antique-name">' + a.n + '</div>' +
+              '<div class="antique-set-badge">' + a.s + '</div>' +
+            '</div>' +
+          '</div>' +
           '<div class="antique-bonus">' + bonus + '</div>' +
           '<div class="' + valClass + '">' + val + '</div>' +
         '</div>';
