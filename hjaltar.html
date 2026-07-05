@@ -157,6 +157,30 @@
       color: rgba(232,230,225,0.5);
       font-size: 0.88rem;
     }
+
+    /* ── OFFICER GLOSSARY ── */
+    .glossary-row { display: flex; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid rgba(212,175,55,0.12); }
+    .glossary-row:last-child { border-bottom: none; }
+    .glossary-term { flex: 0 0 130px; font-family: 'Cinzel', serif; font-size: 0.88rem; color: var(--gold); }
+    .glossary-desc { flex: 1; font-size: 0.88rem; line-height: 1.55; color: rgba(232,230,225,0.78); }
+    @media (max-width: 600px) {
+      .glossary-row { flex-direction: column; gap: 0.2rem; }
+      .glossary-term { flex: none; }
+    }
+
+    /* ── OFFICER EXAMPLE CARD ── */
+    .officer-card { background: var(--forest-lt); border-radius: 14px; padding: 1.3rem 1.4rem; margin-top: 1.2rem; }
+    .officer-head { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .officer-img { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; flex-shrink: 0; background: #1C1C1E; }
+    .officer-name { font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--cream); }
+    .officer-title { font-size: 0.8rem; color: var(--gold); margin-top: 0.15rem; }
+    .officer-meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.78rem; color: rgba(232,230,225,0.6); margin-top: 0.4rem; }
+    .officer-meta strong { color: var(--cream); font-weight: 500; }
+    .officer-section-label { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); background: rgba(212,175,55,0.1); border-radius: 6px; padding: 0.15rem 0.5rem; display: inline-block; margin: 0.9rem 0 0.5rem; }
+    .officer-skill { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 0.5rem; }
+    .officer-skill-name { font-size: 0.85rem; color: var(--cream); margin-bottom: 0.2rem; }
+    .officer-skill-desc { font-size: 0.8rem; color: rgba(232,230,225,0.72); line-height: 1.45; }
+    .officer-note { font-size: 0.82rem; color: rgba(232,230,225,0.6); line-height: 1.55; margin-top: 1rem; font-style: italic; }
     .breadcrumb {
       max-width: 760px; margin: 1.5rem auto 0;
       padding: 0 1.5rem;
@@ -214,6 +238,102 @@
   <p class="breadcrumb"><a href="combat.html" data-en="← Back to Combat" data-es="← Volver a Combate">← Back to Combat</a></p>
 
   <main class="content">
+    <section class="section">
+      <h2 data-en="How officer power works" data-es="Cómo funciona el poder de los oficiales">How officer power works</h2>
+      <p data-en="One explanation for every officer on this page — read it once here, not again on each one."
+         data-es="Una sola explicación para todos los oficiales de esta página — léela aquí una vez, no en cada uno.">
+        One explanation for every officer on this page — read it once here, not again on each one.
+      </p>
+
+      <div class="glossary-row">
+        <div class="glossary-term">Level</div>
+        <div class="glossary-desc" data-en="Raised with EXP items. Bumps her base Attack/HP a little, and feeds into Mastery." data-es="Se sube con objetos de EXP. Aumenta un poco su Ataque/PV base, y alimenta la Maestría.">Raised with EXP items. Bumps her base Attack/HP a little, and feeds into Mastery.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Stars</div>
+        <div class="glossary-desc" data-en="Raised with officer-specific shards. Each star unlocks a new skill slot and boosts Mastery a lot. The 6th, differently-coloured star opens the Breakthrough skill." data-es="Se suben con fragmentos específicos del oficial. Cada estrella desbloquea una nueva ranura de habilidad y aumenta mucho la Maestría. La 6ª estrella, de otro color, abre la habilidad de Avance (Breakthrough).">Raised with officer-specific shards. Each star unlocks a new skill slot and boosts Mastery a lot. The 6th, differently-coloured star opens the Breakthrough skill.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Mastery</div>
+        <div class="glossary-desc" data-en="Not something you grind directly — it's a combined score from Level + Stars. The higher it is, the stronger every one of her skills gets." data-es="No es algo que se sube directamente — es una puntuación combinada de Nivel + Estrellas. Cuanto más alta, más fuerte se vuelve cada una de sus habilidades.">Not something you grind directly — it's a combined score from Level + Stars. The higher it is, the stronger every one of her skills gets.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Base skill</div>
+        <div class="glossary-desc" data-en="Her signature, fixed ability. It's never upgraded with skill books — it only grows stronger through Mastery." data-es="Su habilidad fija y característica. Nunca se mejora con libros de habilidad — solo se vuelve más fuerte a través de la Maestría.">Her signature, fixed ability. It's never upgraded with skill books — it only grows stronger through Mastery.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Skill slots</div>
+        <div class="glossary-desc" data-en="3-4 generic abilities any officer can carry. Levelled with Skill Books, and can be swapped out ('Forget') for a different one. More slots unlock as she gains stars. These are a choice — the ones shown below are just what one player picked." data-es="3-4 habilidades genéricas que cualquier oficial puede llevar. Se suben con Libros de Habilidad, y se pueden cambiar ('Forget' / Olvidar) por otra distinta. Se desbloquean más ranuras al ganar estrellas. Son una elección — las que se muestran abajo son solo lo que un jugador eligió.">3-4 generic abilities any officer can carry. Levelled with Skill Books, and can be swapped out ('Forget') for a different one. More slots unlock as she gains stars. These are a choice — the ones shown below are just what one player picked.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Breakthrough skill</div>
+        <div class="glossary-desc" data-en="Her strongest, most unique ability. Upgraded with Fragments (hers plus a generic type), not skill books." data-es="Su habilidad más fuerte y única. Se mejora con Fragmentos (los suyos más un tipo genérico), no con libros de habilidad.">Her strongest, most unique ability. Upgraded with Fragments (hers plus a generic type), not skill books.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Skin</div>
+        <div class="glossary-desc" data-en="A cosmetic upgrade — new look and title — that also carries its own small skill bonus." data-es="Una mejora cosmética — nuevo aspecto y título — que también lleva su propia pequeña bonificación de habilidad.">A cosmetic upgrade — new look and title — that also carries its own small skill bonus.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Equipment</div>
+        <div class="glossary-desc" data-en="Two separate gear slots (weapon + gear), each with its own enhancement level. A system of its own, on top of everything above." data-es="Dos ranuras de equipo separadas (arma + equipo), cada una con su propio nivel de mejora. Un sistema aparte, encima de todo lo anterior.">Two separate gear slots (weapon + gear), each with its own enhancement level. A system of its own, on top of everything above.</div>
+      </div>
+      <div class="glossary-row">
+        <div class="glossary-term">Power</div>
+        <div class="glossary-desc" data-en="The single combined score that adds up everything above." data-es="La puntuación única combinada que suma todo lo anterior.">The single combined score that adds up everything above.</div>
+      </div>
+
+      <p style="font-size:0.9rem; margin-top:1.3rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Worked example: Tifa" data-es="Ejemplo trabajado: Tifa"><strong>Worked example: Tifa</strong></p>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_tifa.webp" alt="Tifa" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Tifa</div>
+            <div class="officer-title" data-en="Skin equipped: Blackwing Phantom" data-es="Skin equipada: Blackwing Phantom">Skin equipped: Blackwing Phantom</div>
+            <div class="officer-meta">
+              <span>Lv.41</span>
+              <span>6★</span>
+              <span>Mastery <strong>852</strong></span>
+              <span>Power <strong>679,677</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Advanced Kill</div>
+          <div class="officer-skill-desc" data-en="All Troops Attack +34.08%. Grows only with Mastery (+4% per 100)." data-es="Ataque de todas las tropas +34.08%. Solo crece con la Maestría (+4% por cada 100).">All Troops Attack +34.08%. Grows only with Mastery (+4% per 100).</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Skill slots — this player's picks (Mid-Range Attack build)" data-es="Ranuras de habilidad — elecciones de este jugador (build de Ataque a Media Distancia)">Skill slots — this player's picks (Mid-Range Attack build)</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Attack — Lv.16</div>
+          <div class="officer-skill-desc" data-en="Mid-Range Troops Attack +35.784%." data-es="Ataque de tropas a Media Distancia +35.784%.">Mid-Range Troops Attack +35.784%.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Expert — Lv.12</div>
+          <div class="officer-skill-desc" data-en="Mid-Range Troops Attack and HP +14.484%." data-es="Ataque y PV de tropas a Media Distancia +14.484%.">Mid-Range Troops Attack and HP +14.484%.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range HP — Lv.7</div>
+          <div class="officer-skill-desc" data-en="Mid-Range Troops HP +23.004%." data-es="PV de tropas a Media Distancia +23.004%.">Mid-Range Troops HP +23.004%.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Breakthrough skill" data-es="Habilidad de Avance">Breakthrough skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Air Support — Lv.8</div>
+          <div class="officer-skill-desc" data-en="Summons the Air Force to attack 6 enemy targets when attacking Commanders. Damage = surviving troops × 16. Cooldown 12 sec." data-es="Invoca a la Fuerza Aérea para atacar a 6 objetivos enemigos al atacar Comandantes. Daño = tropas supervivientes × 16. Reutilización 12 seg.">Summons the Air Force to attack 6 enemy targets when attacking Commanders. Damage = surviving troops × 16. Cooldown 12 sec.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Equipment" data-es="Equipo">Equipment</div>
+        <div class="officer-skill">
+          <div class="officer-skill-desc" data-en="Weapon +12, Gear +20 — a separate enhancement system, upgraded on its own." data-es="Arma +12, Equipo +20 — un sistema de mejora aparte, que se sube por separado.">Weapon +12, Gear +20 — a separate enhancement system, upgraded on its own.</div>
+        </div>
+
+        <p class="officer-note" data-en="This is one Mid-Range Attack build. A Long-Range or Zombie-focused player could put completely different skills in Tifa's three open slots — the base skill and Breakthrough skill stay the same either way, but the middle section is always a choice." data-es="Esta es una build de Ataque a Media Distancia. Un jugador enfocado en Larga Distancia o Zombis podría poner habilidades totalmente distintas en las tres ranuras abiertas de Tifa — la habilidad base y la de Avance siguen siendo las mismas, pero la sección del medio siempre es una elección.">This is one Mid-Range Attack build. A Long-Range or Zombie-focused player could put completely different skills in Tifa's three open slots — the base skill and Breakthrough skill stay the same either way, but the middle section is always a choice.</p>
+      </div>
+    </section>
+
     <section class="section">
       <h2 data-en="Early game priorities" data-es="Prioridades del juego temprano">Early game priorities</h2>
       <p data-en="The heroes worth leveling first — the ones whose skills carry you through the first weeks."
