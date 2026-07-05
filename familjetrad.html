@@ -67,6 +67,35 @@
 
     /* ── FOOTER ── */
     footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
+
+    /* ── ANTIQUES SECTION ── */
+    .section { margin-bottom: 2rem; }
+    .section-head h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); font-weight: 400; letter-spacing: 0.03em; margin-bottom: 0.6rem; }
+    .section-intro { font-size: 0.92rem; line-height: 1.6; color: var(--bark); max-width: 640px; margin-bottom: 1.6rem; }
+
+    .set-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .set-card { background: var(--forest-lt); border-radius: 12px; padding: 1.2rem; box-shadow: 0 2px 14px rgba(0,0,0,0.25); transition: transform 0.2s; }
+    .set-card:hover { transform: translateY(-2px); }
+    .set-icon { font-size: 1.4rem; color: var(--gold); margin-bottom: 0.5rem; }
+    .set-card h3 { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--cream); margin-bottom: 0.4rem; letter-spacing: 0.02em; }
+    .set-card p { font-size: 0.82rem; line-height: 1.5; color: var(--bark); }
+
+    .callout { display: flex; align-items: flex-start; gap: 0.7rem; background: rgba(179,18,23,0.12); border: 1px solid rgba(179,18,23,0.35); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.8rem; font-size: 0.85rem; line-height: 1.55; color: var(--cream); }
+    .callout i { color: var(--red); font-size: 1.1rem; margin-top: 0.15rem; flex-shrink: 0; }
+
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .filter-btn { background: none; border: 1px solid rgba(212,175,55,0.4); color: var(--bark); font-family: 'Jost', sans-serif; font-size: 0.78rem; letter-spacing: 0.04em; padding: 0.4rem 0.9rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; }
+    .filter-btn:hover { border-color: var(--gold); color: var(--cream); }
+    .filter-btn.active { background: var(--gold); color: var(--forest-dk); border-color: var(--gold); font-weight: 600; }
+
+    .antique-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.9rem; }
+    .antique-card { background: var(--forest-lt); border-radius: 12px; padding: 1rem 1.1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .antique-card.pending { border: 1px dashed rgba(179,18,23,0.5); }
+    .antique-name { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.3rem; }
+    .antique-set-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); background: rgba(212,175,55,0.12); border-radius: 6px; padding: 0.15rem 0.5rem; margin-bottom: 0.5rem; }
+    .antique-bonus { font-size: 0.82rem; color: var(--bark); line-height: 1.45; margin-bottom: 0.4rem; }
+    .antique-value { font-size: 0.85rem; color: var(--gold); font-weight: 600; }
+    .antique-value.pending-val { color: rgba(179,18,23,0.85); font-style: italic; font-weight: 400; font-size: 0.78rem; }
   </style>
 </head>
 <body>
@@ -111,10 +140,62 @@
 
   <!-- MAIN -->
   <main class="main">
-    <div class="empty-state">
-      <div class="icon"><i class="fa-solid fa-hammer"></i></div>
-      <p data-en="Coming soon — this page is being built." data-es="Próximamente — esta página está en construcción.">Coming soon — this page is being built.</p>
-    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 data-en="Antiques" data-es="Antigüedades">Antiques</h2>
+        <p class="section-intro"
+           data-en="Antiques are permanent city-progression items. Each belongs to one of 6 sets — collecting a full set unlocks a bonus set-effect on top of the item's own stat boost. 52 antiques tracked below; 4 are still pending a second source before we publish exact numbers."
+           data-es="Las antigüedades son objetos permanentes de progresión de ciudad. Cada una pertenece a uno de 6 sets — completar un set desbloquea un efecto de set además del bono propio del objeto. 52 antigüedades registradas abajo; 4 aún esperan una segunda fuente antes de publicar cifras exactas.">
+          Antiques are permanent city-progression items. Each belongs to one of 6 sets — collecting a full set unlocks a bonus set-effect on top of the item's own stat boost. 52 antiques tracked below; 4 are still pending a second source before we publish exact numbers.
+        </p>
+      </div>
+
+      <div class="set-grid">
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Biochemical Charge</h3>
+        <p data-en="Increases Biochemical troops' Attack/HP/Defense by up to 4% (scales with upgrade level). +20% cross-nation." data-es="Aumenta el Ataque/PV/Defensa de las tropas Bioquímicas hasta un 4% (escala con el nivel). +20% entre naciones.">Increases Biochemical troops' Attack/HP/Defense by up to 4% (scales with upgrade level). +20% cross-nation.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-gun"></i></div>
+        <h3>Giant Weapons</h3>
+        <p data-en="First 20 seconds of battle: increases Source Spirit, Empress and Warplane Attack by up to 2%." data-es="Primeros 20 segundos de batalla: aumenta el Ataque de Source Spirit, Empress y Avión hasta un 2%.">First 20 seconds of battle: increases Source Spirit, Empress and Warplane Attack by up to 2%.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-hand-fist"></i></div>
+        <h3>Strong Will</h3>
+        <p data-en="Reduces damage taken by Melee troops by up to 0.8% and reduces enemy Long/Mid-Range Attack by up to 2.6%." data-es="Reduce el daño recibido por tropas Cuerpo a cuerpo hasta un 0.8% y reduce el Ataque enemigo Larga/Media distancia hasta un 2.6%.">Reduces damage taken by Melee troops by up to 0.8% and reduces enemy Long/Mid-Range Attack by up to 2.6%.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-tower-observation"></i></div>
+        <h3>Rocket Turret</h3>
+        <p data-en="Summons a Rocket Turret in Commander battles — attacks the largest enemy troop group every 2 seconds." data-es="Invoca una Torreta de Cohetes en batallas con Comandantes — ataca al grupo enemigo más numeroso cada 2 segundos.">Summons a Rocket Turret in Commander battles — attacks the largest enemy troop group every 2 seconds.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-virus"></i></div>
+        <h3>Nano Swarm</h3>
+        <p data-en="Increases all troops' HP/Defense by up to 1.5%. In Commander battles, deals extra random damage to enemy troops." data-es="Aumenta el PV/Defensa de todas las tropas hasta un 1.5%. En batallas con Comandantes, inflige daño extra aleatorio a las tropas enemigas.">Increases all troops' HP/Defense by up to 1.5%. In Commander battles, deals extra random damage to enemy troops.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-gem"></i></div>
+        <h3>Brilliant Things</h3>
+        <p data-en="Increases all troops' Attack/HP/Defense by up to 1.2%." data-es="Aumenta el Ataque/PV/Defensa de todas las tropas hasta un 1.2%.">Increases all troops' Attack/HP/Defense by up to 1.2%.</p>
+      </div>
+      </div>
+
+      <div class="callout">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span data-en="Titan Energy Cannon, Empress Exoskeleton, Warp Drive and Magnetic Pulse Core (the Giant Weapons set) show conflicting numbers between our sources — exact values are withheld until a second confirmation comes in. Everything else below is cross-checked."
+              data-es="Titan Energy Cannon, Empress Exoskeleton, Warp Drive y Magnetic Pulse Core (el set Giant Weapons) muestran cifras contradictorias entre nuestras fuentes — los valores exactos se retienen hasta una segunda confirmación. Todo lo demás abajo está verificado.">
+          Titan Energy Cannon, Empress Exoskeleton, Warp Drive and Magnetic Pulse Core (the Giant Weapons set) show conflicting numbers between our sources — exact values are withheld until a second confirmation comes in. Everything else below is cross-checked.
+        </span>
+      </div>
+
+      <div class="filter-bar" id="antiqueFilters"></div>
+      <div class="antique-grid" id="antiqueGrid"></div>
+    </section>
+
   </main>
 
   <footer>
@@ -184,6 +265,93 @@
         }).catch(function(){});
       }, 300000);
     })();
+  </script>
+  <script>
+  const ANTIQUES = [
+  {n:'Diamond Phone',s:'Brilliant Things',ben:'Melee HP & Defense',bes:'PV y Defensa Cuerpo a cuerpo',v:'+2.4%',p:false},
+  {n:'Ark Map',s:'Biochemical Charge',ben:'Mid-Range HP & Defense',bes:'PV y Defensa Media distancia',v:'+2.4%',p:false},
+  {n:'Black Gold Member\'s Card',s:'Biochemical Charge',ben:'Long-Range HP & Defense',bes:'PV y Defensa Larga distancia',v:'+2.4%',p:false},
+  {n:'Toxic Bone Spur',s:'Brilliant Things',ben:'Melee Attack',bes:'Ataque Cuerpo a cuerpo',v:'+2.4%',p:false},
+  {n:'Red Coral',s:'Brilliant Things',ben:'Mid-Range Attack',bes:'Ataque Media distancia',v:'+2.4%',p:false},
+  {n:'Totem Wood Sculpture',s:'Brilliant Things',ben:'Long-Range Attack',bes:'Ataque Larga distancia',v:'+2.4%',p:false},
+  {n:'Brass Compass',s:'Biochemical Charge',ben:'Zombies Attack',bes:'Ataque Zombis',v:'+2.4%',p:false},
+  {n:'Viking Helmet',s:'Brilliant Things',ben:'Zombies Attack & Defense',bes:'Ataque y Defensa Zombis',v:'+2.4%',p:false},
+  {n:'Treasured Violin',s:'Brilliant Things',ben:'Zombies Attack',bes:'Ataque Zombis',v:'+2.4%',p:false},
+  {n:'Data Hard Drive',s:'Biochemical Charge',ben:'Zombies HP & Defense',bes:'PV y Defensa Zombis',v:'+2.4%',p:false},
+  {n:'Golden Rabbit Doll',s:'Brilliant Things',ben:'Wounded Units Bonus Limit',bes:'Límite de bonus de heridos',v:'+1,440',p:false},
+  {n:'Olympic Laurel',s:'Brilliant Things',ben:'Monster Attack Speed',bes:'Velocidad de ataque a monstruos',v:'+2.4%',p:false},
+  {n:'Fine Porcelain',s:'Brilliant Things',ben:'Food Gather Bonus',bes:'Bono de recolección de comida',v:'+2.4%',p:false},
+  {n:'Crystal Skull',s:'Biochemical Charge',ben:'Oil Gather Bonus',bes:'Bono de recolección de petróleo',v:'+2.4%',p:false},
+  {n:'Autographed Football',s:'Biochemical Charge',ben:'Steel Gather Bonus',bes:'Bono de recolección de acero',v:'+2.4%',p:false},
+  {n:'Hound Statue',s:'Brilliant Things',ben:'Mineral Gather Bonus',bes:'Bono de recolección de minerales',v:'+2.4%',p:false},
+  {n:'Venus Statue',s:'Biochemical Charge',ben:'Empress Attack/HP Boost + Long-Range Attack',bes:'Impulso Attack/PV Empress + Ataque Larga distancia',v:'35,000 / 490,000 / +0.6%',p:false},
+  {n:'Dinosaur Egg Fossil',s:'Brilliant Things',ben:'Source Spirit Attack/HP Boost + Melee HP/Defense',bes:'Impulso Attack/PV Source Spirit + PV/Defensa Cuerpo a cuerpo',v:'35,000 / 490,000 / +0.6%',p:false},
+  {n:'Goddess Torch',s:'Brilliant Things',ben:'Empress Attack/HP Boost + Mid-Range Attack',bes:'Impulso Attack/PV Empress + Ataque Media distancia',v:'35,000 / 490,000 / +0.6%',p:false},
+  {n:'Ocean Teardrop',s:'Brilliant Things',ben:'All HP/Defense types + Attack vs Melee',bes:'Todos los tipos de PV/Defensa + Ataque vs Cuerpo a cuerpo',v:'+1.8% / +0.6%',p:false},
+  {n:'Hope Emblem',s:'Brilliant Things',ben:'All HP/Defense types + Attack vs Mid-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Media distancia',v:'+1.8% / +0.6%',p:false},
+  {n:'Crown',s:'Brilliant Things',ben:'All HP/Defense types + Attack vs Long-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Larga distancia',v:'+1.8% / +0.6%',p:false},
+  {n:'Basalt Tablet',s:'Brilliant Things',ben:'All Attack types + enemy Long-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Larga distancia',v:'+1.8% / -0.6%',p:false},
+  {n:'Gem Egg',s:'Brilliant Things',ben:'All Attack types + enemy Mid-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Media distancia',v:'+1.8% / -0.6%',p:false},
+  {n:'Scarab Amulet',s:'Biochemical Charge',ben:'Zombies Attack + enemy Zombies Attack reduction',bes:'Ataque Zombis + reducción de Ataque enemigo Zombis',v:'+4.2% / -0.6%',p:false},
+  {n:'Gold Mask',s:'Brilliant Things',ben:'All Attack types + enemy Melee Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Cuerpo a cuerpo',v:'+1.8% / -0.6%',p:false},
+  {n:'Zombie Heart',s:'Biochemical Charge',ben:'Source Spirit Attack/HP Boost + enemy Melee Defense reduction',bes:'Impulso Attack/PV Source Spirit + reducción Defensa enemiga Cuerpo a cuerpo',v:'35,000 / 490,000 / -0.6%',p:false},
+  {n:'Bronze Vase',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + enemy Melee Defense reduction',bes:'Impulso Attack/PV Avión + reducción Defensa enemiga Cuerpo a cuerpo',v:'25,200 / 156,240 / -0.6%',p:false},
+  {n:'Imperial Seal',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + Mid-Range Attack',bes:'Impulso Attack/PV Avión + Ataque Media distancia',v:'25,200 / 156,240 / +0.6%',p:false},
+  {n:'Gold Candleholder',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + Melee HP/Defense',bes:'Impulso Attack/PV Avión + PV/Defensa Cuerpo a cuerpo',v:'25,200 / 156,240 / +0.6%',p:false},
+  {n:'Warning Bell',s:'Biochemical Charge',ben:'Zombies HP/Defense + Attack vs Zombies',bes:'PV/Defensa Zombis + Ataque vs Zombis',v:'+4.2% / +0.6%',p:false},
+  {n:'Mystery Grail',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + Long-Range Attack',bes:'Impulso Attack/PV Avión + Ataque Larga distancia',v:'25,200 / 156,240 / +0.6%',p:false},
+  {n:'Heavy Sword',s:'Biochemical Charge',ben:'Zombies Attack + enemy Zombies Attack reduction',bes:'Ataque Zombis + reducción de Ataque enemigo Zombis',v:'+10.5% / -1.5%',p:false},
+  {n:'Bone Axe',s:'No set',ben:'All HP/Defense types + several enemy Defense reductions',bes:'Todos los tipos de PV/Defensa + varias reducciones de Defensa enemiga',v:'+4.5% / -0.7%',p:false},
+  {n:'Scarlet Mantis Knife',s:'Giant Weapons',ben:'Damage vs Melee + several enemy Attack reductions',bes:'Daño vs Cuerpo a cuerpo + varias reducciones de Ataque enemigo',v:'+3.2% / -0.7%',p:false},
+  {n:'Gold: Tank',s:'Rocket Turret',ben:'Damage reduction vs Melee + Attack vs Melee',bes:'Reducción de daño vs Cuerpo a cuerpo + Ataque vs Cuerpo a cuerpo',v:'-3.2% / +1.5%',p:false},
+  {n:'Gold: Shredder',s:'Rocket Turret',ben:'All HP/Defense types + Attack vs Mid-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Media distancia',v:'+4.5% / +1.5%',p:false},
+  {n:'Gold: Cannon',s:'Rocket Turret',ben:'Damage reduction vs Long-Range + enemy Mid-Range Attack reduction',bes:'Reducción de daño vs Larga distancia + reducción de Ataque enemigo Media distancia',v:'-3.2% / -1.5%',p:false},
+  {n:'Gold: Raider',s:'Rocket Turret',ben:'All Attack types + enemy Long-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Larga distancia',v:'+4.5% / -1.5%',p:false},
+  {n:'Gold: Infantry',s:'Strong Will',ben:'All HP/Defense types + Attack vs Melee',bes:'Todos los tipos de PV/Defensa + Ataque vs Cuerpo a cuerpo',v:'+4.5% / +1.5%',p:false},
+  {n:'Gold: Rocket',s:'Strong Will',ben:'All Attack types + enemy Long-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Larga distancia',v:'+4.5% / -1.5%',p:false},
+  {n:'Gold: Sniper',s:'Strong Will',ben:'All HP/Defense types + enemy Melee Attack reduction',bes:'Todos los tipos de PV/Defensa + reducción de Ataque enemigo Cuerpo a cuerpo',v:'+4.5% / -1.5%',p:false},
+  {n:'Gold: Gunner',s:'Strong Will',ben:'All Attack types + Attack vs Mid-Range',bes:'Todos los tipos de Ataque + Ataque vs Media distancia',v:'+4.5% / +1.5%',p:false},
+  {n:'Gold: Armored Soldier',s:'Nano Swarm',ben:'All HP/Defense types + enemy Melee Attack reduction',bes:'Todos los tipos de PV/Defensa + reducción de Ataque enemigo Cuerpo a cuerpo',v:'+5.3% / -1.5%',p:false},
+  {n:'Gold: EMP Cannon',s:'Nano Swarm',ben:'All Attack types + Attack vs Long-Range',bes:'Todos los tipos de Ataque + Ataque vs Larga distancia',v:'+5.3% / +1.5%',p:false},
+  {n:'Gold: Storm Trooper',s:'Nano Swarm',ben:'Damage reduction vs Mid-Range + enemy Mid-Range Attack reduction',bes:'Reducción de daño vs Media distancia + reducción de Ataque enemigo Media distancia',v:'-3.2% / -1.5%',p:false},
+  {n:'Gold: Shielder',s:'Nano Swarm',ben:'All HP/Defense types + Attack vs Long-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Larga distancia',v:'+5.3% / +1.5%',p:false},
+  {n:'Gold: Biochemical Troop',s:'Biochemical Charge',ben:'Zombies HP/Defense + Attack vs Zombies',bes:'PV/Defensa Zombis + Ataque vs Zombis',v:'+10.5% / +1.5%',p:false},
+  {n:'Titan Energy Cannon',s:'Giant Weapons',ben:'Source Spirit Attack/HP Boost + several enemy Defense reductions',bes:'Impulso Attack/PV Source Spirit + varias reducciones de Defensa enemiga',v:'Pending verification',p:true},
+  {n:'Empress Exoskeleton',s:'Giant Weapons',ben:'Empress Attack/HP Boost + several enemy Attack reductions',bes:'Impulso Attack/PV Empress + varias reducciones de Ataque enemigo',v:'Pending verification',p:true},
+  {n:'Warp Drive',s:'Giant Weapons',ben:'Warplane Attack/HP Boost + several enemy Attack reductions',bes:'Impulso Attack/PV Avión + varias reducciones de Ataque enemigo',v:'Pending verification',p:true},
+  {n:'Magnetic Pulse Core',s:'Giant Weapons',ben:'Damage vs Melee + several enemy Defense reductions',bes:'Daño vs Cuerpo a cuerpo + varias reducciones de Defensa enemiga',v:'Pending verification',p:true}
+];
+  (function() {
+    const grid = document.getElementById('antiqueGrid');
+    const filters = document.getElementById('antiqueFilters');
+    if (!grid || !filters) return;
+    const sets = ['All', ...Array.from(new Set(ANTIQUES.map(a => a.s)))];
+    let active = 'All';
+    function render() {
+      const lang = localStorage.getItem('aoo-lang') || 'en';
+      grid.innerHTML = ANTIQUES.filter(a => active === 'All' || a.s === active).map(a => {
+        const bonus = lang === 'es' ? a.bes : a.ben;
+        const valClass = a.p ? 'antique-value pending-val' : 'antique-value';
+        const val = a.p ? (lang === 'es' ? 'Pendiente de verificación' : 'Pending verification') : a.v;
+        return '<div class="antique-card' + (a.p ? ' pending' : '') + '">' +
+          '<div class="antique-name">' + a.n + '</div>' +
+          '<div class="antique-set-badge">' + a.s + '</div>' +
+          '<div class="antique-bonus">' + bonus + '</div>' +
+          '<div class="' + valClass + '">' + val + '</div>' +
+        '</div>';
+      }).join('');
+    }
+    filters.innerHTML = sets.map(s => '<button class="filter-btn' + (s === 'All' ? ' active' : '') + '" data-set="' + s + '">' + s + '</button>').join('');
+    filters.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        active = btn.dataset.set;
+        filters.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+        render();
+      });
+    });
+    render();
+    document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.addEventListener('click', () => setTimeout(render, 30)));
+  })();
   </script>
   <style>
   .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
