@@ -168,6 +168,14 @@
       .glossary-term { flex: none; }
     }
 
+    /* ── OFFICER ANATOMY TIER TOGGLE ── */
+    .tier-toggle { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .tier-btn { background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.3); color: rgba(232,230,225,0.75); font-family: 'Jost', sans-serif; font-size: 0.78rem; letter-spacing: 0.04em; padding: 0.45rem 0.9rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .tier-btn:hover { border-color: rgba(212,175,55,0.55); color: var(--cream); }
+    .tier-btn.active { background: rgba(212,175,55,0.18); border-color: var(--gold); color: var(--gold); }
+    .anatomy-img { display: block; width: 100%; max-width: 420px; margin: 0 auto 1rem; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.3); }
+    .anatomy-img-caption { text-align: center; font-size: 0.75rem; color: rgba(232,230,225,0.5); margin: -0.6rem 0 1.2rem; }
+
     /* ── OFFICER EXAMPLE CARD ── */
     .officer-card { background: var(--forest-lt); border-radius: 14px; padding: 1.3rem 1.4rem; margin-top: 1.2rem; }
     .officer-head { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
@@ -239,50 +247,87 @@
 
   <main class="content">
     <section class="section">
-      <h2 data-en="How officer power works" data-es="Cómo funciona el poder de los oficiales">How officer power works</h2>
-      <p data-en="One explanation for every officer on this page — read it once here, not again on each one."
-         data-es="Una sola explicación para todos los oficiales de esta página — léela aquí una vez, no en cada uno.">
-        One explanation for every officer on this page — read it once here, not again on each one.
+      <h2 data-en="Officer anatomy" data-es="Anatomía de un oficial">Officer anatomy</h2>
+      <p data-en="One explanation for every officer on this page — read it once here, not again on each one. Pick your level of detail below."
+         data-es="Una sola explicación para todos los oficiales de esta página — léela aquí una vez, no en cada uno. Elige tu nivel de detalle abajo.">
+        One explanation for every officer on this page — read it once here, not again on each one. Pick your level of detail below.
       </p>
 
-      <div class="glossary-row">
+      <div class="tier-toggle">
+        <button class="tier-btn active" data-tier="1" onclick="setTier(1)" data-en="New player" data-es="Jugador nuevo">New player</button>
+        <button class="tier-btn" data-tier="2" onclick="setTier(2)" data-en="Getting into it" data-es="Metiéndote de lleno">Getting into it</button>
+        <button class="tier-btn" data-tier="3" onclick="setTier(3)" data-en="Experienced" data-es="Con experiencia">Experienced</button>
+      </div>
+
+      <img class="anatomy-img" data-tier="1" src="officers/officer_tifa_overview.webp" alt="Officer overview screen example" loading="lazy" onerror="this.style.display='none'">
+      <p class="anatomy-img-caption" data-tier="1" data-en="Example: Tifa — same layout for any officer" data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial">Example: Tifa — same layout for any officer</p>
+
+      <div class="glossary-row" data-tier="1">
         <div class="glossary-term">Level</div>
-        <div class="glossary-desc" data-en="Raised with EXP items. Bumps her base Attack/HP a little, and feeds into Mastery." data-es="Se sube con objetos de EXP. Aumenta un poco su Ataque/PV base, y alimenta la Maestría.">Raised with EXP items. Bumps her base Attack/HP a little, and feeds into Mastery.</div>
+        <div class="glossary-desc" data-en="Raised with EXP items. The basic way any officer grows, a little at a time." data-es="Se sube con objetos de EXP. La forma básica en que crece cualquier oficial, poco a poco.">Raised with EXP items. The basic way any officer grows, a little at a time.</div>
       </div>
-      <div class="glossary-row">
+      <div class="glossary-row" data-tier="1">
         <div class="glossary-term">Stars</div>
-        <div class="glossary-desc" data-en="Raised with officer-specific shards. Each star unlocks a new skill slot and boosts Mastery a lot. The 6th, differently-coloured star opens the Breakthrough skill." data-es="Se suben con fragmentos específicos del oficial. Cada estrella desbloquea una nueva ranura de habilidad y aumenta mucho la Maestría. La 6ª estrella, de otro color, abre la habilidad de Avance (Breakthrough).">Raised with officer-specific shards. Each star unlocks a new skill slot and boosts Mastery a lot. The 6th, differently-coloured star opens the Breakthrough skill.</div>
+        <div class="glossary-desc" data-en="Raised with officer-specific shards. The main way any officer becomes stronger." data-es="Se suben con fragmentos específicos del oficial. La forma principal en que cualquier oficial se vuelve más fuerte.">Raised with officer-specific shards. The main way any officer becomes stronger.</div>
       </div>
-      <div class="glossary-row">
-        <div class="glossary-term">Mastery</div>
-        <div class="glossary-desc" data-en="Not something you grind directly — it's a combined score from Level + Stars. The higher it is, the stronger every one of her skills gets." data-es="No es algo que se sube directamente — es una puntuación combinada de Nivel + Estrellas. Cuanto más alta, más fuerte se vuelve cada una de sus habilidades.">Not something you grind directly — it's a combined score from Level + Stars. The higher it is, the stronger every one of her skills gets.</div>
-      </div>
-      <div class="glossary-row">
+      <div class="glossary-row" data-tier="1">
         <div class="glossary-term">Base skill</div>
-        <div class="glossary-desc" data-en="Her signature, fixed ability. It's never upgraded with skill books — it only grows stronger through Mastery." data-es="Su habilidad fija y característica. Nunca se mejora con libros de habilidad — solo se vuelve más fuerte a través de la Maestría.">Her signature, fixed ability. It's never upgraded with skill books — it only grows stronger through Mastery.</div>
+        <div class="glossary-desc" data-en="Every officer's signature, fixed ability. Never upgraded with skill books — it only grows stronger through Mastery." data-es="La habilidad fija y característica de cada oficial. Nunca se mejora con libros de habilidad — solo se vuelve más fuerte a través de la Maestría.">Every officer's signature, fixed ability. Never upgraded with skill books — it only grows stronger through Mastery.</div>
       </div>
-      <div class="glossary-row">
+      <div class="glossary-row" data-tier="1">
+        <div class="glossary-term">Role</div>
+        <div class="glossary-desc" style="font-style:italic; color:rgba(232,230,225,0.5);" data-en="Every officer belongs to one of five roles: Director, Strategy, Machinist, Drillmaster, or Warfare. What each role actually boosts — filling in soon." data-es="Todo oficial pertenece a uno de cinco roles: Director, Strategy, Machinist, Drillmaster o Warfare. Qué mejora exactamente cada rol — se completará pronto.">Every officer belongs to one of five roles: Director, Strategy, Machinist, Drillmaster, or Warfare. What each role actually boosts — filling in soon.</div>
+      </div>
+      <div class="glossary-row" data-tier="1">
+        <div class="glossary-term">Power</div>
+        <div class="glossary-desc" data-en="The single combined score that adds up everything about an officer." data-es="La puntuación única combinada que suma todo sobre un oficial.">The single combined score that adds up everything about an officer.</div>
+      </div>
+
+      <div class="glossary-row" data-tier="2">
+        <div class="glossary-term">Mastery</div>
+        <div class="glossary-desc" data-en="Not something you grind directly — a combined score from Level + Stars. The higher it is, the stronger every skill gets." data-es="No es algo que se sube directamente — una puntuación combinada de Nivel + Estrellas. Cuanto más alta, más fuerte se vuelve cada habilidad.">Not something you grind directly — a combined score from Level + Stars. The higher it is, the stronger every skill gets.</div>
+      </div>
+      <div class="glossary-row" data-tier="2">
         <div class="glossary-term">Skill slots</div>
-        <div class="glossary-desc" data-en="3-4 generic abilities any officer can carry. Levelled with Skill Books, and can be swapped out ('Forget') for a different one. More slots unlock as she gains stars. These are a choice — the ones shown below are just what one player picked." data-es="3-4 habilidades genéricas que cualquier oficial puede llevar. Se suben con Libros de Habilidad, y se pueden cambiar ('Forget' / Olvidar) por otra distinta. Se desbloquean más ranuras al ganar estrellas. Son una elección — las que se muestran abajo son solo lo que un jugador eligió.">3-4 generic abilities any officer can carry. Levelled with Skill Books, and can be swapped out ('Forget') for a different one. More slots unlock as she gains stars. These are a choice — the ones shown below are just what one player picked.</div>
+        <div class="glossary-desc" data-en="3-4 generic abilities any officer can carry. Levelled with Skill Books, swappable for a different one. This is a player's choice, not a fixed fact about the officer." data-es="3-4 habilidades genéricas que cualquier oficial puede llevar. Se suben con Libros de Habilidad y se pueden cambiar por otra. Es una elección del jugador, no un dato fijo del oficial.">3-4 generic abilities any officer can carry. Levelled with Skill Books, swappable for a different one. This is a player's choice, not a fixed fact about the officer.</div>
       </div>
-      <div class="glossary-row">
+      <div class="glossary-row" data-tier="2">
+        <div class="glossary-term">Rarity color</div>
+        <div class="glossary-desc" data-en="Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest — and the only tier that unlocks Unworldly Stats." data-es="Escalera confirmada, de menor a mayor: Azul, Morado, Naranja. Naranja es el más raro y fuerte — y el único nivel que desbloquea Unworldly Stats.">Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest — and the only tier that unlocks Unworldly Stats.</div>
+      </div>
+
+      <img class="anatomy-img" data-tier="2" src="officers/officer_tifa_starup.webp" alt="Star Up screen example" loading="lazy" onerror="this.style.display='none'">
+      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer" data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial">Example: Tifa — same layout for any officer</p>
+
+      <img class="anatomy-img" data-tier="2" src="officers/officer_tifa_skills.webp" alt="Manage Skills screen example" loading="lazy" onerror="this.style.display='none'">
+      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer" data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial">Example: Tifa — same layout for any officer</p>
+
+      <div class="glossary-row" data-tier="3">
         <div class="glossary-term">Breakthrough skill</div>
-        <div class="glossary-desc" data-en="Her strongest, most unique ability. Upgraded with Fragments (hers plus a generic type), not skill books." data-es="Su habilidad más fuerte y única. Se mejora con Fragmentos (los suyos más un tipo genérico), no con libros de habilidad.">Her strongest, most unique ability. Upgraded with Fragments (hers plus a generic type), not skill books.</div>
+        <div class="glossary-desc" data-en="The strongest, most unique ability an officer has. Upgraded with fragments (theirs plus a generic type), not skill books." data-es="La habilidad más fuerte y única que tiene un oficial. Se mejora con fragmentos (los suyos más un tipo genérico), no con libros de habilidad.">The strongest, most unique ability an officer has. Upgraded with fragments (theirs plus a generic type), not skill books.</div>
       </div>
-      <div class="glossary-row">
+      <div class="glossary-row" data-tier="3">
         <div class="glossary-term">Skin</div>
         <div class="glossary-desc" data-en="A cosmetic upgrade — new look and title — that also carries its own small skill bonus." data-es="Una mejora cosmética — nuevo aspecto y título — que también lleva su propia pequeña bonificación de habilidad.">A cosmetic upgrade — new look and title — that also carries its own small skill bonus.</div>
       </div>
-      <div class="glossary-row">
+      <div class="glossary-row" data-tier="3">
         <div class="glossary-term">Equipment</div>
         <div class="glossary-desc" data-en="Two separate gear slots (weapon + gear), each with its own enhancement level. A system of its own, on top of everything above." data-es="Dos ranuras de equipo separadas (arma + equipo), cada una con su propio nivel de mejora. Un sistema aparte, encima de todo lo anterior.">Two separate gear slots (weapon + gear), each with its own enhancement level. A system of its own, on top of everything above.</div>
       </div>
-      <div class="glossary-row">
-        <div class="glossary-term">Power</div>
-        <div class="glossary-desc" data-en="The single combined score that adds up everything above." data-es="La puntuación única combinada que suma todo lo anterior.">The single combined score that adds up everything above.</div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Equipment expertise</div>
+        <div class="glossary-desc" data-en="A separate perk system on top of Equipment Level — abilities like Advanced Endurance or Titan Resistance, upgraded independently." data-es="Un sistema de ventajas aparte, encima del Nivel de Equipo — habilidades como Advanced Endurance o Titan Resistance, que se mejoran de forma independiente.">A separate perk system on top of Equipment Level — abilities like Advanced Endurance or Titan Resistance, upgraded independently.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Unworldly Stats</div>
+        <div class="glossary-desc" data-en="Orange officers only. Unlocks one extra stat every 5-star tier, each upgraded independently and graded S/A/B/C by strength." data-es="Solo oficiales Orange. Desbloquea una estadística extra en cada nivel de 5 estrellas, cada una mejorable de forma independiente y clasificada S/A/B/C según su fuerza.">Orange officers only. Unlocks one extra stat every 5-star tier, each upgraded independently and graded S/A/B/C by strength.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Role is fixed</div>
+        <div class="glossary-desc" data-en="Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice." data-es="A diferencia de las ranuras de habilidad, el rol de un oficial nunca cambia — es parte de quién es, no una elección de build.">Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice.</div>
       </div>
 
-      <p style="font-size:0.9rem; margin-top:1.3rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Worked example: Tifa" data-es="Ejemplo trabajado: Tifa"><strong>Worked example: Tifa</strong></p>
+      <p style="font-size:0.9rem; margin-top:1.3rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Profile: Tifa — one player's actual officer, not the general rule" data-es="Perfil: Tifa — el oficial real de un jugador, no la regla general"><strong>Profile: Tifa — one player's actual officer, not the general rule</strong></p>
 
       <div class="officer-card">
         <div class="officer-head">
@@ -415,6 +460,23 @@
     }
     function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
     applyLang(LANG);
+
+    function setTier(t) {
+      document.querySelectorAll('.glossary-row[data-tier]').forEach(function(row) {
+        row.style.display = (parseInt(row.dataset.tier, 10) <= t) ? 'flex' : 'none';
+      });
+      document.querySelectorAll('.anatomy-img[data-tier]').forEach(function(img) {
+        img.style.display = (parseInt(img.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.anatomy-img-caption[data-tier]').forEach(function(cap) {
+        cap.style.display = (parseInt(cap.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.tier-btn').forEach(function(b) {
+        b.classList.toggle('active', parseInt(b.dataset.tier, 10) === t);
+      });
+      localStorage.setItem('aoo-officer-tier', String(t));
+    }
+    setTier(parseInt(localStorage.getItem('aoo-officer-tier'), 10) || 1);
 
     (function() {
       setInterval(function() {
