@@ -476,6 +476,46 @@
       if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
     });
 
+    /* ── OFFICER ANATOMY HOTSPOTS (must be defined before applyLang() runs) ── */
+    const HOTSPOTS = {
+      1: { en: "Name — the officer's name, with the skin currently equipped shown right in the title.",
+           es: "Nombre — el nombre del oficial, con la skin equipada actualmente en el propio título." },
+      2: { en: "Power score — the single combined score that adds up everything about an officer.",
+           es: "Puntuación de Poder — la puntuación única combinada que suma todo sobre un oficial." },
+      3: { en: "Mastery — not something you grind directly. A combined score from Level + Stars: the higher it is, the stronger every skill gets.",
+           es: "Maestría — no es algo que se sube directamente. Una puntuación combinada de Nivel + Estrellas: cuanto más alta, más fuerte se vuelve cada habilidad." },
+      4: { en: "Weapon slot — one of two Equipment slots (weapon + gear), each with its own enhancement level, upgraded separately from everything else.",
+           es: "Ranura de arma — una de las dos ranuras de Equipo (arma + equipo), cada una con su propio nivel de mejora, que se sube por separado del resto." },
+      5: { en: "Gear slot — the second Equipment slot, upgraded on its own the same way as the weapon.",
+           es: "Ranura de equipo — la segunda ranura de Equipo, que se mejora por su cuenta igual que el arma." },
+      6: { en: "Stars — raised with officer-specific shards. The main way any officer becomes stronger (6 stars = max).",
+           es: "Estrellas — se suben con fragmentos específicos del oficial. La forma principal en que cualquier oficial se vuelve más fuerte (6 estrellas = máximo)." },
+      7: { en: "Level + XP — raised with EXP items. The basic way any officer grows, a little at a time.",
+           es: "Nivel + XP — se sube con objetos de EXP. La forma básica en que crece cualquier oficial, poco a poco." },
+      8: { en: "\"E\" badge — meaning still TBC. Asked in-game VIP support; answer pending, not guessed here.",
+           es: "Insignia \"E\" — significado aún por confirmar (TBC). Preguntado al soporte VIP del juego; respuesta pendiente, no se adivina aquí." }
+    };
+    let activeHotspot = null;
+    function showHotspot(n) {
+      activeHotspot = n;
+      document.querySelectorAll('.hotspot').forEach(function(b) {
+        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
+      });
+      renderHotspotPanel();
+    }
+    function renderHotspotPanel() {
+      const panel = document.getElementById('hotspotPanel');
+      if (!panel) return;
+      if (activeHotspot === null) {
+        panel.innerHTML = '<span class="hotspot-panel-tap">' +
+          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
+          '</span>';
+        return;
+      }
+      const h = HOTSPOTS[activeHotspot];
+      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspot + '</span>' + (LANG === 'es' ? h.es : h.en);
+    }
+
     let LANG = localStorage.getItem('aoo-lang') || 'en';
     function applyLang(lang) {
       LANG = lang;
@@ -517,46 +557,6 @@
       localStorage.setItem('aoo-officer-tier', String(t));
     }
     setTier(parseInt(localStorage.getItem('aoo-officer-tier'), 10) || 1);
-
-    /* ── OFFICER ANATOMY HOTSPOTS ── */
-    const HOTSPOTS = {
-      1: { en: "Name — the officer's name, with the skin currently equipped shown right in the title.",
-           es: "Nombre — el nombre del oficial, con la skin equipada actualmente en el propio título." },
-      2: { en: "Power score — the single combined score that adds up everything about an officer.",
-           es: "Puntuación de Poder — la puntuación única combinada que suma todo sobre un oficial." },
-      3: { en: "Mastery — not something you grind directly. A combined score from Level + Stars: the higher it is, the stronger every skill gets.",
-           es: "Maestría — no es algo que se sube directamente. Una puntuación combinada de Nivel + Estrellas: cuanto más alta, más fuerte se vuelve cada habilidad." },
-      4: { en: "Weapon slot — one of two Equipment slots (weapon + gear), each with its own enhancement level, upgraded separately from everything else.",
-           es: "Ranura de arma — una de las dos ranuras de Equipo (arma + equipo), cada una con su propio nivel de mejora, que se sube por separado del resto." },
-      5: { en: "Gear slot — the second Equipment slot, upgraded on its own the same way as the weapon.",
-           es: "Ranura de equipo — la segunda ranura de Equipo, que se mejora por su cuenta igual que el arma." },
-      6: { en: "Stars — raised with officer-specific shards. The main way any officer becomes stronger (6 stars = max).",
-           es: "Estrellas — se suben con fragmentos específicos del oficial. La forma principal en que cualquier oficial se vuelve más fuerte (6 estrellas = máximo)." },
-      7: { en: "Level + XP — raised with EXP items. The basic way any officer grows, a little at a time.",
-           es: "Nivel + XP — se sube con objetos de EXP. La forma básica en que crece cualquier oficial, poco a poco." },
-      8: { en: "\"E\" badge — meaning still TBC. Asked in-game VIP support; answer pending, not guessed here.",
-           es: "Insignia \"E\" — significado aún por confirmar (TBC). Preguntado al soporte VIP del juego; respuesta pendiente, no se adivina aquí." }
-    };
-    let activeHotspot = null;
-    function showHotspot(n) {
-      activeHotspot = n;
-      document.querySelectorAll('.hotspot').forEach(function(b) {
-        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
-      });
-      renderHotspotPanel();
-    }
-    function renderHotspotPanel() {
-      const panel = document.getElementById('hotspotPanel');
-      if (!panel) return;
-      if (activeHotspot === null) {
-        panel.innerHTML = '<span class="hotspot-panel-tap">' +
-          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
-          '</span>';
-        return;
-      }
-      const h = HOTSPOTS[activeHotspot];
-      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspot + '</span>' + (LANG === 'es' ? h.es : h.en);
-    }
     renderHotspotPanel();
 
     (function() {
