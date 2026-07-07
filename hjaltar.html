@@ -176,6 +176,28 @@
     .anatomy-img { display: block; width: 100%; max-width: 420px; margin: 0 auto 1rem; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.3); }
     .anatomy-img-caption { text-align: center; font-size: 0.75rem; color: rgba(232,230,225,0.5); margin: -0.6rem 0 1.2rem; }
 
+    /* ── OFFICER ANATOMY HOTSPOTS (interactive overview image) ── */
+    .anatomy-wrap { position: relative; max-width: 420px; margin: 0 auto; }
+    .anatomy-wrap .anatomy-img { margin: 0; }
+    .hotspot {
+      position: absolute; width: 8%; aspect-ratio: 1 / 1;
+      transform: translate(-50%, -50%);
+      background: transparent; border: none; border-radius: 50%;
+      padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .hotspot:hover, .hotspot:focus-visible { box-shadow: 0 0 0 3px rgba(212,175,55,0.55); outline: none; }
+    .hotspot.active-hs { box-shadow: 0 0 0 3px var(--gold); }
+    .hotspot-panel {
+      background: rgba(212,175,55,0.07); border: 1px solid rgba(212,175,55,0.28);
+      border-radius: 10px; padding: 0.8rem 1rem; margin: 0.8rem 0 1.2rem;
+      font-size: 0.85rem; line-height: 1.55; color: rgba(232,230,225,0.85);
+      min-height: 3.2em;
+    }
+    .hotspot-panel-num {
+      color: var(--gold); font-family: 'Cinzel', serif; font-weight: 600; margin-right: 0.4rem;
+    }
+    .hotspot-panel-tap { font-style: italic; color: rgba(232,230,225,0.5); }
+
     /* ── OFFICER EXAMPLE CARD ── */
     .officer-card { background: var(--forest-lt); border-radius: 14px; padding: 1.3rem 1.4rem; margin-top: 1.2rem; }
     .officer-head { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
@@ -259,8 +281,19 @@
         <button class="tier-btn" data-tier="3" onclick="setTier(3)" data-en="Experienced" data-es="Con experiencia">Experienced</button>
       </div>
 
-      <img class="anatomy-img" data-tier="1" src="officers/officer_tifa_overview.webp" alt="Officer overview screen example" loading="lazy" onerror="this.style.display='none'">
-      <p class="anatomy-img-caption" data-tier="1" data-en="Example: Tifa — same layout for any officer" data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial">Example: Tifa — same layout for any officer</p>
+      <div class="anatomy-wrap" data-tier="1">
+        <img class="anatomy-img" src="officers/officer_tifa_overview.webp" alt="Officer overview screen example" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <button class="hotspot" style="left:43.6%;top:10.3%"  data-hs="1" onclick="showHotspot(1)" aria-label="Name and skin title"></button>
+        <button class="hotspot" style="left:17.4%;top:14.2%"  data-hs="2" onclick="showHotspot(2)" aria-label="Power score"></button>
+        <button class="hotspot" style="left:21.4%;top:16.1%"  data-hs="3" onclick="showHotspot(3)" aria-label="Mastery"></button>
+        <button class="hotspot" style="left:7.4%;top:50.0%"   data-hs="4" onclick="showHotspot(4)" aria-label="Weapon slot"></button>
+        <button class="hotspot" style="left:7.4%;top:55.8%"   data-hs="5" onclick="showHotspot(5)" aria-label="Gear slot"></button>
+        <button class="hotspot" style="left:44.6%;top:67.4%"  data-hs="6" onclick="showHotspot(6)" aria-label="Stars"></button>
+        <button class="hotspot" style="left:43.6%;top:71.9%"  data-hs="7" onclick="showHotspot(7)" aria-label="Level and XP"></button>
+        <button class="hotspot" style="left:15.4%;top:76.7%"  data-hs="8" onclick="showHotspot(8)" aria-label="E badge"></button>
+      </div>
+      <p class="anatomy-img-caption" data-tier="1" data-en="Example: Tifa — same layout for any officer. Tap a numbered circle for what it means." data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial. Toca un círculo numerado para ver qué significa.">Example: Tifa — same layout for any officer. Tap a numbered circle for what it means.</p>
+      <div class="hotspot-panel" id="hotspotPanel" data-tier="1"></div>
 
       <div class="glossary-row" data-tier="1">
         <div class="glossary-term">Level</div>
@@ -457,6 +490,7 @@
       const otherLabel = lang === 'en' ? 'ES' : 'EN';
       document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
       localStorage.setItem('aoo-lang', lang);
+      if (typeof renderHotspotPanel === 'function') renderHotspotPanel();
     }
     function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
     applyLang(LANG);
@@ -471,12 +505,59 @@
       document.querySelectorAll('.anatomy-img-caption[data-tier]').forEach(function(cap) {
         cap.style.display = (parseInt(cap.dataset.tier, 10) <= t) ? 'block' : 'none';
       });
+      document.querySelectorAll('.anatomy-wrap[data-tier]').forEach(function(w) {
+        w.style.display = (parseInt(w.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.hotspot-panel[data-tier]').forEach(function(p) {
+        p.style.display = (parseInt(p.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
       document.querySelectorAll('.tier-btn').forEach(function(b) {
         b.classList.toggle('active', parseInt(b.dataset.tier, 10) === t);
       });
       localStorage.setItem('aoo-officer-tier', String(t));
     }
     setTier(parseInt(localStorage.getItem('aoo-officer-tier'), 10) || 1);
+
+    /* ── OFFICER ANATOMY HOTSPOTS ── */
+    const HOTSPOTS = {
+      1: { en: "Name — the officer's name, with the skin currently equipped shown right in the title.",
+           es: "Nombre — el nombre del oficial, con la skin equipada actualmente en el propio título." },
+      2: { en: "Power score — the single combined score that adds up everything about an officer.",
+           es: "Puntuación de Poder — la puntuación única combinada que suma todo sobre un oficial." },
+      3: { en: "Mastery — not something you grind directly. A combined score from Level + Stars: the higher it is, the stronger every skill gets.",
+           es: "Maestría — no es algo que se sube directamente. Una puntuación combinada de Nivel + Estrellas: cuanto más alta, más fuerte se vuelve cada habilidad." },
+      4: { en: "Weapon slot — one of two Equipment slots (weapon + gear), each with its own enhancement level, upgraded separately from everything else.",
+           es: "Ranura de arma — una de las dos ranuras de Equipo (arma + equipo), cada una con su propio nivel de mejora, que se sube por separado del resto." },
+      5: { en: "Gear slot — the second Equipment slot, upgraded on its own the same way as the weapon.",
+           es: "Ranura de equipo — la segunda ranura de Equipo, que se mejora por su cuenta igual que el arma." },
+      6: { en: "Stars — raised with officer-specific shards. The main way any officer becomes stronger (6 stars = max).",
+           es: "Estrellas — se suben con fragmentos específicos del oficial. La forma principal en que cualquier oficial se vuelve más fuerte (6 estrellas = máximo)." },
+      7: { en: "Level + XP — raised with EXP items. The basic way any officer grows, a little at a time.",
+           es: "Nivel + XP — se sube con objetos de EXP. La forma básica en que crece cualquier oficial, poco a poco." },
+      8: { en: "\"E\" badge — meaning still TBC. Asked in-game VIP support; answer pending, not guessed here.",
+           es: "Insignia \"E\" — significado aún por confirmar (TBC). Preguntado al soporte VIP del juego; respuesta pendiente, no se adivina aquí." }
+    };
+    let activeHotspot = null;
+    function showHotspot(n) {
+      activeHotspot = n;
+      document.querySelectorAll('.hotspot').forEach(function(b) {
+        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
+      });
+      renderHotspotPanel();
+    }
+    function renderHotspotPanel() {
+      const panel = document.getElementById('hotspotPanel');
+      if (!panel) return;
+      if (activeHotspot === null) {
+        panel.innerHTML = '<span class="hotspot-panel-tap">' +
+          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
+          '</span>';
+        return;
+      }
+      const h = HOTSPOTS[activeHotspot];
+      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspot + '</span>' + (LANG === 'es' ? h.es : h.en);
+    }
+    renderHotspotPanel();
 
     (function() {
       setInterval(function() {
