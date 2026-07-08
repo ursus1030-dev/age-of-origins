@@ -174,7 +174,7 @@
     .tier-btn:hover { border-color: rgba(212,175,55,0.55); color: var(--cream); }
     .tier-btn.active { background: rgba(212,175,55,0.18); border-color: var(--gold); color: var(--gold); }
     .anatomy-img { display: block; width: 100%; max-width: 420px; margin: 0 auto 1rem; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.3); }
-    .anatomy-img-caption { text-align: center; font-size: 0.75rem; color: rgba(232,230,225,0.5); margin: -0.6rem 0 1.2rem; }
+    .anatomy-img-caption { text-align: center; font-size: 0.75rem; color: rgba(232,230,225,0.5); margin: 0.6rem 0 1.2rem; }
 
     /* ── OFFICER ANATOMY HOTSPOTS (interactive overview image) ── */
     .anatomy-wrap { position: relative; max-width: 420px; margin: 0 auto; }
@@ -329,11 +329,28 @@
         <div class="glossary-desc" data-en="Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest — and the only tier that unlocks Unworldly Stats." data-es="Escalera confirmada, de menor a mayor: Azul, Morado, Naranja. Naranja es el más raro y fuerte — y el único nivel que desbloquea Unworldly Stats.">Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest — and the only tier that unlocks Unworldly Stats.</div>
       </div>
 
-      <img class="anatomy-img" data-tier="2" src="officers/officer_tifa_starup.webp" alt="Star Up screen example" loading="lazy" onerror="this.style.display='none'">
-      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer" data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial">Example: Tifa — same layout for any officer</p>
+      <div class="anatomy-wrap" data-tier="2">
+        <img class="anatomy-img" src="officers/officer_tifa_starup.webp" alt="Star Up screen example" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <button class="hotspot" style="left:60%;top:16%" data-hs="1" onclick="showHotspotSU(1)" aria-label="Unworldly Stats tab"></button>
+        <button class="hotspot" style="left:21%;top:25%" data-hs="2" onclick="showHotspotSU(2)" aria-label="Grade of this stat"></button>
+        <button class="hotspot" style="left:50%;top:53%" data-hs="3" onclick="showHotspotSU(3)" aria-label="Stars"></button>
+        <button class="hotspot" style="left:50%;top:63%" data-hs="4" onclick="showHotspotSU(4)" aria-label="Max star level reached"></button>
+        <button class="hotspot" style="left:36%;top:68%" data-hs="5" onclick="showHotspotSU(5)" aria-label="Officer-specific fragment"></button>
+        <button class="hotspot" style="left:65%;top:68%" data-hs="6" onclick="showHotspotSU(6)" aria-label="Rarity fragment"></button>
+      </div>
+      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer. Tap a numbered circle for what it means." data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial. Toca un círculo numerado para ver qué significa.">Example: Tifa — same layout for any officer. Tap a numbered circle for what it means.</p>
+      <div class="hotspot-panel" id="hotspotPanelSU" data-tier="2"></div>
 
-      <img class="anatomy-img" data-tier="2" src="officers/officer_tifa_skills.webp" alt="Manage Skills screen example" loading="lazy" onerror="this.style.display='none'">
-      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer" data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial">Example: Tifa — same layout for any officer</p>
+      <div class="anatomy-wrap" data-tier="2">
+        <img class="anatomy-img" src="officers/officer_tifa_skills.webp" alt="Manage Skills screen example" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <button class="hotspot" style="left:22%;top:34%" data-hs="1" onclick="showHotspotSK(1)" aria-label="Skill slot"></button>
+        <button class="hotspot" style="left:79%;top:34%" data-hs="2" onclick="showHotspotSK(2)" aria-label="Forget"></button>
+        <button class="hotspot" style="left:21%;top:43%" data-hs="3" onclick="showHotspotSK(3)" aria-label="Bearer"></button>
+        <button class="hotspot" style="left:35%;top:48%" data-hs="4" onclick="showHotspotSK(4)" aria-label="Level progress"></button>
+        <button class="hotspot" style="left:11%;top:51%" data-hs="5" onclick="showHotspotSK(5)" aria-label="Skill Book"></button>
+      </div>
+      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer. Tap a numbered circle for what it means." data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial. Toca un círculo numerado para ver qué significa.">Example: Tifa — same layout for any officer. Tap a numbered circle for what it means.</p>
+      <div class="hotspot-panel" id="hotspotPanelSK" data-tier="2"></div>
 
       <div class="glossary-row" data-tier="3">
         <div class="glossary-term">Breakthrough skill</div>
@@ -516,6 +533,78 @@
       panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspot + '</span>' + (LANG === 'es' ? h.es : h.en);
     }
 
+    /* ── STAR UP HOTSPOTS (must be defined before applyLang() runs) ── */
+    const HOTSPOTS_SU = {
+      1: { en: "Unworldly Stats tab — where you fortify the extra stats orange officers unlock at 5-star tiers, separate from the main Star Up screen.",
+           es: "Pestaña Unworldly Stats — donde fortaleces las estadísticas extra que desbloquean los oficiales Orange en los niveles de 5 estrellas, aparte de la pantalla principal de Star Up." },
+      2: { en: "Grade of this stat — S, A, B, or C. Higher grade means a stronger bonus at the same fortify level.",
+           es: "Grado de esta estadística — S, A, B o C. Un grado más alto significa una bonificación más fuerte al mismo nivel de fortalecimiento." },
+      3: { en: "Stars — raised with officer-specific shards, same as covered above. The 6th star (rainbow) is the special max tier.",
+           es: "Estrellas — se suben con fragmentos específicos del oficial, igual que se explicó arriba. La 6ª estrella (arcoíris) es el nivel máximo especial." },
+      4: { en: "Max Star Level reached — shown once an officer has hit their current star cap.",
+           es: "Nivel de Estrella Máximo alcanzado — se muestra cuando un oficial llega a su tope de estrellas actual." },
+      5: { en: "Officer-specific fragment — the shard type tied to this one officer, used to raise their Stars.",
+           es: "Fragmento específico del oficial — el tipo de fragmento ligado a este oficial en concreto, usado para subir sus Estrellas." },
+      6: { en: "Rarity fragment — a generic fragment tied to the officer's rarity color (here: Orange), also spent on Star Up.",
+           es: "Fragmento de rareza — un fragmento genérico ligado al color de rareza del oficial (aquí: Orange), que también se gasta en Star Up." }
+    };
+    let activeHotspotSU = null;
+    function showHotspotSU(n) {
+      activeHotspotSU = n;
+      const wrap = document.querySelectorAll('.anatomy-wrap')[1];
+      if (wrap) wrap.querySelectorAll('.hotspot').forEach(function(b) {
+        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
+      });
+      renderHotspotPanelSU();
+    }
+    function renderHotspotPanelSU() {
+      const panel = document.getElementById('hotspotPanelSU');
+      if (!panel) return;
+      if (activeHotspotSU === null) {
+        panel.innerHTML = '<span class="hotspot-panel-tap">' +
+          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
+          '</span>';
+        return;
+      }
+      const h = HOTSPOTS_SU[activeHotspotSU];
+      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspotSU + '</span>' + (LANG === 'es' ? h.es : h.en);
+    }
+
+    /* ── MANAGE SKILLS HOTSPOTS (must be defined before applyLang() runs) ── */
+    const HOTSPOTS_SK = {
+      1: { en: "Skill slot — one of the 3-4 generic abilities a player chose for this officer. Levelled with Skill Books.",
+           es: "Ranura de habilidad — una de las 3-4 habilidades genéricas que el jugador eligió para este oficial. Se sube con Libros de Habilidad." },
+      2: { en: "Forget — removes this skill from the slot so a different one can be equipped instead.",
+           es: "Forget — quita esta habilidad de la ranura para poder equipar otra en su lugar." },
+      3: { en: "Bearer — which officer currently holds this skill. Skill slots are a player's choice, not fixed to one officer.",
+           es: "Bearer — qué oficial lleva actualmente esta habilidad. Las ranuras de habilidad son una elección del jugador, no algo fijo de un oficial." },
+      4: { en: "Level progress — how close this skill is to its next level, raised by spending Skill Books.",
+           es: "Progreso de nivel — cuánto le falta a esta habilidad para el siguiente nivel, que sube gastando Libros de Habilidad." },
+      5: { en: "Skill Book — the item spent to level up a skill slot. Generic, not tied to one officer.",
+           es: "Skill Book — el objeto que se gasta para subir de nivel una ranura de habilidad. Es genérico, no está ligado a un oficial concreto." }
+    };
+    let activeHotspotSK = null;
+    function showHotspotSK(n) {
+      activeHotspotSK = n;
+      const wrap = document.querySelectorAll('.anatomy-wrap')[2];
+      if (wrap) wrap.querySelectorAll('.hotspot').forEach(function(b) {
+        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
+      });
+      renderHotspotPanelSK();
+    }
+    function renderHotspotPanelSK() {
+      const panel = document.getElementById('hotspotPanelSK');
+      if (!panel) return;
+      if (activeHotspotSK === null) {
+        panel.innerHTML = '<span class="hotspot-panel-tap">' +
+          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
+          '</span>';
+        return;
+      }
+      const h = HOTSPOTS_SK[activeHotspotSK];
+      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspotSK + '</span>' + (LANG === 'es' ? h.es : h.en);
+    }
+
     let LANG = localStorage.getItem('aoo-lang') || 'en';
     function applyLang(lang) {
       LANG = lang;
@@ -531,6 +620,8 @@
       document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
       localStorage.setItem('aoo-lang', lang);
       if (typeof renderHotspotPanel === 'function') renderHotspotPanel();
+      if (typeof renderHotspotPanelSU === 'function') renderHotspotPanelSU();
+      if (typeof renderHotspotPanelSK === 'function') renderHotspotPanelSK();
     }
     function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
     applyLang(LANG);
@@ -558,6 +649,8 @@
     }
     setTier(parseInt(localStorage.getItem('aoo-officer-tier'), 10) || 1);
     renderHotspotPanel();
+    renderHotspotPanelSU();
+    renderHotspotPanelSK();
 
     (function() {
       setInterval(function() {
