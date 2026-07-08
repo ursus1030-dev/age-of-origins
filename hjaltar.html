@@ -326,7 +326,7 @@
       </div>
       <div class="glossary-row" data-tier="2">
         <div class="glossary-term">Rarity color</div>
-        <div class="glossary-desc" data-en="Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest — and the only tier that unlocks Unworldly Stats." data-es="Escalera confirmada, de menor a mayor: Azul, Morado, Naranja. Naranja es el más raro y fuerte — y el único nivel que desbloquea Unworldly Stats.">Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest — and the only tier that unlocks Unworldly Stats.</div>
+        <div class="glossary-desc" data-en="Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest. Both Purple and Orange unlock Unworldly Stats — Orange just reaches a higher grade cap." data-es="Escalera confirmada, de menor a mayor: Azul, Morado, Naranja. Naranja es el más raro y fuerte. Tanto Purple como Orange desbloquean Unworldly Stats — Orange simplemente llega a un tope de grado más alto.">Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest. Both Purple and Orange unlock Unworldly Stats — Orange just reaches a higher grade cap.</div>
       </div>
 
       <div class="anatomy-wrap" data-tier="2">
@@ -370,11 +370,11 @@
       </div>
       <div class="glossary-row" data-tier="3">
         <div class="glossary-term">Unworldly Stats</div>
-        <div class="glossary-desc" data-en="Orange officers only. Unlocks one extra stat every 5-star tier, each upgraded independently and graded S/A/B/C by strength." data-es="Solo oficiales Orange. Desbloquea una estadística extra en cada nivel de 5 estrellas, cada una mejorable de forma independiente y clasificada S/A/B/C según su fuerza.">Orange officers only. Unlocks one extra stat every 5-star tier, each upgraded independently and graded S/A/B/C by strength.</div>
+        <div class="glossary-desc" data-en="Unlocks one extra stat every 5-star tier, graded low to high: A, AA, S, SS, SSS. Orange officers can reach SSS; Purple officers cap at AA. With enough Unworldly Cards you pick the exact stat and grade directly (cost rises per grade); without enough, you reroll randomly instead." data-es="Desbloquea una estadística extra en cada nivel de 5 estrellas, clasificada de menor a mayor: A, AA, S, SS, SSS. Los oficiales Orange pueden llegar a SSS; los Purple llegan como máximo a AA. Con suficientes Unworldly Cards eliges directamente la estadística y el grado exactos (el coste sube por grado); si no tienes suficientes, se sortea al azar en su lugar.">Unlocks one extra stat every 5-star tier, graded low to high: A, AA, S, SS, SSS. Orange officers can reach SSS; Purple officers cap at AA. With enough Unworldly Cards you pick the exact stat and grade directly (cost rises per grade); without enough, you reroll randomly instead.</div>
       </div>
       <div class="glossary-row" data-tier="3">
         <div class="glossary-term">Role is fixed</div>
-        <div class="glossary-desc" data-en="Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice." data-es="A diferencia de las ranuras de habilidad, el rol de un oficial nunca cambia — es parte de quién es, no una elección de build.">Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice.</div>
+        <div class="glossary-desc" data-en="Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice. The five roles: Director, Strategy, Machinist, Drillmaster, Warfare." data-es="A diferencia de las ranuras de habilidad, el rol de un oficial nunca cambia — es parte de quién es, no una elección de build. Los cinco roles: Director, Strategy, Machinist, Drillmaster, Warfare.">Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice. The five roles: Director, Strategy, Machinist, Drillmaster, Warfare.</div>
       </div>
 
       <p style="font-size:0.9rem; margin-top:1.3rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Profile: Tifa — one player's actual officer, not the general rule" data-es="Perfil: Tifa — el oficial real de un jugador, no la regla general"><strong>Profile: Tifa — one player's actual officer, not the general rule</strong></p>
@@ -388,6 +388,7 @@
             <div class="officer-meta">
               <span>Lv.41</span>
               <span>6★</span>
+              <span>Role: Warfare</span>
               <span>Mastery <strong>852</strong></span>
               <span>Power <strong>679,677</strong></span>
             </div>
@@ -535,10 +536,10 @@
 
     /* ── STAR UP HOTSPOTS (must be defined before applyLang() runs) ── */
     const HOTSPOTS_SU = {
-      1: { en: "Unworldly Stats tab — where you fortify the extra stats orange officers unlock at 5-star tiers, separate from the main Star Up screen.",
-           es: "Pestaña Unworldly Stats — donde fortaleces las estadísticas extra que desbloquean los oficiales Orange en los niveles de 5 estrellas, aparte de la pantalla principal de Star Up." },
-      2: { en: "Grade of this stat — S, A, B, or C. Higher grade means a stronger bonus at the same fortify level.",
-           es: "Grado de esta estadística — S, A, B o C. Un grado más alto significa una bonificación más fuerte al mismo nivel de fortalecimiento." },
+      1: { en: "Unworldly Stats tab — where you fortify the extra stats Purple and Orange officers unlock at 5-star tiers, separate from the main Star Up screen.",
+           es: "Pestaña Unworldly Stats — donde fortaleces las estadísticas extra que desbloquean los oficiales Purple y Orange en los niveles de 5 estrellas, aparte de la pantalla principal de Star Up." },
+      2: { en: "Grade of this stat — order is A, AA, S, SS, SSS. Higher grade means a stronger bonus at the same fortify level. Orange officers can reach SSS; Purple officers cap at AA.",
+           es: "Grado de esta estadística — el orden es A, AA, S, SS, SSS. Un grado más alto significa una bonificación más fuerte al mismo nivel de fortalecimiento. Los oficiales Orange pueden llegar a SSS; los Purple llegan como máximo a AA." },
       3: { en: "Stars — raised with officer-specific shards, same as covered above. The 6th star (rainbow) is the special max tier.",
            es: "Estrellas — se suben con fragmentos específicos del oficial, igual que se explicó arriba. La 6ª estrella (arcoíris) es el nivel máximo especial." },
       4: { en: "Max Star Level reached — shown once an officer has hit their current star cap.",
