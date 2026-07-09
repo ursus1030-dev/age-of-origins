@@ -1,361 +1,213 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boktips — Din familjesajt</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <title data-en="External guides — Age of Origins" data-es="Guías externas — Age of Origins">External guides — Age of Origins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --forest: #3D5C3A; --forest-dk: #2a3f28; --forest-lt: #4e7349;
-      --terra: #A84C2A; --terra-lt: #c4603a;
-      --cream: #F5F0E8; --sand: #E8DCC8; --bark: #6B4C35;
-      --ink: #1C1810; --bg: #F0EBE0;
+      --forest:    #1C1C1E;
+      --forest-dk: #0B0B0B;
+      --forest-lt: #2C2C2E;
+      --terra:     #D4AF37;
+      --terra-lt:  #8B6F2A;
+      --gold:      #D4AF37;
+      --cream:     #E8E6E1;
+      --sand:      #1C1C1E;
+      --bark:      #B8B2A6;
+      --ink:       #E8E6E1;
+      --bg:        #0B0B0B;
+      --red:       #B31217;
     }
+
     html { scroll-behavior: smooth; }
     body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
 
-    nav { position: sticky; top: 0; z-index: 100; background: rgba(61,92,58,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
-    .nav-links { display: flex; gap: 0.1rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: flex-start; padding: 0 0.5rem; }
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(11,11,11,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212,175,55,0.25); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cinzel', serif; font-size: 1.25rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
     .nav-links::-webkit-scrollbar { display: none; }
-    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.55rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
-    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: var(--cream); }
-    .nav-logout { background: none; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.6); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-    .nav-logout:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
-    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
-    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(212,175,55,0.15); color: var(--gold); }
     .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout { background: none; border: 1px solid rgba(212,175,55,0.4); color: rgba(245,240,232,0.7); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.6rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
     .nav-mobile-footer { display: none !important; }
-    @media (max-width: 1100px) {
+    @media (max-width: 900px) {
       nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
       .nav-brand { flex: 1; }
       .nav-hamburger { display: flex; align-items: center; }
       .nav-right { display: none; }
       .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
       .nav-links.open { display: flex; }
-      .nav-links a { font-size: 0.85rem; padding: 0.55rem 0.8rem; white-space: normal; border-radius: 8px; }
-      .nav-mobile-footer { display: flex; gap: 0.5rem; padding: 0.6rem 0.8rem 0.2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex !important; gap: 0.5rem; padding: 0.6rem 0.8rem 0.3rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
     }
 
-    .hero { background: linear-gradient(160deg, var(--bark) 0%, #8B5A2B 50%, var(--forest-dk) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 80%, rgba(61,92,58,0.3) 0%, transparent 60%); }
-    .hero-content { position: relative; z-index: 1; }
-    .hero-icon { font-size: 3rem; margin-bottom: 0.8rem; }
-    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--cream); letter-spacing: 0.04em; }
-    .hero h1 em { font-style: italic; color: var(--sand); }
-    .hero p { font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-top: 0.5rem; }
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 55%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 20%, rgba(201,169,110,0.18) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 0.8rem; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)); }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--gold); letter-spacing: 0.04em; }
+    .hero-sub { font-size: 0.9rem; font-weight: 300; color: rgba(245,240,232,0.75); max-width: 540px; margin: 0.6rem auto 0; line-height: 1.5; }
 
-    .main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    /* ── MAIN ── */
+    .main { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .empty-state { background: #2C2C2E; border-radius: 14px; padding: 3.5rem 1.5rem; text-align: center; color: rgba(232,230,225,0.5); box-shadow: 0 2px 14px rgba(0,0,0,0.05); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
+    .empty-state p { font-size: 0.95rem; }
 
-    .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap; }
-    .filter-tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-    .filter-tab { padding: 0.4rem 1rem; border: 1px solid rgba(61,92,58,0.25); border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; user-select: none; background: white; }
-    .filter-tab:hover { border-color: var(--forest); }
-    .filter-tab.active { background: var(--forest); color: white; border-color: var(--forest); }
-
-    .btn-primary { background: var(--terra); border: none; color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.3rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
-    .btn-primary:hover { background: var(--terra-lt); }
-
-    .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
-
-    .book-card { background: white; border-radius: 14px; padding: 1.4rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
-    .book-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-    .book-emoji { font-size: 2.5rem; margin-bottom: 0.8rem; }
-    .book-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--ink); line-height: 1.3; margin-bottom: 0.3rem; }
-    .book-author { font-size: 0.8rem; color: #888; margin-bottom: 0.7rem; letter-spacing: 0.05em; }
-    .book-stars { font-size: 1.1rem; margin-bottom: 0.7rem; }
-    .book-comment { font-size: 0.88rem; color: #555; line-height: 1.6; font-style: italic; }
-    .book-meta { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid rgba(0,0,0,0.06); font-size: 0.75rem; color: #aaa; display: flex; justify-content: space-between; align-items: center; }
-    .book-delete { background: none; border: none; color: #ccc; cursor: pointer; font-size: 1rem; padding: 0; transition: color 0.2s; }
-    .book-delete:hover { color: var(--terra); }
-
-    .empty-state { text-align: center; padding: 4rem 2rem; color: #aaa; }
-    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
-    .empty-state p { font-size: 1rem; }
-
-    /* MODAL */
-    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 400; align-items: center; justify-content: center; }
-    .modal-backdrop.open { display: flex; }
-    .modal { background: white; border-radius: 16px; padding: 2rem; width: min(520px, 92vw); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.5rem; }
-    .form-row { margin-bottom: 1.1rem; }
-    .form-row label { display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 0.4rem; }
-    .form-row input, .form-row textarea, .form-row select { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.95rem; transition: border-color 0.2s; }
-    .form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline: none; border-color: var(--forest); }
-    .form-row textarea { resize: vertical; min-height: 80px; }
-    .star-picker { display: flex; gap: 0.4rem; font-size: 1.8rem; cursor: pointer; }
-    .star-picker span { opacity: 0.3; transition: opacity 0.1s; }
-    .star-picker span.lit { opacity: 1; }
-    .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
-    .btn-cancel { background: none; border: 1px solid #ddd; color: #888; font-family: 'Jost', sans-serif; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
-    .btn-cancel:hover { border-color: #bbb; color: #555; }
-    .btn-save { background: var(--forest); border: none; color: white; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; padding: 0.6rem 1.4rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
-    .btn-save:hover { background: var(--forest-lt); }
-
-    footer { background: var(--forest-dk); color: rgba(245,240,232,0.5); text-align: center; padding: 2rem; font-size: 0.8rem; letter-spacing: 0.1em; margin-top: 4rem; }
-      .private-dropdown { position: relative; display: inline-flex; align-items: center; }
-    .private-btn { background: none; border: 1px solid rgba(245,220,180,0.4); color: rgba(245,220,180,0.9); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-    .private-btn:hover { background: rgba(245,220,180,0.15); }
-    .private-menu { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: #2a3f28; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.4rem; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-    .private-dropdown.open .private-menu { display: flex; flex-direction: column; }
-    .private-menu a { color: rgba(245,240,232,0.85); text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.8rem; border-radius: 6px; transition: background 0.15s; }
-    .private-menu a:hover { background: rgba(255,255,255,0.1); color: white; }
+    /* ── FOOTER ── */
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
   <nav>
-    <a class="nav-brand" href="index.html">🏰 Age of Origins</a>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
     <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="base.html">Base</a>
-      <a href="combat.html">Combat</a>
-      <a href="alliance.html">Alliance</a>
-      <a href="tips.html">Tips</a>
-      <a href="events.html">Events</a>
-      <a href="group.html">Group</a>
-      <a href="resources.html" class="active">Resources</a>
+      <a href="index.html" data-en="Home" data-es="Inicio">Home</a>
+      <a href="base.html" data-en="Base" data-es="Base">Base</a>
+      <a href="combat.html" data-en="Combat" data-es="Combate">Combat</a>
+      <a href="alliance.html" data-en="Alliance" data-es="Alianza">Alliance</a>
+      <a href="tips.html" data-en="Tips" data-es="Consejos">Tips</a>
+      <a href="events.html" data-en="Events" data-es="Eventos">Events</a>
+      <a href="group.html" data-en="Group" data-es="Grupo">Group</a>
+      <a href="forum.html" data-en="Forum" data-es="Foro">Forum</a>
+      <a href="resources.html" class="active" data-en="Resources" data-es="Recursos">Resources</a>
+      <a href="leadership.html" id="navLeadership" style="display:none;" data-en="Leadership" data-es="Liderazgo">Leadership</a>
       <div class="nav-mobile-footer">
-        <button class="nav-logout" onclick="logOut()">Log out</button>
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
       </div>
     </div>
     <div class="nav-right">
-      <button class="nav-logout" onclick="logOut()">Log out</button>
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
     </div>
   </nav>
 
+  <!-- HERO -->
   <header class="hero">
     <div class="hero-content">
       <div class="hero-icon">📚</div>
-      <h1>Familje<em>boktips</em></h1>
-      <p>Böcker vi läst och älskat</p>
+      <h1 data-en="External guides" data-es="Guías externas">External guides</h1>
+      <p class="hero-sub"
+         data-en="Links to the best videos, wikis, and community guides — sorted so you don't have to."
+         data-es="Enlaces a los mejores videos, wikis y guías de la comunidad — ordenados para que no tengas que hacerlo tú.">
+        Links to the best videos, wikis, and community guides — sorted so you don't have to.
+      </p>
     </div>
   </header>
 
-  <div class="main">
-    <div class="toolbar">
-      <div class="filter-tabs" id="filterTabs">
-        <div class="filter-tab active" data-filter="alla">Alla</div>
-        <div class="filter-tab" data-filter="roman">Roman</div>
-        <div class="filter-tab" data-filter="thriller">Thriller</div>
-        <div class="filter-tab" data-filter="fakta">Fakta</div>
-        <div class="filter-tab" data-filter="fantasy">Fantasy</div>
-        <div class="filter-tab" data-filter="barn">Barn</div>
-        <div class="filter-tab" data-filter="övrigt">Övrigt</div>
-      </div>
-      <button class="btn-primary" id="btnAdd">+ Lägg till bok</button>
+  <!-- MAIN -->
+  <main class="main">
+    <div class="empty-state">
+      <div class="icon"><i class="fa-solid fa-hammer"></i></div>
+      <p data-en="Coming soon — this page is being built." data-es="Próximamente — esta página está en construcción.">Coming soon — this page is being built.</p>
     </div>
-
-    <div class="books-grid" id="booksGrid"></div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">📖</div>
-      <p>Inga boktips ännu — lägg till den första!</p>
-    </div>
-  </div>
-
-  <!-- ADD MODAL -->
-  <div class="modal-backdrop" id="modal">
-    <div class="modal">
-      <h2>📚 Lägg till bok</h2>
-      <div class="form-row">
-        <label>Boktitel *</label>
-        <input type="text" id="fTitel" placeholder="Bokens titel..." />
-      </div>
-      <div class="form-row">
-        <label>Författare</label>
-        <input type="text" id="fForfatter" placeholder="Namn på författaren..." />
-      </div>
-      <div class="form-row">
-        <label>Genre</label>
-        <select id="fGenre">
-          <option value="roman">Roman</option>
-          <option value="thriller">Thriller</option>
-          <option value="fakta">Fakta</option>
-          <option value="fantasy">Fantasy</option>
-          <option value="barn">Barn</option>
-          <option value="övrigt">Övrigt</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Betyg</label>
-        <div class="star-picker" id="starPicker">
-          <span data-val="1">⭐</span>
-          <span data-val="2">⭐</span>
-          <span data-val="3">⭐</span>
-          <span data-val="4">⭐</span>
-          <span data-val="5">⭐</span>
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Kommentar</label>
-        <textarea id="fKommentar" placeholder="Vad tyckte du om boken?"></textarea>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-cancel" id="btnCancel">Avbryt</button>
-        <button class="btn-save" id="btnSave">Spara</button>
-      </div>
-    </div>
-  </div>
+  </main>
 
   <footer>
-    <p>Din familjesajt &nbsp;·&nbsp; Privat familjesajt &nbsp;·&nbsp; 2026</p>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-function addPrivateNavLinks(email) {
-      const links = [];
-      // Privata mappar konfigureras av familjen själva
-      if (!links.length) return;
-      const navRight = document.querySelector('.nav-right');
-      if (!navRight) return;
-      const wrap = document.createElement('div');
-      wrap.className = 'private-dropdown';
-      wrap.innerHTML = `<button class="private-btn">Min plats ▾</button><div class="private-menu">${links.map(l=>`<a href="${l.href}">${l.label}</a>`).join('')}</div>`;
-      navRight.insertBefore(wrap, navRight.firstChild);
-      wrap.querySelector('.private-btn').addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
-      document.addEventListener('click', () => wrap.classList.remove('open'));
-    }
-</script>
   <script>
     const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
     const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+
+    // Recovery/invite-hash -> login
+    const _h = window.location.hash, _s = window.location.search;
+    if ((_h && (_h.includes('type=recovery') || _h.includes('type=invite'))) || (_s && _s.includes('code='))) {
+      window.location.replace('login.html' + _s + _h);
+    }
+
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
 
-    let currentUser = null;
-    let allBooks = [];
-    let activeFilter = 'alla';
-    let pickedStars = 0;
+    function logOut() { sb.auth.signOut().then(() => { window.location.href = 'login.html?logout=1'; }); }
 
+    const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com'];
     sb.auth.getSession().then(({ data }) => {
-      if (!data.session) { window.location.href = 'login.html'; return; }
-      currentUser = data.session.user;
-      loadBooks();
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      const _email = (data.session.user.email || '').toLowerCase();
+      if (LEADER_EMAILS.includes(_email)) {
+        const _navL = document.getElementById('navLeadership');
+        if (_navL) _navL.style.display = '';
+      }
     });
 
-    async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
-
-    async function loadBooks() {
-      const { data } = await sb.from('boktips').select('*').order('created_at', { ascending: false });
-      allBooks = data || [];
-      renderBooks();
-    }
-
-    function renderBooks() {
-      const grid = document.getElementById('booksGrid');
-      const empty = document.getElementById('emptyState');
-      const filtered = activeFilter === 'alla' ? allBooks : allBooks.filter(b => b.genre === activeFilter);
-      if (!filtered.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
-      empty.style.display = 'none';
-      grid.innerHTML = filtered.map(b => {
-        const stars = '⭐'.repeat(b.betyg || 0) + '☆'.repeat(5 - (b.betyg || 0));
-        const date = new Date(b.created_at).toLocaleDateString('sv-SE', { year: 'numeric', month: 'short', day: 'numeric' });
-        return `<div class="book-card">
-          <div class="book-emoji">📖</div>
-          <div class="book-title">${esc(b.titel)}</div>
-          <div class="book-author">av ${esc(b.forfattare || '?')}</div>
-          <div class="book-stars">${stars}</div>
-          ${b.kommentar ? `<div class="book-comment">"${esc(b.kommentar)}"</div>` : ''}
-          <div class="book-meta">
-            <span>${esc(b.rekommenderas_av || 'Familjemedlem')} · ${date}</span>
-            <button class="book-delete" onclick="deleteBook('${b.id}')">🗑</button>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-    async function deleteBook(id) {
-      if (!confirm('Ta bort boktipset?')) return;
-      await sb.from('boktips').delete().eq('id', id);
-      allBooks = allBooks.filter(b => b.id !== id);
-      renderBooks();
-    }
-
-    // Filter tabs
-    document.getElementById('filterTabs').addEventListener('click', e => {
-      const tab = e.target.closest('.filter-tab');
-      if (!tab) return;
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeFilter = tab.dataset.filter;
-      renderBooks();
-    });
-
-    // Modal
-    document.getElementById('btnAdd').addEventListener('click', () => {
-      document.getElementById('modal').classList.add('open');
-    });
-    document.getElementById('btnCancel').addEventListener('click', closeModal);
-    document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
-
-    function closeModal() {
-      document.getElementById('modal').classList.remove('open');
-      ['fTitel','fForfatter','fKommentar'].forEach(id => document.getElementById(id).value = '');
-      pickedStars = 0;
-      document.querySelectorAll('#starPicker span').forEach(s => s.classList.remove('lit'));
-    }
-
-    // Star picker
-    document.getElementById('starPicker').addEventListener('click', e => {
-      const star = e.target.closest('span');
-      if (!star) return;
-      pickedStars = parseInt(star.dataset.val);
-      document.querySelectorAll('#starPicker span').forEach((s, i) => {
-        s.classList.toggle('lit', i < pickedStars);
-      });
-    });
-
-    document.getElementById('btnSave').addEventListener('click', async () => {
-      const titel = document.getElementById('fTitel').value.trim();
-      if (!titel) { alert('Ange en boktitel!'); return; }
-      const { error } = await sb.from('boktips').insert({
-        titel,
-        forfattare: document.getElementById('fForfatter').value.trim(),
-        genre: document.getElementById('fGenre').value,
-        betyg: pickedStars || null,
-        kommentar: document.getElementById('fKommentar').value.trim(),
-        rekommenderas_av: currentUser?.email?.split('@')[0] || 'Okänd'
-      });
-      if (error) { alert('Kunde inte spara: ' + error.message); return; }
-      closeModal();
-      loadBooks();
-    });
-  
-    function toggleNav() {
-      const nl = document.getElementById('navLinks');
-      nl.classList.toggle('open');
-    }
+    // ── NAV TOGGLE ──
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
     document.addEventListener('DOMContentLoaded', function() {
       const nl = document.getElementById('navLinks');
       if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
     });
-  </script>
-  <script>
-    (function(){
-      var VERS_URL = "version.json?t=" + Date.now();
-      var stored;
-      fetch(VERS_URL).then(function(r){return r.json();}).then(function(d){
-        stored = d.version;
-      }).catch(function(){});
-      setInterval(function(){
-        if(!stored) return;
-        fetch("version.json?t=" + Date.now()).then(function(r){return r.json();}).then(function(d){
-          if(d.version !== stored && !document.getElementById("update-banner")){
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
             var b = document.createElement("div");
             b.id = "update-banner";
-            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#3d5c3a;color:#f5f0e8;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
-            b.innerHTML = "✨ Sajten har uppdaterats! <button onclick='location.reload(true)' style='background:#fff;color:#3d5c3a;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>Ladda om</button>";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#1C1C1E;color:#E8E6E1;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#D4AF37;color:#0B0B0B;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
             document.body.appendChild(b);
           }
         }).catch(function(){});
       }, 300000);
     })();
+  </script>
+  <style>
+  .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#D4AF37);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#B8B2A6);}
+  </style>
+  <script>
+  (function(){
+    var nav=document.querySelector('nav');
+    var w=document.createElement('div');
+    w.className='lgx-banner';
+    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
+    function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
+    sync();
+    document.querySelectorAll('#langBtn,#langBtnMobile').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,30);});});
+  })();
   </script>
 </body>
 </html>
