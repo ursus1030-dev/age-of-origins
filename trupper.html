@@ -188,6 +188,7 @@
       <a href="events.html"           data-en="Events"    data-es="Eventos">Events</a>
       <a href="group.html"          data-en="Group"     data-es="Grupo">Group</a>
       <a href="resources.html"         data-en="Resources" data-es="Recursos">Resources</a>
+      <a href="leadership.html" id="navLeadership" style="display:none;" data-en="Leadership" data-es="Liderazgo">Leadership</a>
       <div class="nav-mobile-footer">
         <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
         <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
@@ -263,8 +264,14 @@
       auth: { flowType: 'pkce' }
     });
 
+    const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com'];
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      const _email = (data.session.user.email || '').toLowerCase();
+      if (LEADER_EMAILS.includes(_email)) {
+        const _navL = document.getElementById('navLeadership');
+        if (_navL) _navL.style.display = '';
+      }
     });
 
     function logOut() { window.location.href = 'logout.html'; }
