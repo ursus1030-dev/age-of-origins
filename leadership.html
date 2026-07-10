@@ -74,6 +74,9 @@
 
     .ldr-empty { text-align: center; padding: 3rem 1rem; color: rgba(245,240,232,0.4); font-size: 0.9rem; }
 
+    .ldr-group-heading { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold); letter-spacing: 0.05em; margin: 1.6rem 0 0.8rem; padding-bottom: 0.4rem; border-bottom: 1px solid rgba(212,175,55,0.25); }
+    .ldr-group-heading:first-child { margin-top: 0; }
+
     .entry-card { background: #141416; border-radius: 14px; padding: 1.3rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(212,175,55,0.08); }
     .entry-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.5rem; }
     .entry-title { font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--gold); font-weight: 500; }
@@ -172,7 +175,12 @@
       <h2 id="ldrModalTitle">New entry</h2>
       <div class="ldr-field">
         <label>Category</label>
-        <select id="fCategory"></select>
+        <select id="fCategory" onchange="onCategoryChange()"></select>
+      </div>
+      <div class="ldr-field" id="fEventNameWrap" style="display:none;">
+        <label>Event name (optional)</label>
+        <input type="text" id="fEventName" list="fEventNameList" placeholder="e.g. Polar War, Void Frenzy, Elite Doom — leave blank for daily log" />
+        <datalist id="fEventNameList"></datalist>
       </div>
       <div class="ldr-field">
         <label>Date</label>
@@ -293,7 +301,20 @@
       const { data, error } = await sb.from('leadership_entries').select('*').order('entry_date', { ascending: false });
       if (error) { console.error(error); return; }
       allEntries = data || [];
+      buildEventNameDatalist();
       await renderList();
+    }
+
+    function buildEventNameDatalist() {
+      const dl = document.getElementById('fEventNameList');
+      if (!dl) return;
+      const names = [...new Set(allEntries.filter(function(e) { return e.category === 'log' && e.event_name; }).map(function(e) { return e.event_name; }))].sort();
+      dl.innerHTML = names.map(function(n) { return '<option value="' + escapeHtml(n) + '"></option>'; }).join('');
+    }
+
+    function onCategoryChange() {
+      const wrap = document.getElementById('fEventNameWrap');
+      wrap.style.display = document.getElementById('fCategory').value === 'log' ? '' : 'none';
     }
 
     function onLangChange() {
@@ -308,7 +329,7 @@
       let rows = allEntries.filter(function(e) { return e.category === activeCategory; });
       if (q) {
         rows = rows.filter(function(e) {
-          const hay = [e.title_en, e.title_fr, e.title_de, e.title_es, e.body_en, e.body_fr, e.body_de, e.body_es, (e.tags || []).join(' ')].join(' ').toLowerCase();
+          const hay = [e.title_en, e.title_fr, e.title_de, e.title_es, e.body_en, e.body_fr, e.body_de, e.body_es, (e.tags || []).join(' '), e.event_name || ''].join(' ').toLowerCase();
           return hay.includes(q);
         });
       }
@@ -317,9 +338,32 @@
         return;
       }
       list.innerHTML = '';
-      for (const e of rows) {
-        list.appendChild(await renderCard(e));
+
+      if (activeCategory === 'log') {
+        const general = rows.filter(function(e) { return !e.event_name; });
+        const eventNames = [...new Set(rows.filter(function(e) { return e.event_name; }).map(function(e) { return e.event_name; }))].sort();
+
+        if (general.length) {
+          list.appendChild(buildGroupHeading('Daily Log'));
+          for (const e of general) list.appendChild(await renderCard(e));
+        }
+        for (const name of eventNames) {
+          list.appendChild(buildGroupHeading(name));
+          const group = rows.filter(function(e) { return e.event_name === name; });
+          for (const e of group) list.appendChild(await renderCard(e));
+        }
+      } else {
+        for (const e of rows) {
+          list.appendChild(await renderCard(e));
+        }
       }
+    }
+
+    function buildGroupHeading(text) {
+      const h = document.createElement('div');
+      h.className = 'ldr-group-heading';
+      h.textContent = text;
+      return h;
     }
 
     async function renderCard(e) {
@@ -389,14 +433,16 @@
         document.getElementById('fTitleEs').value = e.title_es || '';
         document.getElementById('fBodyEs').value = e.body_es || '';
         document.getElementById('fTags').value = (e.tags || []).join(', ');
+        document.getElementById('fEventName').value = e.event_name || '';
       } else {
         document.getElementById('ldrModalTitle').textContent = 'New entry';
         document.getElementById('fCategory').value = activeCategory;
         document.getElementById('fDate').value = new Date().toISOString().slice(0,10);
-        ['fTitleEn','fBodyEn','fTitleFr','fBodyFr','fTitleDe','fBodyDe','fTitleEs','fBodyEs','fTags'].forEach(function(id) {
+        ['fTitleEn','fBodyEn','fTitleFr','fBodyFr','fTitleDe','fBodyDe','fTitleEs','fBodyEs','fTags','fEventName'].forEach(function(id) {
           document.getElementById(id).value = '';
         });
       }
+      onCategoryChange();
       document.getElementById('ldrModalBg').classList.add('open');
     }
 
@@ -436,6 +482,7 @@
         title_es: document.getElementById('fTitleEs').value.trim() || null,
         body_es: document.getElementById('fBodyEs').value.trim() || null,
         tags: tags,
+        event_name: document.getElementById('fEventName').value.trim() || null,
         file_urls: filePaths,
         author_email: currentUserEmail,
         updated_at: new Date().toISOString()
