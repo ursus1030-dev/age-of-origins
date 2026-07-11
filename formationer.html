@@ -309,7 +309,7 @@
       auth: { flowType: 'pkce' }
     });
 
-    const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com'];
+    const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com','werchnowm@gmail.com'];
     sb.auth.getSession().then(({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
       const _email = (data.session.user.email || '').toLowerCase();

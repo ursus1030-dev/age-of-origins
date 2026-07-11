@@ -222,7 +222,7 @@
       const { data: profRow, error: profErr } = await sb.from('profiles').select('*').eq('id', uid).single();
       if (profErr || !profRow) { console.error('No profile row', profErr); return; }
       profile = profRow;
-      const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com'];
+      const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com','werchnowm@gmail.com'];
       const _email = (data.session.user.email || '').toLowerCase();
       if (LEADER_EMAILS.includes(_email)) {
         const _navL = document.getElementById('navLeadership');
