@@ -178,8 +178,8 @@
         <select id="fCategory" onchange="onCategoryChange()"></select>
       </div>
       <div class="ldr-field" id="fEventNameWrap" style="display:none;">
-        <label>Event name (optional)</label>
-        <input type="text" id="fEventName" list="fEventNameList" placeholder="e.g. Polar War, Void Frenzy, Elite Doom — leave blank for daily log" />
+        <label>Event name</label>
+        <input type="text" id="fEventName" list="fEventNameList" placeholder="e.g. Polar War, Void Frenzy, Elite Doom, DOOM, Zombie Uprise, Elite War" />
         <datalist id="fEventNameList"></datalist>
       </div>
       <div class="ldr-field">
@@ -234,8 +234,10 @@
 
     const CATEGORIES = [
       { key: 'log',        label: 'Log' },
+      { key: 'events',     label: 'Events' },
       { key: 'planning',   label: 'Planning' },
       { key: 'members',    label: 'Members' },
+      { key: 'intel',      label: 'Intel' },
       { key: 'agreements', label: 'Agreements' },
       { key: 'images',     label: 'Images' },
       { key: 'statistics', label: 'Statistics' }
@@ -308,13 +310,13 @@
     function buildEventNameDatalist() {
       const dl = document.getElementById('fEventNameList');
       if (!dl) return;
-      const names = [...new Set(allEntries.filter(function(e) { return e.category === 'log' && e.event_name; }).map(function(e) { return e.event_name; }))].sort();
+      const names = [...new Set(allEntries.filter(function(e) { return e.category === 'events' && e.event_name; }).map(function(e) { return e.event_name; }))].sort();
       dl.innerHTML = names.map(function(n) { return '<option value="' + escapeHtml(n) + '"></option>'; }).join('');
     }
 
     function onCategoryChange() {
       const wrap = document.getElementById('fEventNameWrap');
-      wrap.style.display = document.getElementById('fCategory').value === 'log' ? '' : 'none';
+      wrap.style.display = document.getElementById('fCategory').value === 'events' ? '' : 'none';
     }
 
     function onLangChange() {
@@ -339,12 +341,12 @@
       }
       list.innerHTML = '';
 
-      if (activeCategory === 'log') {
+      if (activeCategory === 'events') {
         const general = rows.filter(function(e) { return !e.event_name; });
         const eventNames = [...new Set(rows.filter(function(e) { return e.event_name; }).map(function(e) { return e.event_name; }))].sort();
 
         if (general.length) {
-          list.appendChild(buildGroupHeading('Daily Log'));
+          list.appendChild(buildGroupHeading('General'));
           for (const e of general) list.appendChild(await renderCard(e));
         }
         for (const name of eventNames) {
