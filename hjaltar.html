@@ -211,6 +211,20 @@
     .officer-skill-name { font-size: 0.85rem; color: var(--cream); margin-bottom: 0.2rem; }
     .officer-skill-desc { font-size: 0.8rem; color: rgba(232,230,225,0.72); line-height: 1.45; }
     .officer-note { font-size: 0.82rem; color: rgba(232,230,225,0.6); line-height: 1.55; margin-top: 1rem; font-style: italic; }
+
+    /* ── UNWORLDLY POOLS (per role) ── */
+    .up-mek { background: var(--forest); border: 1px solid rgba(212,175,55,0.3); border-radius: 14px; padding: 1.1rem 1.2rem; margin-top: 1rem; }
+    .up-mek h3 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.95rem; margin-bottom: 0.6rem; }
+    .up-mek ol { margin-left: 1.1rem; font-size: 0.84rem; display: grid; gap: 0.45rem; }
+    .up-tip { margin-top: 0.8rem; background: rgba(179,18,23,0.15); border-left: 3px solid var(--red); padding: 0.5rem 0.7rem; font-size: 0.82rem; border-radius: 4px; }
+    .up-legend { margin-top: 0.8rem; font-size: 0.75rem; color: rgba(232,230,225,0.6); line-height: 1.6; }
+    .up-shared { background: var(--forest); border: 1px solid rgba(212,175,55,0.25); border-radius: 14px; padding: 0.9rem 1.1rem; margin-top: 1rem; }
+    .up-shared summary { cursor: pointer; font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.9rem; }
+    .up-shared-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 0.8rem; margin-top: 0.7rem; font-size: 0.78rem; color: rgba(232,230,225,0.9); }
+    .up-grp { grid-column: 1 / -1; color: var(--terra-lt); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.4rem; }
+    .up-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .up-chip { background: rgba(212,175,55,0.10); border: 1px solid rgba(212,175,55,0.35); border-radius: 8px; padding: 0.28rem 0.6rem; font-size: 0.78rem; }
+    .up-why { font-size: 0.8rem; color: rgba(232,230,225,0.6); margin-top: 0.6rem; font-style: italic; }
     .breadcrumb {
       max-width: 760px; margin: 1.5rem auto 0;
       padding: 0 1.5rem;
@@ -382,6 +396,38 @@
         <div class="glossary-desc" data-en="Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice. The five roles: Director, Strategy, Machinist, Drillmaster, Warfare." data-es="A diferencia de las ranuras de habilidad, el rol de un oficial nunca cambia — es parte de quién es, no una elección de build. Los cinco roles: Director, Strategy, Machinist, Drillmaster, Warfare.">Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice. The five roles: Director, Strategy, Machinist, Drillmaster, Warfare.</div>
       </div>
 
+      <p style="font-size:0.9rem; margin-top:1.6rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Unworldly pools — what each Warfare officer can roll" data-es="Pools de Unworldly — qué puede sacar cada oficial Warfare"><strong>Unworldly pools — what each Warfare officer can roll</strong></p>
+
+      <div class="up-mek">
+        <h3 data-en="Unworldly Stats — how it works" data-es="Unworldly Stats — cómo funciona">Unworldly Stats — how it works</h3>
+        <ol>
+          <li data-en="Every tier of your 5th star unlocks one Unworldly slot — the fifth comes at 6★." data-es="Cada nivel de la 5.ª estrella desbloquea una ranura Unworldly — la quinta llega a 6★.">Every tier of your 5th star unlocks one Unworldly slot — the fifth comes at 6★.</li>
+          <li data-en="Remodel rerolls your unlocked slots randomly from the officer's pool (costs Officer Fragments). Lock the rows you want to keep — locked rows don't reroll, and Fortify levels always survive." data-es="Remodel vuelve a sortear tus ranuras desbloqueadas al azar dentro del pool del oficial (cuesta Officer Fragments). Bloquea las filas que quieras conservar — las filas bloqueadas no se sortean, y los niveles de Fortify siempre se conservan.">Remodel rerolls your unlocked slots randomly from the officer's pool (costs Officer Fragments). Lock the rows you want to keep — locked rows don't reroll, and Fortify levels always survive.</li>
+          <li data-en="Each stat rolls at a color tier — Orange, Purple, Blue or Green. The color caps the letter grade: Orange can reach SSS, Purple stops at AA." data-es="Cada estadística sale en un nivel de color — Orange, Purple, Blue o Green. El color limita el grado de letra: Orange puede llegar a SSS, Purple se queda en AA.">Each stat rolls at a color tier — Orange, Purple, Blue or Green. The color caps the letter grade: Orange can reach SSS, Purple stops at AA.</li>
+          <li data-en="At 6★, Pick One lets you choose an S/SS/SSS stat directly for 100 Unworldly Cards. It replaces the selected row — the old stat disappears." data-es="A 6★, Pick One te deja elegir directamente una estadística S/SS/SSS por 100 Unworldly Cards. Reemplaza la fila seleccionada — la estadística anterior desaparece.">At 6★, Pick One lets you choose an S/SS/SSS stat directly for 100 Unworldly Cards. It replaces the selected row — the old stat disappears.</li>
+        </ol>
+        <div class="up-tip"><strong data-en="One copy per role:" data-es="Una copia por rol:">One copy per role:</strong> <span data-en="the same Unworldly stat can't be active on two officers of the same role. Spread strong stats across your roster — don't chase the same one on everyone." data-es="la misma estadística Unworldly no puede estar activa en dos oficiales del mismo rol. Reparte las estadísticas fuertes entre tu plantilla — no persigas la misma en todos.">the same Unworldly stat can't be active on two officers of the same role. Spread strong stats across your roster — don't chase the same one on everyone.</span></div>
+        <div class="up-legend" data-en="Initial values by color — standard stats: 2.4–3% (Orange) / 1.8–2.1% (Purple) / 1.5% (Blue) / 1.2% (Green) · Cross-Nation (CN) stats: 4–5% / 3–3.5% / 2.5% / none on Green · Siege, City & Tower: 1.6–2% / 1.2–1.4% / 1% / 0.8%." data-es="Valores iniciales por color — estadísticas estándar: 2.4–3% (Orange) / 1.8–2.1% (Purple) / 1.5% (Blue) / 1.2% (Green) · Estadísticas Cross-Nation (CN): 4–5% / 3–3.5% / 2.5% / ninguna en Green · Siege, City y Tower: 1.6–2% / 1.2–1.4% / 1% / 0.8%.">Initial values by color — standard stats: 2.4–3% (Orange) / 1.8–2.1% (Purple) / 1.5% (Blue) / 1.2% (Green) · Cross-Nation (CN) stats: 4–5% / 3–3.5% / 2.5% / none on Green · Siege, City & Tower: 1.6–2% / 1.2–1.4% / 1% / 0.8%.</div>
+      </div>
+
+      <details class="up-shared">
+        <summary data-en="Shared pool — 21 stats every Warfare officer can roll" data-es="Pool compartido — 21 estadísticas que todo oficial Warfare puede sacar">Shared pool — 21 stats every Warfare officer can roll</summary>
+        <div class="up-shared-grid">
+          <span class="up-grp">Melee</span>
+          <span>Melee Defense · Melee HP</span><span>CN Melee Attack / Defense / HP</span>
+          <span class="up-grp">Mid-Range</span>
+          <span>Mid-Range Defense · Mid-Range HP</span><span>CN Mid-Range Attack / Defense / HP</span>
+          <span class="up-grp">Long-Range</span>
+          <span>Long-Range Defense · Long-Range HP</span><span>CN Long-Range Defense / HP</span>
+          <span class="up-grp">Biochemical Zombies</span>
+          <span>BZ Attack / Defense / HP Boost</span><span>CN BZ Attack / Defense / HP</span>
+          <span class="up-grp" data-en="Other" data-es="Otros">Other</span>
+          <span>Defense Tower Damage</span><span></span>
+        </div>
+      </details>
+
+      <p style="font-size:0.85rem; margin-top:0.8rem; color:var(--cream); opacity:0.85;" data-en="Each officer card below lists only the rows unique to that officer — the differences are what matter when you plan who rolls what." data-es="Cada ficha de oficial de abajo lista solo las filas exclusivas de ese oficial — las diferencias son lo que importa cuando planeas quién saca qué.">Each officer card below lists only the rows unique to that officer — the differences are what matter when you plan who rolls what.</p>
+
       <p style="font-size:0.9rem; margin-top:1.3rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Profile: Tifa — one player's actual officer, not the general rule" data-es="Perfil: Tifa — el oficial real de un jugador, no la regla general"><strong>Profile: Tifa — one player's actual officer, not the general rule</strong></p>
 
       <div class="officer-card">
@@ -431,6 +477,17 @@
           <div class="officer-skill-desc" data-en="Weapon +12, Gear +20 — a separate enhancement system, upgraded on its own." data-es="Arma +12, Equipo +20 — un sistema de mejora aparte, que se sube por separado.">Weapon +12, Gear +20 — a separate enhancement system, upgraded on its own.</div>
         </div>
 
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Tifa" data-es="Pool Unworldly — exclusivo de Tifa">Unworldly pool — unique to Tifa</div>
+        <div class="up-chips">
+          <span class="up-chip">Long-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Melee</span>
+          <span class="up-chip">Siege Troops Attack</span>
+          <span class="up-chip">Siege Troops Defense</span>
+          <span class="up-chip">Siege Troops HP</span>
+        </div>
+        <div class="up-why" data-en="Identical pool to Zeus. The siege line: only Tifa, Zeus and Panda Jack can roll Siege Troops stats. Shared rows: see the list above." data-es="Pool idéntico al de Zeus. La línea de asedio: solo Tifa, Zeus y Panda Jack pueden sacar estadísticas de Siege Troops. Filas compartidas: ver la lista de arriba.">Identical pool to Zeus. The siege line: only Tifa, Zeus and Panda Jack can roll Siege Troops stats. Shared rows: see the list above.</div>
+
         <p class="officer-note" data-en="This is one Mid-Range Attack build. A Long-Range or Zombie-focused player could put completely different skills in Tifa's three open slots — the base skill and Breakthrough skill stay the same either way, but the middle section is always a choice." data-es="Esta es una build de Ataque a Media Distancia. Un jugador enfocado en Larga Distancia o Zombis podría poner habilidades totalmente distintas en las tres ranuras abiertas de Tifa — la habilidad base y la de Avance siguen siendo las mismas, pero la sección del medio siempre es una elección.">This is one Mid-Range Attack build. A Long-Range or Zombie-focused player could put completely different skills in Tifa's three open slots — the base skill and Breakthrough skill stay the same either way, but the middle section is always a choice.</p>
       </div>
 
@@ -472,6 +529,17 @@
           <div class="officer-skill-name">Magnetic Shield</div>
           <div class="officer-skill-desc" data-en="After using the skill, Melee Troops get a shield at the start of the battle that absorbs damage for a short time." data-es="Tras usar la habilidad, las tropas Cuerpo a Cuerpo obtienen un escudo al inicio de la batalla que absorbe daño durante un breve tiempo.">After using the skill, Melee Troops get a shield at the start of the battle that absorbs damage for a short time.</div>
         </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Aeon" data-es="Pool Unworldly — exclusivo de Aeon">Unworldly pool — unique to Aeon</div>
+        <div class="up-chips">
+          <span class="up-chip">Melee Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Long-Range</span>
+          <span class="up-chip">City Troops Attack</span>
+          <span class="up-chip">City Troops Defense</span>
+          <span class="up-chip">City Troops HP</span>
+        </div>
+        <div class="up-why" data-en="The city defense line: Aeon, Alexandria and Storm Bow can roll City Troops stats." data-es="La línea de defensa de ciudad: Aeon, Alexandria y Storm Bow pueden sacar estadísticas de City Troops.">The city defense line: Aeon, Alexandria and Storm Bow can roll City Troops stats.</div>
       </div>
 
       <div class="officer-card">
@@ -508,6 +576,16 @@
           <div class="officer-skill-name">Exterminate</div>
           <div class="officer-skill-desc" data-en="After your first solo attack following use, kills a portion of Wounded enemies (only applies when attacking a Commander's City or resource mine)." data-es="Tras tu primer ataque en solitario después de usarla, elimina a una parte de los enemigos Heridos (solo aplica al atacar la Ciudad de un Comandante o una mina de recursos).">After your first solo attack following use, kills a portion of Wounded enemies (only applies when attacking a Commander's City or resource mine).</div>
         </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Panda Jack" data-es="Pool Unworldly — exclusivo de Panda Jack">Unworldly pool — unique to Panda Jack</div>
+        <div class="up-chips">
+          <span class="up-chip">Melee Attack</span>
+          <span class="up-chip">Reduce Damage from Mid-Range</span>
+          <span class="up-chip">Siege Troops Attack</span>
+          <span class="up-chip">Siege Troops Defense</span>
+          <span class="up-chip">Siege Troops HP</span>
+        </div>
+        <div class="up-why" data-en="Smallest Warfare pool — the only Warfare officer who can NOT roll CN Long-Range Attack." data-es="El pool Warfare más pequeño — el único oficial Warfare que NO puede sacar CN Long-Range Attack.">Smallest Warfare pool — the only Warfare officer who can NOT roll CN Long-Range Attack.</div>
       </div>
 
       <div class="officer-card">
@@ -544,6 +622,17 @@
           <div class="officer-skill-name">Rescue</div>
           <div class="officer-skill-desc" data-en="After using the skill, a portion of Troops killed while attacking are converted to Wounded instead, until the Hospital is full." data-es="Tras usar la habilidad, una parte de las tropas eliminadas al atacar se convierten en Heridas en su lugar, hasta que el Hospital esté lleno.">After using the skill, a portion of Troops killed while attacking are converted to Wounded instead, until the Hospital is full.</div>
         </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Alexandria" data-es="Pool Unworldly — exclusivo de Alexandria">Unworldly pool — unique to Alexandria</div>
+        <div class="up-chips">
+          <span class="up-chip">Mid-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Long-Range</span>
+          <span class="up-chip">City Troops Attack</span>
+          <span class="up-chip">City Troops Defense</span>
+          <span class="up-chip">City Troops HP</span>
+        </div>
+        <div class="up-why" data-en="City defense line, plus one of only two Warfare officers (with Storm Bow) who can roll plain Mid-Range Attack." data-es="Línea de defensa de ciudad, y además uno de solo dos oficiales Warfare (junto a Storm Bow) que pueden sacar Mid-Range Attack normal.">City defense line, plus one of only two Warfare officers (with Storm Bow) who can roll plain Mid-Range Attack.</div>
       </div>
 
       <div class="officer-card">
@@ -580,6 +669,17 @@
           <div class="officer-skill-name">Rocket</div>
           <div class="officer-skill-desc" data-en="When attacking Commanders, launches a rocket at the enemy unit with the most Troops." data-es="Al atacar Comandantes, lanza un cohete contra la unidad enemiga con más tropas.">When attacking Commanders, launches a rocket at the enemy unit with the most Troops.</div>
         </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Zeus" data-es="Pool Unworldly — exclusivo de Zeus">Unworldly pool — unique to Zeus</div>
+        <div class="up-chips">
+          <span class="up-chip">Long-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Melee</span>
+          <span class="up-chip">Siege Troops Attack</span>
+          <span class="up-chip">Siege Troops Defense</span>
+          <span class="up-chip">Siege Troops HP</span>
+        </div>
+        <div class="up-why" data-en="Identical pool to Tifa — the second officer on the siege line." data-es="Pool idéntico al de Tifa — el segundo oficial de la línea de asedio.">Identical pool to Tifa — the second officer on the siege line.</div>
       </div>
 
       <div class="officer-card">
@@ -616,6 +716,17 @@
           <div class="officer-skill-name">Rampart Smasher</div>
           <div class="officer-skill-desc" data-en="Select a City to increase the Damage its Troops take for a set time. The effect can't be stacked." data-es="Selecciona una Ciudad para aumentar el Daño que reciben sus tropas durante un tiempo determinado. El efecto no se puede acumular.">Select a City to increase the Damage its Troops take for a set time. The effect can't be stacked.</div>
         </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Storm Bow" data-es="Pool Unworldly — exclusivo de Storm Bow">Unworldly pool — unique to Storm Bow</div>
+        <div class="up-chips">
+          <span class="up-chip">Mid-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Mid-Range</span>
+          <span class="up-chip">City Troops Attack</span>
+          <span class="up-chip">City Troops Defense</span>
+          <span class="up-chip">City Troops HP</span>
+        </div>
+        <div class="up-why" data-en="City defense line, plus one of only two Warfare officers (with Alexandria) who can roll plain Mid-Range Attack." data-es="Línea de defensa de ciudad, y además uno de solo dos oficiales Warfare (junto a Alexandria) que pueden sacar Mid-Range Attack normal.">City defense line, plus one of only two Warfare officers (with Alexandria) who can roll plain Mid-Range Attack.</div>
       </div>
     </section>
 
