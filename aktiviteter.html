@@ -68,6 +68,28 @@
     /* ── FOOTER ── */
     footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
   </style>
+<style>
+.ev-intro{font-size:0.95rem;line-height:1.6;color:var(--bark);margin-bottom:0.5rem;}
+.acc{background:#2C2C2E;border:1px solid rgba(212,175,55,0.25);border-radius:14px;margin:1rem 0;overflow:hidden;}
+.acc>summary{list-style:none;cursor:pointer;padding:1.1rem 1.3rem;font-family:'Cinzel',serif;font-size:1.05rem;color:var(--gold);display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.acc>summary::-webkit-details-marker{display:none;}
+.acc>summary::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;font-size:0.8rem;color:var(--bark);transition:transform 0.2s;}
+.acc[open]>summary::after{transform:rotate(180deg);}
+.acc-body{padding:0.2rem 1.3rem 1.4rem;border-top:1px solid rgba(212,175,55,0.15);}
+.acc-body h3{font-family:'Cinzel',serif;font-size:0.98rem;color:var(--gold);margin:1.4rem 0 0.4rem;letter-spacing:0.03em;}
+.acc-body h4.ev-sub{font-family:'Jost',sans-serif;font-size:0.9rem;color:var(--cream);margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.06em;}
+.acc-body p{font-size:0.92rem;line-height:1.6;color:var(--bark);margin:0.4rem 0;}
+.acc-body ul,.acc-body ol{margin:0.5rem 0 0.6rem 1.3rem;color:var(--bark);font-size:0.92rem;line-height:1.75;}
+.ev-table{width:100%;border-collapse:collapse;margin:0.5rem 0 0.3rem;font-size:0.9rem;}
+.ev-table th,.ev-table td{text-align:left;padding:0.4rem 0.7rem;border-bottom:1px solid rgba(212,175,55,0.12);}
+.ev-table th{color:var(--gold);font-weight:600;text-transform:uppercase;font-size:0.7rem;letter-spacing:0.08em;}
+.ev-table td:last-child,.ev-table th:last-child{text-align:right;color:var(--cream);white-space:nowrap;}
+.ev-note{font-size:0.82rem;color:var(--terra-lt);font-style:italic;margin-top:0.4rem;}
+.ev-pending{background:rgba(212,175,55,0.08);border-left:3px solid var(--gold);padding:0.7rem 0.95rem;border-radius:6px;font-size:0.85rem;color:var(--bark);margin-top:0.7rem;}
+.ev-important{color:var(--red)!important;}
+.two-tables{display:flex;gap:1.4rem;flex-wrap:wrap;}
+.two-tables>div{flex:1;min-width:210px;}
+</style>
 </head>
 <body>
 
@@ -112,11 +134,55 @@
 
   <!-- MAIN -->
   <main class="main">
-    <div class="empty-state">
-      <div class="icon"><i class="fa-solid fa-hammer"></i></div>
-      <p data-en="Coming soon — this page is being built." data-es="Próximamente — esta página está en construcción.">Coming soon — this page is being built.</p>
-    </div>
-  </main>
+<p class="ev-intro" data-en="Alliance events are where we win or lose together. This page gathers what each event is, how points work, and how we play it as a team. For now it covers the Frenzy / Void event — more events and the missing points tables will be added as we pull them from the game." data-es="Los eventos de alianza son donde ganamos o perdemos juntos. Esta página reúne qué es cada evento, cómo funcionan los puntos y cómo lo jugamos en equipo. Por ahora cubre el evento Frenesí / Vacío — se añadirán más eventos y las tablas de puntos que faltan a medida que los saquemos del juego.">Alliance events are where we win or lose together. This page gathers what each event is, how points work, and how we play it as a team. For now it covers the Frenzy / Void event — more events and the missing points tables will be added as we pull them from the game.</p>
+<details class="acc" open><summary><span data-en="Frenzy / Void event" data-es="Evento Frenesí / Vacío">Frenzy / Void event</span></summary><div class="acc-body">
+<h3 data-en="Overview" data-es="Resumen">Overview</h3>
+<p data-en="The Frenzy event lasts 7 days and is divided into 5 phase types:" data-es="El evento Frenesí dura 7 días y se divide en 5 tipos de fase:">The Frenzy event lasts 7 days and is divided into 5 phase types:</p>
+<ul>
+<li data-en="Collecting resources" data-es="Recolectar recursos">Collecting resources</li>
+<li data-en="Recruiting troops" data-es="Reclutar tropas">Recruiting troops</li>
+<li data-en="Building and technology levels" data-es="Niveles de construcción y tecnología">Building and technology levels</li>
+<li data-en="Kill monsters" data-es="Matar monstruos">Kill monsters</li>
+<li data-en="Killing enemy troops (Kill Phase)" data-es="Matar tropas enemigas (Fase de Matanza)">Killing enemy troops (Kill Phase)</li>
+</ul>
+<p class="ev-note" data-en="There are 6 possible phase orders, and the order changes every time — you only find out which of the 6 it is once the event starts." data-es="Hay 6 órdenes de fase posibles, y el orden cambia cada vez — solo sabes cuál de los 6 es cuando empieza el evento.">There are 6 possible phase orders, and the order changes every time — you only find out which of the 6 it is once the event starts.</p>
+<h3 data-en="Phase order — the 6 variants" data-es="Orden de fases — las 6 variantes">Phase order — the 6 variants</h3>
+<p data-en="Each variant runs over 7 days and always ends with War (the Kill Phase):" data-es="Cada variante dura 7 días y siempre termina con War (la Fase de Matanza):">Each variant runs over 7 days and always ends with War (the Kill Phase):</p>
+<ol>
+<li>Construction – Troops – Troops – Gather – Zombies – Zombies – War</li>
+<li>Construction – Troops – Troops – Zombies – Zombies – Gather – War</li>
+<li>Gather – Build – Troops – Troops – Zombies – Zombies – War</li>
+<li>Gather – Zombies – Zombies – Construction – Troops – Troops – War</li>
+<li>Zombies – Zombies – Construction – Troops – Troops – Gather – War</li>
+<li>Zombies – Zombies – Gather – Build – Troops – Troops – War</li>
+</ol>
+<h3 data-en="Points per phase" data-es="Puntos por fase">Points per phase</h3>
+<p data-en="In each phase, the goal is to meet the requirement to earn rewards. Each task gives points, and there are target tables for each phase." data-es="En cada fase, el objetivo es cumplir el requisito para obtener recompensas. Cada tarea da puntos, y hay tablas de objetivos para cada fase.">In each phase, the goal is to meet the requirement to earn rewards. Each task gives points, and there are target tables for each phase.</p>
+<h4 class="ev-sub" data-en="Gathering resources" data-es="Recolección de recursos">Gathering resources</h4>
+<table class="ev-table"><thead><tr><th data-en="Task" data-es="Tarea">Task</th><th data-en="Points" data-es="Puntos">Points</th></tr></thead><tbody>
+<tr><td data-en="Collect 10 Food" data-es="Recolectar 10 de Comida">Collect 10 Food</td><td>1</td></tr>
+<tr><td data-en="Collect 10 Oil" data-es="Recolectar 10 de Petróleo">Collect 10 Oil</td><td>1</td></tr>
+<tr><td data-en="Collect 10 Steel" data-es="Recolectar 10 de Acero">Collect 10 Steel</td><td>5</td></tr>
+<tr><td data-en="Collect 10 Minerals" data-es="Recolectar 10 de Minerales">Collect 10 Minerals</td><td>10</td></tr>
+<tr><td data-en="Collect 1 Gold" data-es="Recolectar 1 de Oro">Collect 1 Gold</td><td>900</td></tr>
+</tbody></table>
+<h4 class="ev-sub" data-en="Building &amp; technology levels" data-es="Niveles de construcción y tecnología">Building &amp; technology levels</h4>
+<table class="ev-table"><tbody><tr><td data-en="Power Up" data-es="Subir de poder">Power Up</td><td>1 = 90</td></tr></tbody></table>
+<p class="ev-note" data-en="Full table coming — only the Power Up value is confirmed so far." data-es="Tabla completa en camino — por ahora solo está confirmado el valor de Power Up.">Full table coming — only the Power Up value is confirmed so far.</p>
+<h4 class="ev-sub" data-en="Recruiting troops" data-es="Reclutar tropas">Recruiting troops</h4>
+<p class="ev-pending" data-en="Points table coming — the member will add an up-to-date table from the game." data-es="Tabla de puntos en camino — el miembro añadirá una tabla actualizada del juego.">Points table coming — the member will add an up-to-date table from the game.</p>
+<h4 class="ev-sub" data-en="Kill monsters" data-es="Matar monstruos">Kill monsters</h4>
+<p class="ev-pending" data-en="Points table coming — to be captured in-game during that phase." data-es="Tabla de puntos en camino — se capturará en el juego durante esa fase.">Points table coming — to be captured in-game during that phase.</p>
+<h4 class="ev-sub ev-important" data-en="Kill Phase — killing enemy troops" data-es="Fase de Matanza — matar tropas enemigas">Kill Phase — killing enemy troops</h4>
+<p data-en="This is the most important phase — it awards the most points. Attack and defense are scored differently." data-es="Esta es la fase más importante — otorga la mayor cantidad de puntos. El ataque y la defensa se puntúan de forma diferente.">This is the most important phase — it awards the most points. Attack and defense are scored differently.</p>
+<div class="two-tables">
+<div><h4 class="ev-sub" data-en="Attacker" data-es="Atacante">Attacker</h4><table class="ev-table"><thead><tr><th data-en="Troop level" data-es="Nivel de tropa">Troop level</th><th data-en="Points" data-es="Puntos">Points</th></tr></thead><tbody><tr><td>Lv. 1</td><td>0</td></tr><tr><td>Lv. 2</td><td>0</td></tr><tr><td>Lv. 3</td><td>0</td></tr><tr><td>Lv. 4</td><td>0</td></tr><tr><td>Lv. 5</td><td>2</td></tr><tr><td>Lv. 6</td><td>4</td></tr><tr><td>Lv. 7</td><td>7</td></tr><tr><td>Lv. 8</td><td>14</td></tr><tr><td>Lv. 9</td><td>24</td></tr><tr><td>Lv. 10</td><td>39</td></tr><tr><td>Lv. 11</td><td>50</td></tr><tr><td>Lv. 12</td><td>65</td></tr><tr><td>Titan</td><td>6000</td></tr><tr><td>Warplane</td><td>6000</td></tr></tbody></table></div>
+<div><h4 class="ev-sub" data-en="Defender" data-es="Defensor">Defender</h4><table class="ev-table"><thead><tr><th data-en="Troop level" data-es="Nivel de tropa">Troop level</th><th data-en="Points" data-es="Puntos">Points</th></tr></thead><tbody><tr><td>Lv. 1</td><td>0</td></tr><tr><td>Lv. 2</td><td>0</td></tr><tr><td>Lv. 3</td><td>0</td></tr><tr><td>Lv. 4</td><td>0</td></tr><tr><td>Lv. 5</td><td>1</td></tr><tr><td>Lv. 6</td><td>2</td></tr><tr><td>Lv. 7</td><td>3</td></tr><tr><td>Lv. 8</td><td>5</td></tr><tr><td>Lv. 9</td><td>8</td></tr><tr><td>Lv. 10</td><td>13</td></tr><tr><td>Lv. 11</td><td>16</td></tr><tr><td>Lv. 12</td><td>20</td></tr><tr><td>Titan</td><td>2000</td></tr><tr><td>Warplane</td><td>2000</td></tr></tbody></table></div>
+</div>
+<p class="ev-note" data-en="You only get 50% of Kill Points from battles on Resource Tiles." data-es="Solo obtienes el 50% de los Puntos de Matanza en batallas en Casillas de Recursos.">You only get 50% of Kill Points from battles on Resource Tiles.</p>
+<p class="ev-pending" data-en="Still coming from the member: the recruiting-troops and kill-monsters points tables, and the full building &amp; technology table. Screenshots will be added as the game shows them." data-es="Aún por llegar del miembro: las tablas de puntos de reclutar tropas y matar monstruos, y la tabla completa de construcción y tecnología. Se añadirán capturas a medida que el juego las muestre.">Still coming from the member: the recruiting-troops and kill-monsters points tables, and the full building &amp; technology table. Screenshots will be added as the game shows them.</p>
+</div></details>
+</main>
 
   <footer>
     <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
