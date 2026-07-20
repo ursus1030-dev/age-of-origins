@@ -454,14 +454,15 @@
       window.location.replace('login.html' + _initSearch + _initHash);
     }
 
+        async function __aooRole(session){ try{ if(!session) return {leader:false,admin:false}; const r = await sb.from('leaders').select('is_admin').eq('user_id', session.user.id).maybeSingle(); return { leader: !!r.data, admin: !!(r.data && r.data.is_admin) }; }catch(e){ return {leader:false,admin:false}; } }
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
       auth: { flowType: 'pkce' }
     });
 
     // ── PER-USER GREETING + WELCOME MODAL ──
     const USER_GREETINGS = {
-      // mejl (lowercase) → { greeting (visas i nav), modal (override för welcome) }
-      'werchnowm@gmail.com': {
+      // user-id → { greeting (visas i nav), modal (override för welcome) }
+      'd4864f70-3812-460c-ad45-28eccf92a4c1': {
         nick: 'Blackey',
         emoji: '👋',
         modal: {
@@ -474,8 +475,8 @@
       // lägg till fler users här när vi vill personalisera fler
     };
 
-    function applyUserGreeting(email) {
-      const cfg = USER_GREETINGS[email];
+    function applyUserGreeting(uid) {
+      const cfg = USER_GREETINGS[uid];
       if (!cfg) return;
       const text = `Hi ${cfg.nick} ${cfg.emoji}`;
       ['navGreeting', 'navGreetingMobile'].forEach(id => {
@@ -484,10 +485,10 @@
       });
     }
 
-    function maybeShowWelcome(email) {
-      const cfg = USER_GREETINGS[email];
+    function maybeShowWelcome(uid) {
+      const cfg = USER_GREETINGS[uid];
       if (!cfg || !cfg.modal) return;
-      const flagKey = 'aoo-welcomed-' + email;
+      const flagKey = 'aoo-welcomed-' + uid;
       if (localStorage.getItem(flagKey)) return;
       const m = cfg.modal;
       document.getElementById('welcomeName').textContent  = m.name;
@@ -514,20 +515,19 @@
     function dismissWelcome() {
       document.getElementById('welcomeOverlay').classList.remove('open');
       // Sätt flagga per user (hämta från senaste session)
-      sb.auth.getSession().then(({ data }) => {
-        const email = (data?.session?.user?.email || '').toLowerCase();
-        if (email) localStorage.setItem('aoo-welcomed-' + email, '1');
+      sb.auth.getSession().then(async ({ data }) => {
+        const _uid = data?.session?.user?.id;
+        if (_uid) localStorage.setItem('aoo-welcomed-' + _uid, '1');
       });
     }
 
     // Auth-skydd + greeting + welcome
-    sb.auth.getSession().then(({ data }) => {
+    sb.auth.getSession().then(async ({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
       const email = (data.session.user.email || '').toLowerCase();
-      applyUserGreeting(email);
-      maybeShowWelcome(email);
-      const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com','werchnowm@gmail.com'];
-      if (LEADER_EMAILS.includes(email)) {
+      applyUserGreeting(data.session.user.id);
+      maybeShowWelcome(data.session.user.id);
+      if ((await __aooRole(data.session)).leader) {
         const _navL = document.getElementById('navLeadership');
         if (_navL) _navL.style.display = '';
       }

@@ -230,7 +230,6 @@
   <script>
     const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
     const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
-    const LEADER_EMAILS = ['pealmab@hotmail.com','camellogamel@gmail.com','demarka@pm.me','vincent.rubenthaler@outlook.fr','jr5782294@gmail.com','werchnowm@gmail.com'];
 
     const CATEGORIES = [
       { key: 'log',        label: 'Log' },
@@ -248,6 +247,7 @@
       window.location.replace('login.html' + _s + _h);
     }
 
+        async function __aooRole(session){ try{ if(!session) return {leader:false,admin:false}; const r = await sb.from('leaders').select('is_admin').eq('user_id', session.user.id).maybeSingle(); return { leader: !!r.data, admin: !!(r.data && r.data.is_admin) }; }catch(e){ return {leader:false,admin:false}; } }
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
 
     let currentUserEmail = '';
@@ -260,10 +260,10 @@
 
     document.getElementById('ldrLangSelect').value = LDR_LANG;
 
-    sb.auth.getSession().then(({ data }) => {
+    sb.auth.getSession().then(async ({ data }) => {
       if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
       currentUserEmail = (data.session.user.email || '').toLowerCase();
-      isLeader = LEADER_EMAILS.includes(currentUserEmail);
+      isLeader = (await __aooRole(data.session)).leader;
       if (!isLeader) {
         window.location.href = 'index.html';
         return;

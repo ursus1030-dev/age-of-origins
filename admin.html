@@ -182,22 +182,17 @@
   <script>
     const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
     const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+        async function __aooRole(session){ try{ if(!session) return {leader:false,admin:false}; const r = await sb.from('leaders').select('is_admin').eq('user_id', session.user.id).maybeSingle(); return { leader: !!r.data, admin: !!(r.data && r.data.is_admin) }; }catch(e){ return {leader:false,admin:false}; } }
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
       auth: { flowType: 'pkce' }
     });
-    const ADMIN_EMAILS = [
-      'pealmab@hotmail.com',
-      'werchnowm@gmail.com',
-      'camellogamel@gmail.com',
-      'demarka@pm.me'
-    ];
 
     async function logOut() { await sb.auth.signOut(); window.location.href = 'login.html'; }
 
-    sb.auth.getSession().then(({ data }) => {
+    sb.auth.getSession().then(async ({ data }) => {
       if (!data?.session) { window.location.href = 'login.html'; return; }
       const email = data.session.user.email?.toLowerCase();
-      if (!ADMIN_EMAILS.includes(email)) {
+      if (!(await __aooRole(data.session)).admin) {
         document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Jost,sans-serif;flex-direction:column;gap:1rem;background:#0B0B0B;color:#E8E6E1;text-align:center;padding:2rem;"><h2 style="font-family:Cinzel,serif;">Access denied</h2><p>You do not have permission to view the admin page.</p><a href="index.html" style="color:#D4AF37;">Back to home</a></div>';
       }
     });
