@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-en="Age of Origins — Alliance Guide" data-es="Age of Origins — Guía de Alianza">Age of Origins — Alliance Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:    #1C1C1E;
+      --forest-dk: #0B0B0B;
+      --forest-lt: #2C2C2E;
+      --terra:     #D4AF37;
+      --terra-lt:  #8B6F2A;
+      --cream:     #E8E6E1;
+      --sand:      #1C1C1E;
+      --bark:      #B8B2A6;
+      --ink:       #E8E6E1;
+      --gold:      #D4AF37;
+      --red:       #B31217;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: #0B0B0B;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(11,11,11,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212,175,55,0.25);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem; color: var(--cream);
+      letter-spacing: 0.04em; text-decoration: none;
+    }
+    .nav-links {
+      display: flex; gap: 0.2rem;
+      overflow-x: auto; scrollbar-width: none;
+      flex: 1; justify-content: center; padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.75); text-decoration: none;
+      font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.4rem 0.7rem; border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(212,175,55,0.15); color: var(--gold);
+    }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout {
+      background: none; border: 1px solid rgba(212,175,55,0.4);
+      color: rgba(245,240,232,0.7);
+      font-family: 'Jost', sans-serif; font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.35rem 0.7rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger {
+      display: none; background: none; border: none;
+      color: var(--cream); font-size: 1.6rem; cursor: pointer;
+      padding: 0.3rem 0.6rem; line-height: 1;
+      border-radius: 6px; transition: background 0.2s;
+    }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-mobile-footer { display: none !important; }
+
+    @media (max-width: 900px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links {
+        display: none; width: 100%; flex-direction: column; gap: 0;
+        padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px);
+        justify-content: flex-start; order: 3;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer {
+        display: flex !important; gap: 0.5rem;
+        padding: 0.6rem 0.8rem 0.3rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 0.2rem;
+      }
+    }
+
+    /* ── HERO ── */
+    /* Bilden är konstverket — ingen mörkläggning, ingen text ovanpå. Ren bild, oförändrad. */
+    .hero {
+      background-image: url('hero-banner.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 440px;
+      position: relative; overflow: hidden;
+    }
+    @media (max-width: 600px) {
+      .hero {
+        min-height: 300px;
+        background-position: 10% center; /* mobil: bilden är bredare än rutan, center beskar bort vänsterkantstexten (LEGIO_FENIX+tagline) - flyttad åt vänster så texten syns */
+      }
+    }
+
+    /* ── INTRO / WELCOME ── */
+    .welcome-bar {
+      background: #141416;
+      border-bottom: 1px solid rgba(212,175,55,0.1);
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    #welcome-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* ── SEASON BANNER ── */
+    .season-banner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.75rem; padding: 0.65rem 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-style: italic;
+      letter-spacing: 0.02em;
+      transition: background 0.5s, color 0.5s;
+    }
+    .season-banner .s-icon { font-size: 1.3rem; font-style: normal; }
+    .season-var    { background: linear-gradient(90deg,#12160F,#171213,#12160F); color: #A8C8A0; border-bottom: 1px solid rgba(140,190,130,0.25); }
+    .season-sommar { background: linear-gradient(90deg,#1A160A,#201A0C,#1A160A); color: #E0B84A; border-bottom: 1px solid rgba(212,175,55,0.3); }
+    .season-host   { background: linear-gradient(90deg,#1A120A,#20160C,#1A120A); color: #D08A50; border-bottom: 1px solid rgba(200,120,50,0.3); }
+    .season-vinter { background: linear-gradient(90deg,#0D1218,#10161E,#0D1218); color: #9FBADB; border-bottom: 1px solid rgba(100,140,190,0.3); }
+    .season-jul    { background: linear-gradient(90deg,#1a3a1a,#2a1a1a,#1a3a1a); color: #f5e0c0; border-bottom: 1px solid rgba(200,50,50,0.3); animation: julGlow 3s ease-in-out infinite; }
+    @keyframes julGlow { 0%,100%{opacity:1} 50%{opacity:0.85} }
+
+    #snow-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 9999; opacity: 0.7;
+    }
+
+    /* ── SECTION HEAD ── */
+    .section-head {
+      padding: 3rem 2rem 1.5rem;
+      text-align: center;
+    }
+    .section-head h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem; font-weight: 300;
+      color: var(--gold); letter-spacing: 0.03em;
+    }
+    .section-head .rule {
+      display: block; width: 48px; height: 2px;
+      background: var(--terra); margin: 0.8rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── KORT-GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+      padding: 0 2rem 4rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .card {
+      background: #141416;
+      border-radius: 16px; padding: 1.7rem 1.5rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(212,175,55,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; min-height: 180px;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(212,175,55,0.18);
+    }
+    .card-icon {
+      font-size: 1.9rem; color: var(--terra);
+      margin-bottom: 0.7rem;
+    }
+    .card h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 0.9rem; line-height: 1.5;
+      color: rgba(232,230,225,0.7); flex: 1;
+    }
+    .card-cta {
+      margin-top: 1rem; font-size: 0.74rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--terra); font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--forest-dk);
+      color: rgba(245,240,232,0.4);
+      text-align: center; padding: 2rem;
+      font-size: 0.75rem; letter-spacing: 0.1em;
+    }
+
+    /* ── NAV GREETING ── */
+    .nav-greeting {
+      display: none;
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: rgba(245,240,232,0.85);
+      letter-spacing: 0.04em;
+      padding: 0.25rem 0.7rem;
+      border-right: 1px solid rgba(245,240,232,0.15);
+      margin-right: 0.3rem;
+      white-space: nowrap;
+    }
+    .nav-greeting.show { display: inline-flex; align-items: center; gap: 0.3rem; }
+    @media (max-width: 900px) {
+      .nav-right .nav-greeting { display: none !important; }
+      .nav-mobile-footer .nav-greeting.show {
+        display: flex; align-items: center; justify-content: center;
+        border-right: none; border-bottom: 1px solid rgba(245,240,232,0.15);
+        margin-right: 0; margin-bottom: 0.4rem; padding-bottom: 0.6rem;
+        width: 100%;
+      }
+    }
+
+    /* ── WELCOME MODAL ── */
+    .welcome-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(11,11,11,0.72); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 1.5rem;
+      animation: fadeIn 0.4s ease;
+    }
+    .welcome-overlay.open { display: flex; }
+    .welcome-modal {
+      background: linear-gradient(160deg, #1F1F22 0%, #17171A 70%, #0F0F11 100%);
+      border-radius: 22px; padding: 2.4rem 2rem 2rem; max-width: 500px; width: 100%;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,169,110,0.3);
+      text-align: center; position: relative; overflow: hidden;
+      animation: popIn 0.5s cubic-bezier(.2,.9,.3,1.3);
+    }
+    .welcome-modal::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.20) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .welcome-icon { font-size: 3.2rem; line-height: 1; margin-bottom: 0.6rem; filter: drop-shadow(0 4px 16px rgba(212,175,55,0.25)); }
+    .welcome-modal h2 {
+      font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 500;
+      color: var(--gold); margin-bottom: 0.3rem; letter-spacing: 0.02em;
+    }
+    .welcome-name { color: var(--terra); font-style: italic; }
+    .welcome-sub-de {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.05rem; color: var(--bark); margin-bottom: 0.4rem;
+    }
+    .welcome-body {
+      font-size: 0.95rem; line-height: 1.6; color: rgba(232,230,225,0.8);
+      margin: 0.8rem 0 1.4rem; padding: 0 0.5rem;
+    }
+    .welcome-tagline {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 0.85rem; color: rgba(232,230,225,0.55);
+      margin-top: 1rem; padding-top: 0.9rem;
+      border-top: 1px solid rgba(212,175,55,0.15);
+    }
+    .welcome-cta {
+      background: var(--forest); color: var(--cream); border: none;
+      font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.85rem 2.2rem; border-radius: 12px; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 4px 14px rgba(212,175,55,0.3);
+    }
+    .welcome-cta:hover { background: var(--forest-lt); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes popIn  { 0% { opacity: 0; transform: scale(0.85) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"   class="active" data-en="Home"      data-es="Inicio">Home</a>
+      <a href="base.html"                    data-en="Base"      data-es="Base">Base</a>
+      <a href="combat.html"                  data-en="Combat"    data-es="Combate">Combat</a>
+      <a href="alliance.html"                data-en="Alliance"  data-es="Alianza">Alliance</a>
+      <a href="tips.html"                   data-en="Tips"      data-es="Consejos">Tips</a>
+      <a href="events.html"                 data-en="Events"    data-es="Eventos">Events</a>
+      <a href="group.html"                data-en="Group"     data-es="Grupo">Group</a>
+      <a href="forum.html" data-en="Forum" data-es="Foro">Forum</a>
+      <a href="resources.html"               data-en="Resources" data-es="Recursos">Resources</a>
+      <a href="leadership.html" id="navLeadership" style="display:none;" data-en="Leadership" data-es="Liderazgo">Leadership</a>
+      <div class="nav-mobile-footer">
+        <span class="nav-greeting" id="navGreetingMobile"></span>
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <span class="nav-greeting" id="navGreeting"></span>
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero"></header>
+
+  <!-- WELCOME -->
+  <div class="welcome-bar">
+    <span id="welcome-name" data-en="Welcome, commander" data-es="Bienvenido, comandante">Welcome, commander</span>
+  </div>
+
+  <!-- SEASON BANNER -->
+  <div class="season-banner" id="seasonBanner" style="display:none">
+    <span class="s-icon" id="sIcon"></span>
+    <span id="sText"></span>
+  </div>
+
+  <!-- SNOWFLAKES (December only) -->
+  <canvas id="snow-canvas" style="display:none"></canvas>
+
+  <!-- SECTION HEAD -->
+  <div class="section-head">
+    <h2 data-en="Where to start" data-es="Por dónde empezar">Where to start</h2>
+    <span class="rule"></span>
+  </div>
+
+  <!-- KORT-GRID -->
+  <div class="cards-grid">
+    <a href="base.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-fortress"></i></div>
+      <h2 data-en="Base" data-es="Base">Base</h2>
+      <p data-en="Build orders and tech tree. What to upgrade first so you don't waste resources."
+         data-es="Órdenes de construcción y árbol tecnológico. Qué mejorar primero para no gastar recursos.">
+        Build orders and tech tree. What to upgrade first so you don't waste resources.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="combat.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h2 data-en="Combat" data-es="Combate">Combat</h2>
+      <p data-en="Formations, troops, heroes, attacks. How to win fights without losing your army."
+         data-es="Formaciones, tropas, héroes, ataques. Cómo ganar combates sin perder tu ejército.">
+        Formations, troops, heroes, attacks. How to win fights without losing your army.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="alliance.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-people-group"></i></div>
+      <h2 data-en="Alliance" data-es="Alianza">Alliance</h2>
+      <p data-en="How we play together. Donations, rallies, when to ask for help."
+         data-es="Cómo jugamos juntos. Donaciones, rallies, cuándo pedir ayuda.">
+        How we play together. Donations, rallies, when to ask for help.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="tips.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+      <h2 data-en="Tips" data-es="Consejos">Tips</h2>
+      <p data-en="Wisdom from older players, jargon explained, quick quiz to test yourself."
+         data-es="Sabiduría de jugadores veteranos, jerga explicada, un quiz rápido para probarte.">
+        Wisdom from older players, jargon explained, quick quiz to test yourself.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="events.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-calendar-days"></i></div>
+      <h2 data-en="Events" data-es="Eventos">Events</h2>
+      <p data-en="Calendar and in-game events. Know what's coming so you can prepare."
+         data-es="Calendario y eventos del juego. Sabe qué viene para que puedas prepararte.">
+        Calendar and in-game events. Know what's coming so you can prepare.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="group.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-users"></i></div>
+      <h2 data-en="Group" data-es="Grupo">Group</h2>
+      <p data-en="Who we are, photos from battles, records, maps. Our story so far."
+         data-es="Quiénes somos, fotos de batallas, récords, mapas. Nuestra historia hasta ahora.">
+        Who we are, photos from battles, records, maps. Our story so far.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+
+    <a href="resources.html" class="card">
+      <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+      <h2 data-en="Resources" data-es="Recursos">Resources</h2>
+      <p data-en="External guides worth reading and recent patch notes."
+         data-es="Guías externas que vale la pena leer y notas de parche recientes.">
+        External guides worth reading and recent patch notes.
+      </p>
+      <span class="card-cta" data-en="Open →" data-es="Abrir →">Open →</span>
+    </a>
+  </div>
+
+  <!-- WELCOME MODAL (vissa users på första session) -->
+  <div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-modal">
+      <div class="welcome-icon">✨</div>
+      <h2>Welcome, <span class="welcome-name" id="welcomeName">friend</span></h2>
+      <div class="welcome-sub-de" id="welcomeSubDe">Schön dass du da bist.</div>
+      <div class="welcome-body" id="welcomeBody">
+        You're getting first look at this — Tyke's been building it for the alliance.
+        Have a poke around. Tips → Wisdom, Jargon and a little Quiz are the best places to start.
+      </div>
+      <button class="welcome-cta" onclick="dismissWelcome()">Let's go →</button>
+      <div class="welcome-tagline">Built by Tyke + Claude + ChatGPT — for you.</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
+    const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+
+    // Recovery/invite-hash måste vidarebefordras till login.html
+    const _initHash   = window.location.hash;
+    const _initSearch = window.location.search;
+    if ((_initHash   && (_initHash.includes('type=recovery') || _initHash.includes('type=invite'))) ||
+        (_initSearch && _initSearch.includes('code='))) {
+      window.location.replace('login.html' + _initSearch + _initHash);
+    }
+
+        async function __aooRole(session){ try{ if(!session) return {leader:false,admin:false}; const r = await sb.from('leaders').select('is_admin').eq('user_id', session.user.id).maybeSingle(); return { leader: !!r.data, admin: !!(r.data && r.data.is_admin) }; }catch(e){ return {leader:false,admin:false}; } }
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { flowType: 'pkce' }
+    });
+
+    // ── PER-USER GREETING + WELCOME MODAL ──
+    const USER_GREETINGS = {
+      // user-id → { greeting (visas i nav), modal (override för welcome) }
+      'd4864f70-3812-460c-ad45-28eccf92a4c1': {
+        nick: 'Blackey',
+        emoji: '👋',
+        modal: {
+          name: 'Blackey',
+          subDe: 'Schön dass du da bist! 💚',
+          body: "You're getting first look at this — and you're an admin, which means everything you add (tips, jargon, quiz questions, build orders) goes live for everyone. Tips → Wisdom, Jargon and the little Quiz are the best places to start. Thanks for all the help.",
+          confetti: true
+        }
+      }
+      // lägg till fler users här när vi vill personalisera fler
+    };
+
+    function applyUserGreeting(uid) {
+      const cfg = USER_GREETINGS[uid];
+      if (!cfg) return;
+      const text = `Hi ${cfg.nick} ${cfg.emoji}`;
+      ['navGreeting', 'navGreetingMobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = text; el.classList.add('show'); }
+      });
+    }
+
+    function maybeShowWelcome(uid) {
+      const cfg = USER_GREETINGS[uid];
+      if (!cfg || !cfg.modal) return;
+      const flagKey = 'aoo-welcomed-' + uid;
+      if (localStorage.getItem(flagKey)) return;
+      const m = cfg.modal;
+      document.getElementById('welcomeName').textContent  = m.name;
+      document.getElementById('welcomeSubDe').textContent = m.subDe;
+      document.getElementById('welcomeBody').textContent  = m.body;
+      document.getElementById('welcomeOverlay').classList.add('open');
+      if (m.confetti && typeof confetti === 'function') {
+        // Confetti-burst i flera vågor
+        setTimeout(() => fireConfetti(), 250);
+      }
+    }
+
+    function fireConfetti() {
+      const duration = 2500;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 4, angle: 60,  spread: 65, origin: { x: 0, y: 0.7 }, colors: ['#D4AF37','#8B6F2A','#7CAF75','#E8E6E1'] });
+        confetti({ particleCount: 4, angle: 120, spread: 65, origin: { x: 1, y: 0.7 }, colors: ['#D4AF37','#8B6F2A','#7CAF75','#E8E6E1'] });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+      setTimeout(() => confetti({ particleCount: 80, spread: 90, origin: { y: 0.55 }, colors: ['#D4AF37','#8B6F2A','#7CAF75','#E8E6E1','#B31217'] }), 400);
+    }
+
+    function dismissWelcome() {
+      document.getElementById('welcomeOverlay').classList.remove('open');
+      // Sätt flagga per user (hämta från senaste session)
+      sb.auth.getSession().then(async ({ data }) => {
+        const _uid = data?.session?.user?.id;
+        if (_uid) localStorage.setItem('aoo-welcomed-' + _uid, '1');
+      });
+    }
+
+    // Auth-skydd + greeting + welcome
+    sb.auth.getSession().then(async ({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      const email = (data.session.user.email || '').toLowerCase();
+      applyUserGreeting(data.session.user.id);
+      maybeShowWelcome(data.session.user.id);
+      if ((await __aooRole(data.session)).leader) {
+        const _navL = document.getElementById('navLeadership');
+        if (_navL) _navL.style.display = '';
+      }
+    });
+
+    function logOut() { window.location.href = 'logout.html'; }
+
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── SEASON ──
+    (function() {
+      const m = new Date().getMonth() + 1;
+      const SEASONS = {
+        var:    { cls:'season-var',    icon:'🌸',
+                  en:'Spring is here — welcome to the warmth!',
+                  es:'¡La primavera ha llegado — bienvenidos al calor!',
+                  navBg:'rgba(18,26,15,0.96)' },
+        sommar: { cls:'season-sommar', icon:'☀️',
+                  en:'Summertime! Sun shines over the alliance.',
+                  es:'¡Verano! El sol brilla sobre la alianza.',
+                  navBg:'rgba(26,22,10,0.96)' },
+        host:   { cls:'season-host',   icon:'🍂',
+                  en:'Autumn colors — gather strength for the cold months.',
+                  es:'Colores de otoño — reunamos fuerzas para los meses fríos.',
+                  navBg:'rgba(26,18,10,0.96)' },
+        vinter: { cls:'season-vinter', icon:'🌨️',
+                  en:'Winter and stillness — the alliance keeps warm.',
+                  es:'Invierno y quietud — la alianza se mantiene cálida.',
+                  navBg:'rgba(13,18,24,0.97)' },
+        jul:    { cls:'season-jul',    icon:'🎄',
+                  en:'Merry Christmas from the whole alliance! 🎁',
+                  es:'¡Feliz Navidad de toda la alianza! 🎁',
+                  navBg:'rgba(90,8,8,0.97)' },
+      };
+      let season;
+      if (m === 12) season = 'jul';
+      else if (m >= 3 && m <= 5) season = 'var';
+      else if (m >= 6 && m <= 8) season = 'sommar';
+      else if (m >= 9 && m <= 11) season = 'host';
+      else season = 'vinter';
+      const s = SEASONS[season];
+
+      const nav = document.querySelector('nav');
+      if (nav) nav.style.background = s.navBg;
+
+      const banner = document.getElementById('seasonBanner');
+      banner.className = 'season-banner ' + s.cls;
+      banner.style.display = 'flex';
+      document.getElementById('sIcon').textContent = s.icon;
+      const setSeasonText = () => {
+        document.getElementById('sText').textContent = s[LANG] || s.en;
+      };
+      setSeasonText();
+      // Uppdatera om språk byts
+      const origToggle = window.toggleLang;
+      window.toggleLang = function() { origToggle(); setSeasonText(); };
+
+      if (season === 'jul') {
+        const canvas = document.getElementById('snow-canvas');
+        canvas.style.display = 'block';
+        const ctx = canvas.getContext('2d');
+        let flakes = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+        for (let i = 0; i < 120; i++) {
+          flakes.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            r: Math.random() * 4 + 1,
+            speed: Math.random() * 1.2 + 0.4,
+            drift: (Math.random() - 0.5) * 0.5,
+            opacity: Math.random() * 0.6 + 0.3
+          });
+        }
+        function snowLoop() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          flakes.forEach(f => {
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,255,${f.opacity})`;
+            ctx.fill();
+            f.y += f.speed;
+            f.x += f.drift;
+            if (f.y > canvas.height) { f.y = -5; f.x = Math.random() * canvas.width; }
+            if (f.x > canvas.width) f.x = 0;
+            if (f.x < 0) f.x = canvas.width;
+          });
+          requestAnimationFrame(snowLoop);
+        }
+        snowLoop();
+      }
+    })();
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
+            var b = document.createElement("div");
+            b.id = "update-banner";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#1C1C1E;color:#E8E6E1;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#D4AF37;color:#0B0B0B;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            document.body.appendChild(b);
+          }
+        }).catch(function(){});
+      }, 300000);
+    })();
+  </script>
+  <style>
+  .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#D4AF37);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#B8B2A6);}
+  </style>
+  <script>
+  (function(){
+    var nav=document.querySelector('nav');
+    var w=document.createElement('div');
+    w.className='lgx-banner';
+    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
+    function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
+    sync();
+    document.querySelectorAll('#langBtn,#langBtnMobile').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,30);});});
+  })();
+  </script>
+</body>
+</html>

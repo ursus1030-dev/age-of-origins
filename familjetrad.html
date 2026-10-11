@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-en="Tech tree — Age of Origins" data-es="Árbol tecnológico — Age of Origins">Tech tree — Age of Origins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:    #1C1C1E;
+      --forest-dk: #0B0B0B;
+      --forest-lt: #2C2C2E;
+      --terra:     #D4AF37;
+      --terra-lt:  #8B6F2A;
+      --gold:      #D4AF37;
+      --cream:     #E8E6E1;
+      --sand:      #1C1C1E;
+      --bark:      #B8B2A6;
+      --ink:       #E8E6E1;
+      --bg:        #0B0B0B;
+      --red:       #B31217;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(11,11,11,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212,175,55,0.25); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cinzel', serif; font-size: 1.25rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(212,175,55,0.15); color: var(--gold); }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout { background: none; border: 1px solid rgba(212,175,55,0.4); color: rgba(245,240,232,0.7); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.6rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-mobile-footer { display: none !important; }
+    @media (max-width: 900px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex !important; gap: 0.5rem; padding: 0.6rem 0.8rem 0.3rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
+
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 55%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 20%, rgba(201,169,110,0.18) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 0.8rem; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)); }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--gold); letter-spacing: 0.04em; }
+    .hero-sub { font-size: 0.9rem; font-weight: 300; color: rgba(245,240,232,0.75); max-width: 540px; margin: 0.6rem auto 0; line-height: 1.5; }
+
+    /* ── MAIN ── */
+    .main { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .empty-state { background: #2C2C2E; border-radius: 14px; padding: 3.5rem 1.5rem; text-align: center; color: rgba(232,230,225,0.5); box-shadow: 0 2px 14px rgba(0,0,0,0.05); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
+    .empty-state p { font-size: 0.95rem; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
+
+    /* ── ANTIQUES SECTION ── */
+    .section { margin-bottom: 2rem; }
+    .section-head h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); font-weight: 400; letter-spacing: 0.03em; margin-bottom: 0.6rem; }
+    .section-intro { font-size: 0.92rem; line-height: 1.6; color: var(--bark); max-width: 640px; margin-bottom: 1.6rem; }
+
+    .set-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .set-card { background: var(--forest-lt); border-radius: 12px; padding: 1.2rem; box-shadow: 0 2px 14px rgba(0,0,0,0.25); transition: transform 0.2s; }
+    .set-card:hover { transform: translateY(-2px); }
+    .set-icon { font-size: 1.4rem; color: var(--gold); margin-bottom: 0.5rem; }
+    .set-card h3 { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--cream); margin-bottom: 0.4rem; letter-spacing: 0.02em; }
+    .set-card p { font-size: 0.82rem; line-height: 1.5; color: var(--bark); }
+
+    .callout { display: flex; align-items: flex-start; gap: 0.7rem; background: rgba(179,18,23,0.12); border: 1px solid rgba(179,18,23,0.35); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.8rem; font-size: 0.85rem; line-height: 1.55; color: var(--cream); }
+    .callout i { color: var(--red); font-size: 1.1rem; margin-top: 0.15rem; flex-shrink: 0; }
+
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .filter-btn { background: none; border: 1px solid rgba(212,175,55,0.4); color: var(--bark); font-family: 'Jost', sans-serif; font-size: 0.78rem; letter-spacing: 0.04em; padding: 0.4rem 0.9rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; }
+    .filter-btn:hover { border-color: var(--gold); color: var(--cream); }
+    .filter-btn.active { background: var(--gold); color: var(--forest-dk); border-color: var(--gold); font-weight: 600; }
+
+    .antique-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.9rem; }
+    .antique-card { background: var(--forest-lt); border-radius: 12px; padding: 1rem 1.1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .antique-card.pending { border: 1px dashed rgba(179,18,23,0.5); }
+    .antique-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+    .antique-img { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; background: rgba(0,0,0,0.18); flex-shrink: 0; }
+    .antique-head-text { flex: 1; min-width: 0; }
+    .antique-name { font-family: 'Cinzel', serif; font-size: 0.95rem; color: var(--cream); margin-bottom: 0.3rem; }
+    .antique-set-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); background: rgba(212,175,55,0.12); border-radius: 6px; padding: 0.15rem 0.5rem; margin-bottom: 0.5rem; }
+    .antique-bonus { font-size: 0.82rem; color: var(--bark); line-height: 1.45; margin-bottom: 0.4rem; }
+    .antique-value { font-size: 0.85rem; color: var(--gold); font-weight: 600; }
+    .antique-value.pending-val { color: rgba(179,18,23,0.85); font-style: italic; font-weight: 400; font-size: 0.78rem; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" data-en="Home" data-es="Inicio">Home</a>
+      <a href="base.html" class="active" data-en="Base" data-es="Base">Base</a>
+      <a href="combat.html" data-en="Combat" data-es="Combate">Combat</a>
+      <a href="alliance.html" data-en="Alliance" data-es="Alianza">Alliance</a>
+      <a href="tips.html" data-en="Tips" data-es="Consejos">Tips</a>
+      <a href="events.html" data-en="Events" data-es="Eventos">Events</a>
+      <a href="group.html" data-en="Group" data-es="Grupo">Group</a>
+      <a href="forum.html" data-en="Forum" data-es="Foro">Forum</a>
+      <a href="resources.html" data-en="Resources" data-es="Recursos">Resources</a>
+      <a href="leadership.html" id="navLeadership" style="display:none;" data-en="Leadership" data-es="Liderazgo">Leadership</a>
+      <div class="nav-mobile-footer">
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🌳</div>
+      <h1 data-en="Tech tree" data-es="Árbol tecnológico">Tech tree</h1>
+      <p class="hero-sub"
+         data-en="Research paths explained. Which techs matter early, which can wait, and what unlocks what."
+         data-es="Rutas de investigación explicadas. Qué tecnologías importan al principio, cuáles pueden esperar y qué desbloquea qué.">
+        Research paths explained. Which techs matter early, which can wait, and what unlocks what.
+      </p>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <section class="section">
+      <div class="section-head">
+        <h2 data-en="Antiques" data-es="Antigüedades">Antiques</h2>
+        <p class="section-intro"
+           data-en="Antiques are permanent city-progression items. Each belongs to one of 6 sets — collecting a full set unlocks a bonus set-effect on top of the item's own stat boost. All 52 antiques tracked below, cross-checked against in-game data."
+           data-es="Las antigüedades son objetos permanentes de progresión de ciudad. Cada una pertenece a uno de 6 sets — completar un set desbloquea un efecto de set además del bono propio del objeto. Las 52 antigüedades están registradas abajo, verificadas con datos del juego.">
+          Antiques are permanent city-progression items. Each belongs to one of 6 sets — collecting a full set unlocks a bonus set-effect on top of the item's own stat boost. All 52 antiques tracked below, cross-checked against in-game data.
+        </p>
+      </div>
+
+      <div class="set-grid">
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Biochemical Charge</h3>
+        <p data-en="Increases Biochemical troops' Attack/HP/Defense by up to 4% (scales with upgrade level). +20% cross-nation." data-es="Aumenta el Ataque/PV/Defensa de las tropas Bioquímicas hasta un 4% (escala con el nivel). +20% entre naciones.">Increases Biochemical troops' Attack/HP/Defense by up to 4% (scales with upgrade level). +20% cross-nation.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-gun"></i></div>
+        <h3>Giant Weapons</h3>
+        <p data-en="First 20 seconds of battle: increases Source Spirit, Empress and Warplane Attack by up to 2%." data-es="Primeros 20 segundos de batalla: aumenta el Ataque de Source Spirit, Empress y Avión hasta un 2%.">First 20 seconds of battle: increases Source Spirit, Empress and Warplane Attack by up to 2%.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-hand-fist"></i></div>
+        <h3>Strong Will</h3>
+        <p data-en="Reduces damage taken by Melee troops by up to 0.8% and reduces enemy Long/Mid-Range Attack by up to 2.6%." data-es="Reduce el daño recibido por tropas Cuerpo a cuerpo hasta un 0.8% y reduce el Ataque enemigo Larga/Media distancia hasta un 2.6%.">Reduces damage taken by Melee troops by up to 0.8% and reduces enemy Long/Mid-Range Attack by up to 2.6%.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-tower-observation"></i></div>
+        <h3>Rocket Turret</h3>
+        <p data-en="Summons a Rocket Turret in Commander battles — attacks the largest enemy troop group every 2 seconds." data-es="Invoca una Torreta de Cohetes en batallas con Comandantes — ataca al grupo enemigo más numeroso cada 2 segundos.">Summons a Rocket Turret in Commander battles — attacks the largest enemy troop group every 2 seconds.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-virus"></i></div>
+        <h3>Nano Swarm</h3>
+        <p data-en="Increases all troops' HP/Defense by up to 1.5%. In Commander battles, deals extra random damage to enemy troops." data-es="Aumenta el PV/Defensa de todas las tropas hasta un 1.5%. En batallas con Comandantes, inflige daño extra aleatorio a las tropas enemigas.">Increases all troops' HP/Defense by up to 1.5%. In Commander battles, deals extra random damage to enemy troops.</p>
+      </div>
+      <div class="set-card">
+        <div class="set-icon"><i class="fa-solid fa-gem"></i></div>
+        <h3>Brilliant Things</h3>
+        <p data-en="Increases all troops' Attack/HP/Defense by up to 1.2%." data-es="Aumenta el Ataque/PV/Defensa de todas las tropas hasta un 1.2%.">Increases all troops' Attack/HP/Defense by up to 1.2%.</p>
+      </div>
+      </div>
+
+      <div class="filter-bar" id="antiqueFilters"></div>
+      <div class="antique-grid" id="antiqueGrid"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
+    const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+
+    // Recovery/invite-hash -> login
+    const _h = window.location.hash, _s = window.location.search;
+    if ((_h && (_h.includes('type=recovery') || _h.includes('type=invite'))) || (_s && _s.includes('code='))) {
+      window.location.replace('login.html' + _s + _h);
+    }
+
+        async function __aooRole(session){ try{ if(!session) return {leader:false,admin:false}; const r = await sb.from('leaders').select('is_admin').eq('user_id', session.user.id).maybeSingle(); return { leader: !!r.data, admin: !!(r.data && r.data.is_admin) }; }catch(e){ return {leader:false,admin:false}; } }
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
+
+    function logOut() { sb.auth.signOut().then(() => { window.location.href = 'login.html?logout=1'; }); }
+
+    sb.auth.getSession().then(async ({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      const _email = (data.session.user.email || '').toLowerCase();
+      if ((await __aooRole(data.session)).leader) {
+        const _navL = document.getElementById('navLeadership');
+        if (_navL) _navL.style.display = '';
+      }
+    });
+
+    // ── NAV TOGGLE ──
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
+            var b = document.createElement("div");
+            b.id = "update-banner";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#1C1C1E;color:#E8E6E1;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#D4AF37;color:#0B0B0B;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            document.body.appendChild(b);
+          }
+        }).catch(function(){});
+      }, 300000);
+    })();
+  </script>
+  <script>
+  const ANTIQUES = [
+  {n:'Diamond Phone',s:'Brilliant Things',ben:'Melee HP & Defense',bes:'PV y Defensa Cuerpo a cuerpo',v:'+2.4%',p:false},
+  {n:'Ark Map',s:'Biochemical Charge',ben:'Mid-Range HP & Defense',bes:'PV y Defensa Media distancia',v:'+2.4%',p:false},
+  {n:'Black Gold Member\'s Card',s:'Biochemical Charge',ben:'Long-Range HP & Defense',bes:'PV y Defensa Larga distancia',v:'+2.4%',p:false},
+  {n:'Toxic Bone Spur',s:'Brilliant Things',ben:'Melee Attack',bes:'Ataque Cuerpo a cuerpo',v:'+2.4%',p:false},
+  {n:'Red Coral',s:'Brilliant Things',ben:'Mid-Range Attack',bes:'Ataque Media distancia',v:'+2.4%',p:false},
+  {n:'Totem Wood Sculpture',s:'Brilliant Things',ben:'Long-Range Attack',bes:'Ataque Larga distancia',v:'+2.4%',p:false},
+  {n:'Brass Compass',s:'Biochemical Charge',ben:'Zombies Attack',bes:'Ataque Zombis',v:'+2.4%',p:false},
+  {n:'Viking Helmet',s:'Brilliant Things',ben:'Zombies Attack & Defense',bes:'Ataque y Defensa Zombis',v:'+2.4%',p:false},
+  {n:'Treasured Violin',s:'Brilliant Things',ben:'Zombies Attack',bes:'Ataque Zombis',v:'+2.4%',p:false},
+  {n:'Data Hard Drive',s:'Biochemical Charge',ben:'Zombies HP & Defense',bes:'PV y Defensa Zombis',v:'+2.4%',p:false},
+  {n:'Golden Rabbit Doll',s:'Brilliant Things',ben:'Wounded Units Bonus Limit',bes:'Límite de bonus de heridos',v:'+1,440',p:false},
+  {n:'Olympic Laurel',s:'Brilliant Things',ben:'Monster Attack Speed',bes:'Velocidad de ataque a monstruos',v:'+2.4%',p:false},
+  {n:'Fine Porcelain',s:'Brilliant Things',ben:'Food Gather Bonus',bes:'Bono de recolección de comida',v:'+2.4%',p:false},
+  {n:'Crystal Skull',s:'Biochemical Charge',ben:'Oil Gather Bonus',bes:'Bono de recolección de petróleo',v:'+2.4%',p:false},
+  {n:'Autographed Football',s:'Biochemical Charge',ben:'Steel Gather Bonus',bes:'Bono de recolección de acero',v:'+2.4%',p:false},
+  {n:'Hound Statue',s:'Brilliant Things',ben:'Mineral Gather Bonus',bes:'Bono de recolección de minerales',v:'+2.4%',p:false},
+  {n:'Venus Statue',s:'Biochemical Charge',ben:'Empress Attack/HP Boost + Long-Range Attack',bes:'Impulso Attack/PV Empress + Ataque Larga distancia',v:'35,000 / 490,000 / +0.6%',p:false},
+  {n:'Dinosaur Egg Fossil',s:'Brilliant Things',ben:'Source Spirit Attack/HP Boost + Melee HP/Defense',bes:'Impulso Attack/PV Source Spirit + PV/Defensa Cuerpo a cuerpo',v:'35,000 / 490,000 / +0.6%',p:false},
+  {n:'Goddess Torch',s:'Brilliant Things',ben:'Empress Attack/HP Boost + Mid-Range Attack',bes:'Impulso Attack/PV Empress + Ataque Media distancia',v:'35,000 / 490,000 / +0.6%',p:false},
+  {n:'Ocean Teardrop',s:'Brilliant Things',ben:'All HP/Defense types + Attack vs Melee',bes:'Todos los tipos de PV/Defensa + Ataque vs Cuerpo a cuerpo',v:'+1.8% / +0.6%',p:false},
+  {n:'Hope Emblem',s:'Brilliant Things',ben:'All HP/Defense types + Attack vs Mid-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Media distancia',v:'+1.8% / +0.6%',p:false},
+  {n:'Crown',s:'Brilliant Things',ben:'All HP/Defense types + Attack vs Long-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Larga distancia',v:'+1.8% / +0.6%',p:false},
+  {n:'Basalt Tablet',s:'Brilliant Things',ben:'All Attack types + enemy Long-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Larga distancia',v:'+1.8% / -0.6%',p:false},
+  {n:'Gem Egg',s:'Brilliant Things',ben:'All Attack types + enemy Mid-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Media distancia',v:'+1.8% / -0.6%',p:false},
+  {n:'Scarab Amulet',s:'Biochemical Charge',ben:'Zombies Attack + enemy Zombies Attack reduction',bes:'Ataque Zombis + reducción de Ataque enemigo Zombis',v:'+4.2% / -0.6%',p:false},
+  {n:'Gold Mask',s:'Brilliant Things',ben:'All Attack types + enemy Melee Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Cuerpo a cuerpo',v:'+1.8% / -0.6%',p:false},
+  {n:'Zombie Heart',s:'Biochemical Charge',ben:'Source Spirit Attack/HP Boost + enemy Melee Defense reduction',bes:'Impulso Attack/PV Source Spirit + reducción Defensa enemiga Cuerpo a cuerpo',v:'35,000 / 490,000 / -0.6%',p:false},
+  {n:'Bronze Vase',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + enemy Melee Defense reduction',bes:'Impulso Attack/PV Avión + reducción Defensa enemiga Cuerpo a cuerpo',v:'25,200 / 156,240 / -0.6%',p:false},
+  {n:'Imperial Seal',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + Mid-Range Attack',bes:'Impulso Attack/PV Avión + Ataque Media distancia',v:'25,200 / 156,240 / +0.6%',p:false},
+  {n:'Gold Candleholder',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + Melee HP/Defense',bes:'Impulso Attack/PV Avión + PV/Defensa Cuerpo a cuerpo',v:'25,200 / 156,240 / +0.6%',p:false},
+  {n:'Warning Bell',s:'Biochemical Charge',ben:'Zombies HP/Defense + Attack vs Zombies',bes:'PV/Defensa Zombis + Ataque vs Zombis',v:'+4.2% / +0.6%',p:false},
+  {n:'Mystery Grail',s:'Brilliant Things',ben:'Warplane Attack/HP Boost + Long-Range Attack',bes:'Impulso Attack/PV Avión + Ataque Larga distancia',v:'25,200 / 156,240 / +0.6%',p:false},
+  {n:'Heavy Sword',s:'Biochemical Charge',ben:'Zombies Attack + enemy Zombies Attack reduction',bes:'Ataque Zombis + reducción de Ataque enemigo Zombis',v:'+10.5% / -1.5%',p:false},
+  {n:'Bone Axe',s:'No set',ben:'All HP/Defense types + several enemy Defense reductions',bes:'Todos los tipos de PV/Defensa + varias reducciones de Defensa enemiga',v:'+4.5% / -0.7%',p:false},
+  {n:'Scarlet Mantis Knife',s:'No set',ben:'Damage vs Melee Troops + enemy Attack reduction + Damage vs Long-Range Troops',bes:'Daño vs Tropas Cuerpo a cuerpo + reducción de Ataque enemigo + Daño vs Tropas Larga distancia',v:'+1.8% / -0.7% / +0.2%',p:false},
+  {n:'Gold: Tank',s:'Rocket Turret',ben:'Damage reduction vs Melee + Attack vs Melee',bes:'Reducción de daño vs Cuerpo a cuerpo + Ataque vs Cuerpo a cuerpo',v:'-3.2% / +1.5%',p:false},
+  {n:'Gold: Shredder',s:'Rocket Turret',ben:'All HP/Defense types + Attack vs Mid-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Media distancia',v:'+4.5% / +1.5%',p:false},
+  {n:'Gold: Cannon',s:'Rocket Turret',ben:'Damage reduction vs Long-Range + enemy Mid-Range Attack reduction',bes:'Reducción de daño vs Larga distancia + reducción de Ataque enemigo Media distancia',v:'-3.2% / -1.5%',p:false},
+  {n:'Gold: Raider',s:'Rocket Turret',ben:'All Attack types + enemy Long-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Larga distancia',v:'+4.5% / -1.5%',p:false},
+  {n:'Gold: Infantry',s:'Strong Will',ben:'All HP/Defense types + Attack vs Melee',bes:'Todos los tipos de PV/Defensa + Ataque vs Cuerpo a cuerpo',v:'+4.5% / +1.5%',p:false},
+  {n:'Gold: Rocket',s:'Strong Will',ben:'All Attack types + enemy Long-Range Attack reduction',bes:'Todos los tipos de Ataque + reducción de Ataque enemigo Larga distancia',v:'+4.5% / -1.5%',p:false},
+  {n:'Gold: Sniper',s:'Strong Will',ben:'All HP/Defense types + enemy Melee Attack reduction',bes:'Todos los tipos de PV/Defensa + reducción de Ataque enemigo Cuerpo a cuerpo',v:'+4.5% / -1.5%',p:false},
+  {n:'Gold: Gunner',s:'Strong Will',ben:'All Attack types + Attack vs Mid-Range',bes:'Todos los tipos de Ataque + Ataque vs Media distancia',v:'+4.5% / +1.5%',p:false},
+  {n:'Gold: Armored Soldier',s:'Nano Swarm',ben:'All HP/Defense types + enemy Melee Attack reduction',bes:'Todos los tipos de PV/Defensa + reducción de Ataque enemigo Cuerpo a cuerpo',v:'+5.3% / -1.5%',p:false},
+  {n:'Gold: EMP Cannon',s:'Nano Swarm',ben:'All Attack types + Attack vs Long-Range',bes:'Todos los tipos de Ataque + Ataque vs Larga distancia',v:'+5.3% / +1.5%',p:false},
+  {n:'Gold: Storm Trooper',s:'Nano Swarm',ben:'Damage reduction vs Mid-Range + enemy Mid-Range Attack reduction',bes:'Reducción de daño vs Media distancia + reducción de Ataque enemigo Media distancia',v:'-3.2% / -1.5%',p:false},
+  {n:'Gold: Shielder',s:'Nano Swarm',ben:'All HP/Defense types + Attack vs Long-Range',bes:'Todos los tipos de PV/Defensa + Ataque vs Larga distancia',v:'+5.3% / +1.5%',p:false},
+  {n:'Gold: Biochemical Troop',s:'Biochemical Charge',ben:'Zombies HP/Defense + Attack vs Zombies',bes:'PV/Defensa Zombis + Ataque vs Zombis',v:'+10.5% / +1.5%',p:false},
+  {n:'Titan Energy Cannon',s:'Giant Weapons',ben:'Source Spirit Attack/HP Boost + enemy Defense reduction + Titan Damage Taken reduction',bes:'Impulso Attack/PV Source Spirit + reducción de Defensa enemiga + reducción de daño recibido de Titanes',v:'75,600 / 1,058,400 / -0.7% / -0.3%',p:false},
+  {n:'Empress Exoskeleton',s:'Giant Weapons',ben:'Empress Attack/HP Boost + enemy Attack reduction',bes:'Impulso Attack/PV Empress + reducción de Ataque enemigo',v:'75,600 / 1,058,400 / -0.7%',p:false},
+  {n:'Warp Drive',s:'Giant Weapons',ben:'Warplane Attack/HP Boost + enemy Attack reduction + Damage Taken from Warplanes reduction',bes:'Impulso Attack/PV Avión + reducción de Ataque enemigo + reducción de daño recibido de Aviones',v:'18,000 / 111,600 / -0.7% / -0.3%',p:false},
+  {n:'Magnetic Pulse Core',s:'Giant Weapons',ben:'Damage vs Melee Troops + enemy Defense reduction + Damage Taken from Warplanes reduction',bes:'Daño vs Tropas Cuerpo a cuerpo + reducción de Defensa enemiga + reducción de daño recibido de Aviones',v:'+0.9% / -0.7% / -0.3%',p:false}
+];
+  (function() {
+    const grid = document.getElementById('antiqueGrid');
+    const filters = document.getElementById('antiqueFilters');
+    if (!grid || !filters) return;
+    const sets = ['All', ...Array.from(new Set(ANTIQUES.map(a => a.s)))];
+    let active = 'All';
+    function render() {
+      const lang = localStorage.getItem('aoo-lang') || 'en';
+      grid.innerHTML = ANTIQUES.filter(a => active === 'All' || a.s === active).map(a => {
+        const bonus = lang === 'es' ? a.bes : a.ben;
+        const valClass = a.p ? 'antique-value pending-val' : 'antique-value';
+        const val = a.p ? (lang === 'es' ? 'Pendiente de verificación' : 'Pending verification') : a.v;
+        const slug = a.n.toLowerCase().replace(/:/g, '').replace(/'/g, '_').replace(/\s+/g, '_');
+        const imgSrc = 'antiques/antique_' + slug + '.webp';
+        return '<div class="antique-card' + (a.p ? ' pending' : '') + '">' +
+          '<div class="antique-head">' +
+            '<img class="antique-img" src="' + imgSrc + '" alt="' + a.n + '" loading="lazy" onerror="this.style.display=\'none\'">' +
+            '<div class="antique-head-text">' +
+              '<div class="antique-name">' + a.n + '</div>' +
+              '<div class="antique-set-badge">' + a.s + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="antique-bonus">' + bonus + '</div>' +
+          '<div class="' + valClass + '">' + val + '</div>' +
+        '</div>';
+      }).join('');
+    }
+    filters.innerHTML = sets.map(s => '<button class="filter-btn' + (s === 'All' ? ' active' : '') + '" data-set="' + s + '">' + s + '</button>').join('');
+    filters.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        active = btn.dataset.set;
+        filters.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+        render();
+      });
+    });
+    render();
+    document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.addEventListener('click', () => setTimeout(render, 30)));
+  })();
+  </script>
+  <style>
+  .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#D4AF37);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#B8B2A6);}
+  </style>
+  <script>
+  (function(){
+    var nav=document.querySelector('nav');
+    var w=document.createElement('div');
+    w.className='lgx-banner';
+    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
+    function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
+    sync();
+    document.querySelectorAll('#langBtn,#langBtnMobile').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,30);});});
+  })();
+  </script>
+</body>
+</html>

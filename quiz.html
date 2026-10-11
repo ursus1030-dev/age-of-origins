@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-en="Quiz — Age of Origins" data-es="Quiz — Age of Origins">Quiz — Age of Origins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:    #1C1C1E;
+      --forest-dk: #0B0B0B;
+      --forest-lt: #2C2C2E;
+      --terra:     #D4AF37;
+      --terra-lt:  #8B6F2A;
+      --cream:     #E8E6E1;
+      --sand:      #1C1C1E;
+      --bark:      #B8B2A6;
+      --ink:       #E8E6E1;
+      --gold:      #D4AF37;
+      --red:       #B31217;
+      --bg:        #0B0B0B;
+      --good:      #7CAF75;
+      --bad:       #E05252;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(11,11,11,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212,175,55,0.25); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-brand { font-family: 'Cinzel', serif; font-size: 1.25rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; padding: 0 0.5rem; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { color: rgba(245,240,232,0.75); text-decoration: none; font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.7rem; border-radius: 6px; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: rgba(212,175,55,0.15); color: var(--gold); }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout { background: none; border: 1px solid rgba(212,175,55,0.4); color: rgba(245,240,232,0.7); font-family: 'Jost', sans-serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--cream); font-size: 1.6rem; cursor: pointer; padding: 0.3rem 0.6rem; line-height: 1; border-radius: 6px; transition: background 0.2s; }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-mobile-footer { display: none !important; }
+    @media (max-width: 900px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 0; padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px); justify-content: flex-start; order: 3; border-top: 1px solid rgba(255,255,255,0.1); }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer { display: flex !important; gap: 0.5rem; padding: 0.6rem 0.8rem 0.3rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.2rem; }
+    }
+
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 55%, var(--bark) 100%); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 20%, rgba(201,169,110,0.18) 0%, transparent 60%); }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon { font-size: 2.6rem; line-height: 1; margin-bottom: 0.8rem; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)); }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--gold); letter-spacing: 0.04em; }
+    .hero-sub { font-size: 0.9rem; font-weight: 300; color: rgba(245,240,232,0.75); max-width: 540px; margin: 0.6rem auto 0; line-height: 1.5; }
+
+    /* ── MAIN ── */
+    .main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* ── TOOLBAR (admin only) ── */
+    .toolbar { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .toolbar-info { flex: 1; font-size: 0.78rem; color: rgba(232,230,225,0.5); letter-spacing: 0.05em; }
+    .btn-admin-add { background: var(--terra); border: none; color: #0B0B0B; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.65rem 1.2rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .btn-admin-add:hover { background: var(--terra-lt); }
+    .btn-view-as-member { background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.55rem 0.9rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; display: none; }
+    .btn-view-as-member:hover { background: var(--forest); color: white; }
+    .btn-view-as-member.active { background: var(--forest); color: white; border-color: var(--gold); }
+    .main.is-admin .btn-view-as-member { display: inline-block; }
+    .main.is-admin.as-member .btn-admin-add { display: none !important; }
+    .main.is-admin.as-member .btn-edit-question { display: none !important; }
+    .main.is-admin.as-member .quiz-card.is-draft { border-left: 4px solid var(--gold) !important; }
+    .main.is-admin.as-member .quiz-card.is-advanced { border-left: 4px solid var(--gold) !important; }
+    .main.is-admin.as-member .tier-row { display: none !important; }
+
+    /* ── CARD ── */
+    .quiz-card { background: #2C2C2E; border-radius: 16px; padding: 2rem 1.8rem; box-shadow: 0 4px 20px rgba(0,0,0,0.07); position: relative; min-height: 200px; }
+    .question-cat { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terra); font-weight: 500; opacity: 0.75; margin-bottom: 0.6rem; }
+    .question-text { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400; color: var(--ink); line-height: 1.35; margin-bottom: 1.4rem; }
+    .options-list { display: flex; flex-direction: column; gap: 0.7rem; }
+    .option-btn { display: flex; align-items: center; gap: 0.8rem; padding: 0.95rem 1.1rem; border: 2px solid rgba(212,175,55,0.15); background: #2C2C2E; border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--ink); cursor: pointer; transition: all 0.15s; text-align: left; width: 100%; }
+    .option-btn:hover:not(.locked) { border-color: var(--gold); background: rgba(78,115,73,0.04); }
+    .option-letter { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--gold); flex-shrink: 0; width: 1.5rem; }
+    .option-btn.correct { background: rgba(78,115,73,0.12); border-color: var(--good); color: var(--gold); }
+    .option-btn.correct .option-letter { color: var(--good); }
+    .option-btn.wrong { background: rgba(212,175,55,0.10); border-color: var(--bad); color: var(--bark); }
+    .option-btn.wrong .option-letter { color: var(--bad); }
+    .option-btn.locked { cursor: default; }
+    .option-icon { margin-left: auto; font-size: 1.1rem; }
+
+    .feedback { margin-top: 1.2rem; padding: 1rem 1.1rem; border-radius: 10px; font-size: 0.92rem; line-height: 1.5; }
+    .feedback.good { background: rgba(78,115,73,0.10); color: var(--gold); border-left: 4px solid var(--good); }
+    .feedback.bad  { background: rgba(212,175,55,0.08); color: var(--bark); border-left: 4px solid var(--bad); }
+    .feedback-label { font-weight: 600; margin-right: 0.4rem; }
+
+    .actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1.4rem; gap: 0.8rem; }
+    .progress-text { font-size: 0.78rem; color: rgba(232,230,225,0.4); letter-spacing: 0.05em; }
+    .btn-next, .btn-restart { background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 1.5rem; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+    .btn-next:hover, .btn-restart:hover { background: var(--forest-lt); }
+    .btn-edit-question { position: absolute; top: 1rem; right: 1rem; background: none; border: 1px solid rgba(212,175,55,0.15); color: rgba(232,230,225,0.4); width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: none; align-items: center; justify-content: center; transition: all 0.15s; }
+    .btn-edit-question:hover { border-color: var(--gold); color: var(--gold); }
+    .is-admin .btn-edit-question { display: flex; }
+
+    /* ── BANK-TIER BADGES ── */
+    .tier-badge { display: inline-block; padding: 0.18rem 0.55rem; border-radius: 999px; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-right: 0.4rem; }
+    .tier-badge.draft    { background: rgba(212,175,55,0.12); color: var(--terra); border: 1px solid rgba(212,175,55,0.3); }
+    .tier-badge.advanced { background: rgba(94,71,138,0.12); color: #5e478a; border: 1px solid rgba(94,71,138,0.3); }
+    .quiz-card.is-draft    { border-left: 4px solid var(--terra); }
+    .quiz-card.is-advanced { border-left: 4px solid #5e478a; }
+    .tier-row { display: flex; gap: 0.4rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
+
+    /* ── END STATE ── */
+    .end-state { background: #2C2C2E; border-radius: 16px; padding: 3rem 1.8rem; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .end-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .end-state h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 400; color: var(--gold); margin-bottom: 0.6rem; }
+    .end-state p { font-size: 0.95rem; color: rgba(232,230,225,0.6); margin-bottom: 1.6rem; }
+
+    /* ── EMPTY ── */
+    .empty-state { background: #2C2C2E; border-radius: 16px; padding: 3rem 1.5rem; text-align: center; color: rgba(232,230,225,0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 0.8rem; opacity: 0.4; }
+
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1.5rem; overflow-y: auto; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #2C2C2E; border-radius: 18px; padding: 2rem; width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.25); }
+    .modal h2 { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 400; margin-bottom: 1.2rem; color: var(--gold); }
+    .modal label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; margin-top: 0.9rem; }
+    .modal label:first-of-type { margin-top: 0; }
+    .modal input, .modal textarea, .modal select { width: 100%; padding: 0.6rem 0.85rem; border: 1px solid #ddd; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--ink); background: #fafafa; outline: none; transition: border-color 0.2s; }
+    .modal input:focus, .modal textarea:focus, .modal select:focus { border-color: var(--gold); background: #2C2C2E; }
+    .modal textarea { resize: vertical; min-height: 60px; }
+    .option-row { display: grid; grid-template-columns: 30px 1fr 1fr; gap: 0.5rem; align-items: center; margin-top: 0.4rem; }
+    .option-row-label { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--gold); text-align: center; }
+    .option-row-label.required { color: var(--terra); }
+    .modal-actions { display: flex; gap: 0.6rem; margin-top: 1.4rem; }
+    .btn-save { flex: 1; background: var(--forest); color: var(--cream); border: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+    .btn-save:hover { background: var(--forest-lt); }
+    .btn-cancel { padding: 0.8rem 1.1rem; border: 1px solid #ddd; background: none; font-family: 'Jost', sans-serif; font-size: 0.82rem; color: #666; border-radius: 8px; cursor: pointer; }
+    .btn-cancel:hover { background: #f5f5f5; }
+    .btn-delete { padding: 0.8rem 1.1rem; border: 1px solid var(--terra); background: #2C2C2E; color: var(--terra); font-family: 'Jost', sans-serif; font-size: 0.82rem; letter-spacing: 0.05em; border-radius: 8px; cursor: pointer; }
+    .btn-delete:hover { background: var(--terra); color: #0B0B0B; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--forest-dk); color: rgba(245,240,232,0.4); text-align: center; padding: 2rem; font-size: 0.75rem; letter-spacing: 0.1em; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"     data-en="Home"      data-es="Inicio">Home</a>
+      <a href="base.html"      data-en="Base"      data-es="Base">Base</a>
+      <a href="combat.html"    data-en="Combat"    data-es="Combate">Combat</a>
+      <a href="alliance.html"  data-en="Alliance"  data-es="Alianza">Alliance</a>
+      <a href="tips.html" class="active" data-en="Tips" data-es="Consejos">Tips</a>
+      <a href="events.html"    data-en="Events"    data-es="Eventos">Events</a>
+      <a href="group.html"     data-en="Group"     data-es="Grupo">Group</a>
+      <a href="resources.html" data-en="Resources" data-es="Recursos">Resources</a>
+      <a href="leadership.html" id="navLeadership" style="display:none;" data-en="Leadership" data-es="Liderazgo">Leadership</a>
+      <div class="nav-mobile-footer">
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🎯</div>
+      <h1 data-en="Quiz" data-es="Quiz">Quiz</h1>
+      <p class="hero-sub"
+         data-en="Practice questions about the game. Pick an answer, see if you're right, learn the why."
+         data-es="Preguntas para practicar sobre el juego. Elige una respuesta, mira si acertaste, aprende el porqué.">
+        Practice questions about the game. Pick an answer, see if you're right, learn the why.
+      </p>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="toolbar">
+      <div class="toolbar-info" id="toolbarInfo"></div>
+      <button class="btn-view-as-member" id="btnViewAsMember" onclick="toggleViewAsMember()"
+              data-en="View as member" data-es="Vista de miembro">View as member</button>
+      <button class="btn-admin-add" id="btnAdminAdd" onclick="openAddModal()" style="display:none"
+              data-en="+ Add question" data-es="+ Añadir pregunta">+ Add question</button>
+    </div>
+
+    <div id="cardArea">
+      <div class="empty-state"><div class="icon">🎯</div><p data-en="Loading…" data-es="Cargando…">Loading…</p></div>
+    </div>
+  </main>
+
+  <!-- ADMIN MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlay(event)">
+    <div class="modal">
+      <h2 id="modalTitle" data-en="Add question" data-es="Añadir pregunta">Add question</h2>
+
+      <label data-en="Category" data-es="Categoría">Category</label>
+      <select id="newCategory">
+        <option value="base"     data-en="Base building"    data-es="Construcción">Base building</option>
+        <option value="combat"   data-en="Combat"           data-es="Combate">Combat</option>
+        <option value="alliance" data-en="Alliance"         data-es="Alianza">Alliance</option>
+        <option value="events"   data-en="Events"           data-es="Eventos">Events</option>
+        <option value="general"  data-en="General"          data-es="General">General</option>
+      </select>
+
+      <label data-en="Status" data-es="Estado">Status</label>
+      <select id="newStatus">
+        <option value="draft"     data-en="Draft"     data-es="Borrador">Draft</option>
+        <option value="published" data-en="Published" data-es="Publicado">Published</option>
+      </select>
+
+      <div id="accessLevelRow" style="display:none">
+        <label data-en="Access level" data-es="Nivel de acceso">Access level</label>
+        <select id="newAccessLevel">
+          <option value="public"   data-en="Public — everyone"  data-es="Público — todos">Public — everyone</option>
+          <option value="advanced" data-en="Advanced — limited" data-es="Avanzado — limitado">Advanced — limited</option>
+        </select>
+      </div>
+
+      <label data-en="Question (English)" data-es="Pregunta (inglés)">Question (English)</label>
+      <textarea id="newQuestionEn" rows="2" placeholder="(Type the English question here)"></textarea>
+
+      <label data-en="Question (Spanish)" data-es="Pregunta (español)">Question (Spanish)</label>
+      <textarea id="newQuestionEs" rows="2" placeholder="(Escribe la pregunta en español aquí)"></textarea>
+
+      <label data-en="Options (English / Spanish) — A and B required, C and D optional" data-es="Opciones (inglés / español) — A y B obligatorias, C y D opcionales">Options (English / Spanish) — A and B required, C and D optional</label>
+      <div class="option-row"><div class="option-row-label required">A *</div><input type="text" id="optAen" placeholder="(Type option A in English)" /><input type="text" id="optAes" placeholder="(Opción A en español)" /></div>
+      <div class="option-row"><div class="option-row-label required">B *</div><input type="text" id="optBen" placeholder="(Type option B in English)" /><input type="text" id="optBes" placeholder="(Opción B en español)" /></div>
+      <div class="option-row"><div class="option-row-label">C</div><input type="text" id="optCen" placeholder="(Option C — optional)" /><input type="text" id="optCes" placeholder="(Opción C — opcional)" /></div>
+      <div class="option-row"><div class="option-row-label">D</div><input type="text" id="optDen" placeholder="(Option D — optional)" /><input type="text" id="optDes" placeholder="(Opción D — opcional)" /></div>
+
+      <label data-en="Correct answer" data-es="Respuesta correcta">Correct answer</label>
+      <select id="newCorrect">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+        <option value="3">D</option>
+      </select>
+
+      <label data-en="Explanation in English (optional)" data-es="Explicación en inglés (opcional)">Explanation in English (optional)</label>
+      <textarea id="newExplanationEn" rows="2" placeholder="(Why this is the right answer — optional)"></textarea>
+
+      <label data-en="Explanation in Spanish (optional)" data-es="Explicación en español (opcional)">Explanation in Spanish (optional)</label>
+      <textarea id="newExplanationEs" rows="2" placeholder="(Por qué esta es la respuesta correcta — opcional)"></textarea>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()" data-en="Cancel" data-es="Cancelar">Cancel</button>
+        <button class="btn-delete" id="btnDelete" onclick="deleteCurrent()" style="display:none"
+                data-en="Delete" data-es="Eliminar">Delete</button>
+        <button class="btn-save" onclick="saveQuestion()" data-en="Save" data-es="Guardar">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
+    const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+
+    const CATEGORIES = [
+      { key: 'base',     en: 'Base building', es: 'Construcción' },
+      { key: 'combat',   en: 'Combat',        es: 'Combate' },
+      { key: 'alliance', en: 'Alliance',      es: 'Alianza' },
+      { key: 'events',   en: 'Events',        es: 'Eventos' },
+      { key: 'general',  en: 'General',       es: 'General' }
+    ];
+
+    // Recovery/invite-hash -> login
+    const _h = window.location.hash, _s = window.location.search;
+    if ((_h && (_h.includes('type=recovery') || _h.includes('type=invite'))) || (_s && _s.includes('code='))) {
+      window.location.replace('login.html' + _s + _h);
+    }
+
+        async function __aooRole(session){ try{ if(!session) return {leader:false,admin:false}; const r = await sb.from('leaders').select('is_admin').eq('user_id', session.user.id).maybeSingle(); return { leader: !!r.data, admin: !!(r.data && r.data.is_admin) }; }catch(e){ return {leader:false,admin:false}; } }
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { flowType: 'pkce' } });
+
+    let allQuestions = [];
+    let shuffled     = [];
+    let currentIdx   = 0;
+    let isAdmin      = false;
+    let userHasAdvanced = false;
+    let editingId    = null;
+    let currentUserEmail = '';
+    let viewAsMember = localStorage.getItem('aoo_viewAsMember') === '1';
+
+    sb.auth.getSession().then(async ({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      currentUserEmail = (data.session.user.email || '').toLowerCase();
+      isAdmin = (await __aooRole(data.session)).admin;
+      userHasAdvanced = !!(data.session.user.app_metadata && data.session.user.app_metadata.advanced_access);
+      if ((await __aooRole(data.session)).leader) {
+        const _navL = document.getElementById('navLeadership');
+        if (_navL) _navL.style.display = '';
+      }
+      if (isAdmin) {
+        document.getElementById('btnAdminAdd').style.display = '';
+        document.querySelector('.main').classList.add('is-admin');
+        const arl = document.getElementById('accessLevelRow');
+        if (arl && userHasAdvanced) arl.style.display = '';
+        applyViewAsMember();
+      }
+      loadQuestions();
+    });
+
+    function applyViewAsMember() {
+      const main = document.querySelector('.main');
+      const btn  = document.getElementById('btnViewAsMember');
+      if (!main || !btn) return;
+      if (viewAsMember) {
+        main.classList.add('as-member');
+        btn.classList.add('active');
+        btn.textContent = LANG === 'es' ? 'Vista de admin' : 'View as admin';
+      } else {
+        main.classList.remove('as-member');
+        btn.classList.remove('active');
+        btn.textContent = LANG === 'es' ? 'Vista de miembro' : 'View as member';
+      }
+    }
+
+    function toggleViewAsMember() {
+      viewAsMember = !viewAsMember;
+      localStorage.setItem('aoo_viewAsMember', viewAsMember ? '1' : '0');
+      applyViewAsMember();
+      startQuiz();
+    }
+
+    function logOut() { window.location.href = 'logout.html'; }
+
+    async function loadQuestions() {
+      const { data, error } = await sb.from('quiz_questions').select('*').order('created_at', { ascending: false });
+      if (error) { console.error(error); return; }
+      allQuestions = data || [];
+      startQuiz();
+    }
+
+    function startQuiz() {
+      // View-as-member: dölj drafts + advanced från admin som tittar som vanlig spelare
+      const pool = (isAdmin && viewAsMember)
+        ? allQuestions.filter(q => q.status !== 'draft' && q.access_level !== 'advanced')
+        : allQuestions;
+      if (isAdmin && !viewAsMember) {
+        // Admin: drafts first (review order), then published shuffled
+        const drafts    = pool.filter(q => q.status === 'draft');
+        const published = shuffleArray(pool.filter(q => q.status !== 'draft'));
+        shuffled = [...drafts, ...published];
+      } else {
+        shuffled = shuffleArray([...pool]);
+      }
+      currentIdx = 0;
+      renderCard();
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function escapeHtml(s) {
+      return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function catLabel(key) {
+      const c = CATEGORIES.find(x => x.key === key);
+      if (!c) return key;
+      return LANG === 'es' ? c.es : c.en;
+    }
+
+    function renderCard() {
+      const area = document.getElementById('cardArea');
+      const info = document.getElementById('toolbarInfo');
+
+      if (!allQuestions.length) {
+        const msg = LANG === 'es' ? 'Aún no hay preguntas. Vuelve cuando un admin haya añadido algunas.' : 'No questions yet. Check back when an admin has added some.';
+        area.innerHTML = `<div class="empty-state"><div class="icon">🎯</div><p>${msg}</p></div>`;
+        info.textContent = '';
+        return;
+      }
+
+      if (currentIdx >= shuffled.length) {
+        const heading = LANG === 'es' ? '¡Quiz completo!' : 'Quiz complete!';
+        const sub     = LANG === 'es' ? 'Has visto todas las preguntas. Vuelve a barajarlas cuando quieras.' : "You've seen every question. Reshuffle whenever you like.";
+        const btnTxt  = LANG === 'es' ? 'Empezar de nuevo' : 'Start again';
+        area.innerHTML = `
+          <div class="end-state">
+            <div class="icon">✨</div>
+            <h2>${heading}</h2>
+            <p>${sub}</p>
+            <button class="btn-restart" onclick="startQuiz()">${btnTxt}</button>
+          </div>`;
+        info.textContent = '';
+        return;
+      }
+
+      const q = shuffled[currentIdx];
+      const questionTxt = LANG === 'es' ? (q.question_es || q.question_en) : (q.question_en || q.question_es);
+      const opts = Array.isArray(q.options) ? q.options : [];
+      const letters = ['A','B','C','D','E','F'];
+      const editBtn = isAdmin ? `<button class="btn-edit-question" onclick="openEditModal('${q.id}')" title="Edit">✎</button>` : '';
+
+      const isDraft    = q.status === 'draft';
+      const isAdvanced = q.access_level === 'advanced';
+      const tierClass  = isDraft ? 'is-draft' : (isAdvanced ? 'is-advanced' : '');
+      const badgesHtml = (isDraft || isAdvanced)
+        ? `<div class="tier-row">
+             ${isDraft    ? `<span class="tier-badge draft">${LANG === 'es' ? 'Borrador' : 'Draft'}</span>` : ''}
+             ${isAdvanced ? `<span class="tier-badge advanced">${LANG === 'es' ? 'Avanzado' : 'Advanced'}</span>` : ''}
+           </div>`
+        : '';
+
+      area.innerHTML = `
+        <div class="quiz-card ${tierClass}">
+          ${editBtn}
+          ${badgesHtml}
+          <div class="question-cat">${escapeHtml(catLabel(q.category))}</div>
+          <div class="question-text">${escapeHtml(questionTxt)}</div>
+          <div class="options-list" id="optionsList">
+            ${opts.map((o, i) => {
+              const txt = LANG === 'es' ? (o.es || o.en) : (o.en || o.es);
+              return `<button class="option-btn" data-idx="${i}" onclick="pickAnswer(${i})">
+                        <span class="option-letter">${letters[i] || (i+1)}</span>
+                        <span class="option-text">${escapeHtml(txt)}</span>
+                      </button>`;
+            }).join('')}
+          </div>
+          <div id="feedbackArea"></div>
+          <div class="actions">
+            <span class="progress-text">${currentIdx + 1} / ${shuffled.length}</span>
+            <button class="btn-next" id="btnNext" onclick="nextQuestion()" style="display:none">${LANG === 'es' ? 'Siguiente →' : 'Next →'}</button>
+          </div>
+        </div>`;
+    }
+
+    function pickAnswer(idx) {
+      const q = shuffled[currentIdx];
+      const correct = q.correct_index;
+      const buttons = document.querySelectorAll('#optionsList .option-btn');
+      buttons.forEach(b => {
+        b.classList.add('locked');
+        b.disabled = true;
+        const bIdx = parseInt(b.dataset.idx, 10);
+        if (bIdx === correct) {
+          b.classList.add('correct');
+          b.innerHTML += '<span class="option-icon">✓</span>';
+        } else if (bIdx === idx) {
+          b.classList.add('wrong');
+          b.innerHTML += '<span class="option-icon">✗</span>';
+        }
+      });
+
+      const isCorrect = idx === correct;
+      const fb = document.getElementById('feedbackArea');
+      const expl = LANG === 'es' ? (q.explanation_es || q.explanation_en) : (q.explanation_en || q.explanation_es);
+      const label = isCorrect
+        ? (LANG === 'es' ? '¡Correcto!' : 'Correct!')
+        : (LANG === 'es' ? 'No es correcto.' : 'Not quite.');
+      fb.innerHTML = `<div class="feedback ${isCorrect ? 'good' : 'bad'}">
+        <span class="feedback-label">${label}</span>${expl ? escapeHtml(expl) : ''}
+      </div>`;
+
+      document.getElementById('btnNext').style.display = '';
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      renderCard();
+    }
+
+    // ── ADMIN MODAL ──
+    function openAddModal() {
+      editingId = null;
+      document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Añadir pregunta' : 'Add question';
+      ['newQuestionEn','newQuestionEs','optAen','optAes','optBen','optBes','optCen','optCes','optDen','optDes','newExplanationEn','newExplanationEs']
+        .forEach(id => document.getElementById(id).value = '');
+      document.getElementById('newCategory').value = 'general';
+      document.getElementById('newCorrect').value = '0';
+      document.getElementById('newStatus').value = 'draft';
+      document.getElementById('newAccessLevel').value = 'public';
+      document.getElementById('btnDelete').style.display = 'none';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function openEditModal(id) {
+      if (!isAdmin) return;
+      const q = allQuestions.find(x => x.id === id);
+      if (!q) return;
+      editingId = id;
+      document.getElementById('modalTitle').textContent = LANG === 'es' ? 'Editar pregunta' : 'Edit question';
+      document.getElementById('newCategory').value     = q.category || 'general';
+      document.getElementById('newStatus').value       = q.status || 'draft';
+      document.getElementById('newAccessLevel').value  = q.access_level || 'public';
+      document.getElementById('newQuestionEn').value   = q.question_en || '';
+      document.getElementById('newQuestionEs').value   = q.question_es || '';
+      const opts = Array.isArray(q.options) ? q.options : [];
+      const idMap = [['optAen','optAes'],['optBen','optBes'],['optCen','optCes'],['optDen','optDes']];
+      idMap.forEach((pair, i) => {
+        document.getElementById(pair[0]).value = (opts[i] && opts[i].en) || '';
+        document.getElementById(pair[1]).value = (opts[i] && opts[i].es) || '';
+      });
+      document.getElementById('newCorrect').value      = String(q.correct_index || 0);
+      document.getElementById('newExplanationEn').value = q.explanation_en || '';
+      document.getElementById('newExplanationEs').value = q.explanation_es || '';
+      document.getElementById('btnDelete').style.display = '';
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); editingId = null; }
+    function handleOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+    async function saveQuestion() {
+      const qEn = document.getElementById('newQuestionEn').value.trim();
+      const qEs = document.getElementById('newQuestionEs').value.trim();
+      const optPairs = [
+        [document.getElementById('optAen').value.trim(), document.getElementById('optAes').value.trim()],
+        [document.getElementById('optBen').value.trim(), document.getElementById('optBes').value.trim()],
+        [document.getElementById('optCen').value.trim(), document.getElementById('optCes').value.trim()],
+        [document.getElementById('optDen').value.trim(), document.getElementById('optDes').value.trim()]
+      ];
+      const correctIdx = parseInt(document.getElementById('newCorrect').value, 10);
+
+      if (!qEn) { alert(LANG === 'es' ? 'Introduce la pregunta en inglés.' : 'Enter the English question.'); return; }
+      if (!qEs) { alert(LANG === 'es' ? 'Introduce la pregunta en español.' : 'Enter the Spanish question.'); return; }
+
+      // Filtrera bort tomma alternativ men remappa correct_index till nya positionen
+      const options = [];
+      const remap = []; // remap[originalIdx] = newIdx eller -1
+      for (let i = 0; i < optPairs.length; i++) {
+        const [en, es] = optPairs[i];
+        if (!en && !es) { remap.push(-1); continue; }
+        if (!en || !es) {
+          alert(LANG === 'es' ? `La opción ${['A','B','C','D'][i]} necesita texto en ambos idiomas.` : `Option ${['A','B','C','D'][i]} needs text in both languages.`);
+          return;
+        }
+        remap.push(options.length);
+        options.push({ en, es });
+      }
+      if (options.length < 2) {
+        alert(LANG === 'es' ? 'Se necesitan al menos 2 opciones.' : 'At least 2 options are needed.');
+        return;
+      }
+      const newCorrectIdx = remap[correctIdx];
+      if (newCorrectIdx === -1 || newCorrectIdx === undefined) {
+        const letter = ['A','B','C','D'][correctIdx];
+        alert(LANG === 'es'
+          ? `Elegiste "${letter}" como respuesta correcta pero esa opción está vacía. Rellénala o elige otra.`
+          : `You picked "${letter}" as the correct answer but that option is empty. Fill it in or pick a different one.`);
+        return;
+      }
+
+      const payload = {
+        question_en:    qEn,
+        question_es:    qEs,
+        category:       document.getElementById('newCategory').value,
+        status:         document.getElementById('newStatus').value,
+        access_level:   userHasAdvanced ? document.getElementById('newAccessLevel').value : 'public',
+        options,
+        correct_index:  newCorrectIdx,
+        explanation_en: document.getElementById('newExplanationEn').value.trim() || null,
+        explanation_es: document.getElementById('newExplanationEs').value.trim() || null
+      };
+
+      let error;
+      if (editingId) {
+        ({ error } = await sb.from('quiz_questions').update(payload).eq('id', editingId));
+      } else {
+        payload.author_email = currentUserEmail;
+        ({ error } = await sb.from('quiz_questions').insert(payload));
+      }
+      if (error) { alert('Error: ' + error.message); return; }
+      closeModal();
+      await loadQuestions();
+    }
+
+    async function deleteCurrent() {
+      if (!editingId) return;
+      const msg = LANG === 'es' ? '¿Eliminar esta pregunta?' : 'Delete this question?';
+      if (!confirm(msg)) return;
+      const { error } = await sb.from('quiz_questions').delete().eq('id', editingId);
+      if (error) { alert('Error: ' + error.message); return; }
+      closeModal();
+      await loadQuestions();
+    }
+
+    // ── NAV TOGGLE ──
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    // ── SPRÅKVÄLJARE ──
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+      if (typeof allQuestions !== 'undefined' && allQuestions.length) renderCard();
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    // ── VERSION-CHECK ──
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
+            var b = document.createElement("div");
+            b.id = "update-banner";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#1C1C1E;color:#E8E6E1;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#D4AF37;color:#0B0B0B;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            document.body.appendChild(b);
+          }
+        }).catch(function(){});
+      }, 300000);
+    })();
+  </script>
+  <style>
+  .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#D4AF37);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#B8B2A6);}
+  </style>
+  <script>
+  (function(){
+    var nav=document.querySelector('nav');
+    var w=document.createElement('div');
+    w.className='lgx-banner';
+    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
+    function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
+    sync();
+    document.querySelectorAll('#langBtn,#langBtnMobile').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,30);});});
+  })();
+  </script>
+</body>
+</html>

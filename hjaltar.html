@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-en="Heroes — Age of Origins" data-es="Héroes — Age of Origins">Heroes — Age of Origins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:    #1C1C1E;
+      --forest-dk: #0B0B0B;
+      --forest-lt: #2C2C2E;
+      --terra:     #D4AF37;
+      --terra-lt:  #8B6F2A;
+      --cream:     #E8E6E1;
+      --sand:      #1C1C1E;
+      --bark:      #B8B2A6;
+      --ink:       #E8E6E1;
+      --gold:      #D4AF37;
+      --red:       #B31217;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: #0B0B0B;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(11,11,11,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212,175,55,0.25);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem; color: var(--cream);
+      letter-spacing: 0.04em; text-decoration: none;
+    }
+    .nav-links {
+      display: flex; gap: 0.2rem;
+      overflow-x: auto; scrollbar-width: none;
+      flex: 1; justify-content: center; padding: 0 0.5rem;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: rgba(245,240,232,0.75); text-decoration: none;
+      font-size: 0.78rem; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.4rem 0.7rem; border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(212,175,55,0.15); color: var(--gold);
+    }
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .nav-lang, .nav-logout {
+      background: none; border: 1px solid rgba(212,175,55,0.4);
+      color: rgba(245,240,232,0.7);
+      font-family: 'Jost', sans-serif; font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.35rem 0.7rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .nav-lang:hover, .nav-logout:hover { border-color: rgba(245,240,232,0.55); color: var(--cream); }
+    .nav-hamburger {
+      display: none; background: none; border: none;
+      color: var(--cream); font-size: 1.6rem; cursor: pointer;
+      padding: 0.3rem 0.6rem; line-height: 1;
+      border-radius: 6px; transition: background 0.2s;
+    }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.12); }
+    .nav-mobile-footer { display: none !important; }
+
+    @media (max-width: 900px) {
+      nav { flex-wrap: wrap; height: auto; min-height: 56px; padding: 0 1rem; position: relative; }
+      .nav-brand { flex: 1; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .nav-right { display: none; }
+      .nav-links {
+        display: none; width: 100%; flex-direction: column; gap: 0;
+        padding: 0.5rem 0 0.8rem; overflow-y: auto; max-height: calc(100svh - 60px);
+        justify-content: flex-start; order: 3;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; padding: 0.7rem 1rem; white-space: normal; border-radius: 8px; }
+      .nav-mobile-footer {
+        display: flex !important; gap: 0.5rem;
+        padding: 0.6rem 0.8rem 0.3rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 0.2rem;
+      }
+    }
+
+    .hero {
+      background: linear-gradient(160deg, var(--forest-dk) 0%, var(--forest) 50%, var(--forest-lt) 100%);
+      padding: 4rem 2rem 3.5rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(212,175,55,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .hero-icon {
+      font-size: 3rem; line-height: 1; margin-bottom: 1rem;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+    }
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      font-weight: 300; color: var(--gold);
+      letter-spacing: 0.04em; line-height: 1.1; margin-bottom: 0.8rem;
+    }
+    .hero-sub {
+      font-size: 0.95rem; font-weight: 300;
+      color: rgba(245,240,232,0.75);
+      max-width: 540px; margin: 0 auto; line-height: 1.5;
+    }
+
+    .content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .section {
+      background: #141416;
+      border-radius: 16px;
+      padding: 2rem 1.8rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07), 0 0 0 1px rgba(212,175,55,0.08);
+    }
+    .section h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.7rem; font-weight: 400;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .section p {
+      font-size: 0.95rem; line-height: 1.6;
+      color: rgba(232,230,225,0.78); margin-bottom: 0.8rem;
+    }
+    .placeholder {
+      font-style: italic;
+      color: rgba(232,230,225,0.5);
+      font-size: 0.88rem;
+    }
+
+    /* ── OFFICER GLOSSARY ── */
+    .glossary-row { display: flex; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid rgba(212,175,55,0.12); }
+    .glossary-row:last-child { border-bottom: none; }
+    .glossary-term { flex: 0 0 130px; font-family: 'Cinzel', serif; font-size: 0.88rem; color: var(--gold); }
+    .glossary-desc { flex: 1; font-size: 0.88rem; line-height: 1.55; color: rgba(232,230,225,0.78); }
+    @media (max-width: 600px) {
+      .glossary-row { flex-direction: column; gap: 0.2rem; }
+      .glossary-term { flex: none; }
+    }
+
+    /* ── OFFICER ANATOMY TIER TOGGLE ── */
+    .tier-toggle { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .tier-btn { background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.3); color: rgba(232,230,225,0.75); font-family: 'Jost', sans-serif; font-size: 0.78rem; letter-spacing: 0.04em; padding: 0.45rem 0.9rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+    .tier-btn:hover { border-color: rgba(212,175,55,0.55); color: var(--cream); }
+    .tier-btn.active { background: rgba(212,175,55,0.18); border-color: var(--gold); color: var(--gold); }
+    .anatomy-img { display: block; width: 100%; max-width: 420px; margin: 0 auto 1rem; border-radius: 10px; box-shadow: 0 2px 16px rgba(0,0,0,0.3); }
+    .anatomy-img-caption { text-align: center; font-size: 0.75rem; color: rgba(232,230,225,0.5); margin: 0.6rem 0 1.2rem; }
+
+    /* ── OFFICER ANATOMY HOTSPOTS (interactive overview image) ── */
+    .anatomy-wrap { position: relative; max-width: 420px; margin: 0 auto; }
+    .anatomy-wrap .anatomy-img { margin: 0; }
+    .hotspot {
+      position: absolute; width: 8%; aspect-ratio: 1 / 1;
+      transform: translate(-50%, -50%);
+      background: transparent; border: none; border-radius: 50%;
+      padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .hotspot:hover, .hotspot:focus-visible { box-shadow: 0 0 0 3px rgba(212,175,55,0.55); outline: none; }
+    .hotspot.active-hs { box-shadow: 0 0 0 3px var(--gold); }
+    .hotspot-panel {
+      background: rgba(212,175,55,0.07); border: 1px solid rgba(212,175,55,0.28);
+      border-radius: 10px; padding: 0.8rem 1rem; margin: 0.8rem 0 1.2rem;
+      font-size: 0.85rem; line-height: 1.55; color: rgba(232,230,225,0.85);
+      min-height: 3.2em;
+    }
+    .hotspot-panel-num {
+      color: var(--gold); font-family: 'Cinzel', serif; font-weight: 600; margin-right: 0.4rem;
+    }
+    .hotspot-panel-tap { font-style: italic; color: rgba(232,230,225,0.5); }
+
+    /* ── OFFICER EXAMPLE CARD ── */
+    .officer-card { background: var(--forest-lt); border-radius: 14px; padding: 1.3rem 1.4rem; margin-top: 1.2rem; }
+    .officer-head { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .officer-img { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; flex-shrink: 0; background: #1C1C1E; }
+    .officer-name { font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--cream); }
+    .officer-title { font-size: 0.8rem; color: var(--gold); margin-top: 0.15rem; }
+    .officer-meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.78rem; color: rgba(232,230,225,0.6); margin-top: 0.4rem; }
+    .officer-meta strong { color: var(--cream); font-weight: 500; }
+    .officer-section-label { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); background: rgba(212,175,55,0.1); border-radius: 6px; padding: 0.15rem 0.5rem; display: inline-block; margin: 0.9rem 0 0.5rem; }
+    .officer-skill { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 0.5rem; }
+    .officer-skill-name { font-size: 0.85rem; color: var(--cream); margin-bottom: 0.2rem; }
+    .officer-skill-desc { font-size: 0.8rem; color: rgba(232,230,225,0.72); line-height: 1.45; }
+    .officer-note { font-size: 0.82rem; color: rgba(232,230,225,0.6); line-height: 1.55; margin-top: 1rem; font-style: italic; }
+
+    /* ── UNWORLDLY POOLS (per role) ── */
+    .up-mek { background: var(--forest); border: 1px solid rgba(212,175,55,0.3); border-radius: 14px; padding: 1.1rem 1.2rem; margin-top: 1rem; }
+    .up-mek h3 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.95rem; margin-bottom: 0.6rem; }
+    .up-mek ol { margin-left: 1.1rem; font-size: 0.84rem; display: grid; gap: 0.45rem; }
+    .up-tip { margin-top: 0.8rem; background: rgba(179,18,23,0.15); border-left: 3px solid var(--red); padding: 0.5rem 0.7rem; font-size: 0.82rem; border-radius: 4px; }
+    .up-legend { margin-top: 0.8rem; font-size: 0.75rem; color: rgba(232,230,225,0.6); line-height: 1.6; }
+    .up-shared { background: var(--forest); border: 1px solid rgba(212,175,55,0.25); border-radius: 14px; padding: 0.9rem 1.1rem; margin-top: 1rem; }
+    .up-shared summary { cursor: pointer; font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.9rem; }
+    .up-shared-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 0.8rem; margin-top: 0.7rem; font-size: 0.78rem; color: rgba(232,230,225,0.9); }
+    .up-grp { grid-column: 1 / -1; color: var(--terra-lt); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.4rem; }
+    .up-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .up-chip { background: rgba(212,175,55,0.10); border: 1px solid rgba(212,175,55,0.35); border-radius: 8px; padding: 0.28rem 0.6rem; font-size: 0.78rem; }
+    .up-why { font-size: 0.8rem; color: rgba(232,230,225,0.6); margin-top: 0.6rem; font-style: italic; }
+    .breadcrumb {
+      max-width: 760px; margin: 1.5rem auto 0;
+      padding: 0 1.5rem;
+      font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(232,230,225,0.5);
+    }
+    .breadcrumb a { color: var(--terra); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    footer {
+      background: var(--forest-dk);
+      color: rgba(245,240,232,0.4);
+      text-align: center; padding: 2rem;
+      font-size: 0.75rem; letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"            data-en="Home"      data-es="Inicio">Home</a>
+      <a href="base.html"              data-en="Base"      data-es="Base">Base</a>
+      <a href="combat.html" class="active" data-en="Combat" data-es="Combate">Combat</a>
+      <a href="alliance.html"          data-en="Alliance"  data-es="Alianza">Alliance</a>
+      <a href="tips.html"             data-en="Tips"      data-es="Consejos">Tips</a>
+      <a href="events.html"           data-en="Events"    data-es="Eventos">Events</a>
+      <a href="group.html"          data-en="Group"     data-es="Grupo">Group</a>
+      <a href="resources.html"         data-en="Resources" data-es="Recursos">Resources</a>
+      <a href="leadership.html" id="navLeadership" style="display:none;" data-en="Leadership" data-es="Liderazgo">Leadership</a>
+      <div class="nav-mobile-footer">
+        <button class="nav-lang"   id="langBtnMobile" onclick="toggleLang()">ES</button>
+        <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="nav-lang"   id="langBtn"   onclick="toggleLang()">ES</button>
+      <button class="nav-logout" onclick="logOut()" data-en="Log out" data-es="Cerrar sesión">Log out</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🦸</div>
+      <h1 data-en="Heroes" data-es="Héroes">Heroes</h1>
+      <p class="hero-sub"
+         data-en="Who to focus on early, who to skip, and how to pair them up."
+         data-es="En quién enfocarte al principio, a quién saltarte y cómo combinarlos.">
+        Who to focus on early, who to skip, and how to pair them up.
+      </p>
+    </div>
+  </header>
+
+  <p class="breadcrumb"><a href="combat.html" data-en="← Back to Combat" data-es="← Volver a Combate">← Back to Combat</a></p>
+
+  <main class="content">
+    <section class="section">
+      <h2 data-en="Officer anatomy" data-es="Anatomía de un oficial">Officer anatomy</h2>
+      <p data-en="One explanation for every officer on this page — read it once here, not again on each one. Pick your level of detail below."
+         data-es="Una sola explicación para todos los oficiales de esta página — léela aquí una vez, no en cada uno. Elige tu nivel de detalle abajo.">
+        One explanation for every officer on this page — read it once here, not again on each one. Pick your level of detail below.
+      </p>
+
+      <div class="tier-toggle">
+        <button class="tier-btn active" data-tier="1" onclick="setTier(1)" data-en="New player" data-es="Jugador nuevo">New player</button>
+        <button class="tier-btn" data-tier="2" onclick="setTier(2)" data-en="Getting into it" data-es="Metiéndote de lleno">Getting into it</button>
+        <button class="tier-btn" data-tier="3" onclick="setTier(3)" data-en="Experienced" data-es="Con experiencia">Experienced</button>
+      </div>
+
+      <div class="anatomy-wrap" data-tier="1">
+        <img class="anatomy-img" src="officers/officer_tifa_overview.webp" alt="Officer overview screen example" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <button class="hotspot" style="left:43.6%;top:10.3%"  data-hs="1" onclick="showHotspot(1)" aria-label="Name and skin title"></button>
+        <button class="hotspot" style="left:17.4%;top:14.2%"  data-hs="2" onclick="showHotspot(2)" aria-label="Power score"></button>
+        <button class="hotspot" style="left:21.4%;top:16.1%"  data-hs="3" onclick="showHotspot(3)" aria-label="Mastery"></button>
+        <button class="hotspot" style="left:7.4%;top:50.0%"   data-hs="4" onclick="showHotspot(4)" aria-label="Weapon slot"></button>
+        <button class="hotspot" style="left:7.4%;top:55.8%"   data-hs="5" onclick="showHotspot(5)" aria-label="Gear slot"></button>
+        <button class="hotspot" style="left:44.6%;top:67.4%"  data-hs="6" onclick="showHotspot(6)" aria-label="Stars"></button>
+        <button class="hotspot" style="left:43.6%;top:71.9%"  data-hs="7" onclick="showHotspot(7)" aria-label="Level and XP"></button>
+        <button class="hotspot" style="left:15.4%;top:76.7%"  data-hs="8" onclick="showHotspot(8)" aria-label="E badge"></button>
+      </div>
+      <p class="anatomy-img-caption" data-tier="1" data-en="Example: Tifa — same layout for any officer. Tap a numbered circle for what it means." data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial. Toca un círculo numerado para ver qué significa.">Example: Tifa — same layout for any officer. Tap a numbered circle for what it means.</p>
+      <div class="hotspot-panel" id="hotspotPanel" data-tier="1"></div>
+
+      <div class="glossary-row" data-tier="1">
+        <div class="glossary-term">Level</div>
+        <div class="glossary-desc" data-en="Raised with EXP items. The basic way any officer grows, a little at a time." data-es="Se sube con objetos de EXP. La forma básica en que crece cualquier oficial, poco a poco.">Raised with EXP items. The basic way any officer grows, a little at a time.</div>
+      </div>
+      <div class="glossary-row" data-tier="1">
+        <div class="glossary-term">Stars</div>
+        <div class="glossary-desc" data-en="Raised with officer-specific shards. The main way any officer becomes stronger." data-es="Se suben con fragmentos específicos del oficial. La forma principal en que cualquier oficial se vuelve más fuerte.">Raised with officer-specific shards. The main way any officer becomes stronger.</div>
+      </div>
+      <div class="glossary-row" data-tier="1">
+        <div class="glossary-term">Base skill</div>
+        <div class="glossary-desc" data-en="Every officer's signature, fixed ability. Never upgraded with skill books — it only grows stronger through Mastery." data-es="La habilidad fija y característica de cada oficial. Nunca se mejora con libros de habilidad — solo se vuelve más fuerte a través de la Maestría.">Every officer's signature, fixed ability. Never upgraded with skill books — it only grows stronger through Mastery.</div>
+      </div>
+      <div class="glossary-row" data-tier="1">
+        <div class="glossary-term">Role</div>
+        <div class="glossary-desc" style="font-style:italic; color:rgba(232,230,225,0.5);" data-en="Every officer belongs to one of five roles: Director, Strategy, Machinist, Drillmaster, or Warfare. What each role actually boosts — filling in soon." data-es="Todo oficial pertenece a uno de cinco roles: Director, Strategy, Machinist, Drillmaster o Warfare. Qué mejora exactamente cada rol — se completará pronto.">Every officer belongs to one of five roles: Director, Strategy, Machinist, Drillmaster, or Warfare. What each role actually boosts — filling in soon.</div>
+      </div>
+      <div class="glossary-row" data-tier="1">
+        <div class="glossary-term">Power</div>
+        <div class="glossary-desc" data-en="The single combined score that adds up everything about an officer." data-es="La puntuación única combinada que suma todo sobre un oficial.">The single combined score that adds up everything about an officer.</div>
+      </div>
+
+      <div class="glossary-row" data-tier="2">
+        <div class="glossary-term">Mastery</div>
+        <div class="glossary-desc" data-en="Not something you grind directly — a combined score from Level + Stars. The higher it is, the stronger every skill gets." data-es="No es algo que se sube directamente — una puntuación combinada de Nivel + Estrellas. Cuanto más alta, más fuerte se vuelve cada habilidad.">Not something you grind directly — a combined score from Level + Stars. The higher it is, the stronger every skill gets.</div>
+      </div>
+      <div class="glossary-row" data-tier="2">
+        <div class="glossary-term">Skill slots</div>
+        <div class="glossary-desc" data-en="3-4 generic abilities any officer can carry. Levelled with Skill Books, swappable for a different one. This is a player's choice, not a fixed fact about the officer." data-es="3-4 habilidades genéricas que cualquier oficial puede llevar. Se suben con Libros de Habilidad y se pueden cambiar por otra. Es una elección del jugador, no un dato fijo del oficial.">3-4 generic abilities any officer can carry. Levelled with Skill Books, swappable for a different one. This is a player's choice, not a fixed fact about the officer.</div>
+      </div>
+      <div class="glossary-row" data-tier="2">
+        <div class="glossary-term">Rarity color</div>
+        <div class="glossary-desc" data-en="Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest. Both Purple and Orange unlock Unworldly Stats — Orange just reaches a higher grade cap." data-es="Escalera confirmada, de menor a mayor: Azul, Morado, Naranja. Naranja es el más raro y fuerte. Tanto Purple como Orange desbloquean Unworldly Stats — Orange simplemente llega a un tope de grado más alto.">Confirmed ladder, lowest to highest: Blue, Purple, Orange. Orange is the rarest and strongest. Both Purple and Orange unlock Unworldly Stats — Orange just reaches a higher grade cap.</div>
+      </div>
+
+      <div class="anatomy-wrap" data-tier="2">
+        <img class="anatomy-img" src="officers/officer_tifa_starup.webp" alt="Star Up screen example" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <button class="hotspot" style="left:60%;top:16%" data-hs="1" onclick="showHotspotSU(1)" aria-label="Unworldly Stats tab"></button>
+        <button class="hotspot" style="left:21%;top:25%" data-hs="2" onclick="showHotspotSU(2)" aria-label="Grade of this stat"></button>
+        <button class="hotspot" style="left:50%;top:53%" data-hs="3" onclick="showHotspotSU(3)" aria-label="Stars"></button>
+        <button class="hotspot" style="left:50%;top:63%" data-hs="4" onclick="showHotspotSU(4)" aria-label="Max star level reached"></button>
+        <button class="hotspot" style="left:36%;top:68%" data-hs="5" onclick="showHotspotSU(5)" aria-label="Officer-specific fragment"></button>
+        <button class="hotspot" style="left:65%;top:68%" data-hs="6" onclick="showHotspotSU(6)" aria-label="Rarity fragment"></button>
+      </div>
+      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer. Tap a numbered circle for what it means." data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial. Toca un círculo numerado para ver qué significa.">Example: Tifa — same layout for any officer. Tap a numbered circle for what it means.</p>
+      <div class="hotspot-panel" id="hotspotPanelSU" data-tier="2"></div>
+
+      <div class="anatomy-wrap" data-tier="2">
+        <img class="anatomy-img" src="officers/officer_tifa_skills.webp" alt="Manage Skills screen example" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <button class="hotspot" style="left:22%;top:34%" data-hs="1" onclick="showHotspotSK(1)" aria-label="Skill slot"></button>
+        <button class="hotspot" style="left:79%;top:34%" data-hs="2" onclick="showHotspotSK(2)" aria-label="Forget"></button>
+        <button class="hotspot" style="left:21%;top:43%" data-hs="3" onclick="showHotspotSK(3)" aria-label="Bearer"></button>
+        <button class="hotspot" style="left:35%;top:48%" data-hs="4" onclick="showHotspotSK(4)" aria-label="Level progress"></button>
+        <button class="hotspot" style="left:11%;top:51%" data-hs="5" onclick="showHotspotSK(5)" aria-label="Skill Book"></button>
+      </div>
+      <p class="anatomy-img-caption" data-tier="2" data-en="Example: Tifa — same layout for any officer. Tap a numbered circle for what it means." data-es="Ejemplo: Tifa — misma pantalla para cualquier oficial. Toca un círculo numerado para ver qué significa.">Example: Tifa — same layout for any officer. Tap a numbered circle for what it means.</p>
+      <div class="hotspot-panel" id="hotspotPanelSK" data-tier="2"></div>
+
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Breakthrough skill</div>
+        <div class="glossary-desc" data-en="The strongest, most unique ability an officer has. Upgraded with fragments (theirs plus a generic type), not skill books." data-es="La habilidad más fuerte y única que tiene un oficial. Se mejora con fragmentos (los suyos más un tipo genérico), no con libros de habilidad.">The strongest, most unique ability an officer has. Upgraded with fragments (theirs plus a generic type), not skill books.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Skin</div>
+        <div class="glossary-desc" data-en="A cosmetic upgrade — new look and title — that also carries its own small skill bonus." data-es="Una mejora cosmética — nuevo aspecto y título — que también lleva su propia pequeña bonificación de habilidad.">A cosmetic upgrade — new look and title — that also carries its own small skill bonus.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Equipment</div>
+        <div class="glossary-desc" data-en="Two separate gear slots (weapon + gear), each with its own enhancement level. A system of its own, on top of everything above." data-es="Dos ranuras de equipo separadas (arma + equipo), cada una con su propio nivel de mejora. Un sistema aparte, encima de todo lo anterior.">Two separate gear slots (weapon + gear), each with its own enhancement level. A system of its own, on top of everything above.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Equipment expertise</div>
+        <div class="glossary-desc" data-en="A separate perk system on top of Equipment Level — abilities like Advanced Endurance or Titan Resistance, upgraded independently." data-es="Un sistema de ventajas aparte, encima del Nivel de Equipo — habilidades como Advanced Endurance o Titan Resistance, que se mejoran de forma independiente.">A separate perk system on top of Equipment Level — abilities like Advanced Endurance or Titan Resistance, upgraded independently.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Unworldly Stats</div>
+        <div class="glossary-desc" data-en="Unlocks one extra stat every 5-star tier, graded low to high: A, AA, S, SS, SSS. Orange officers can reach SSS; Purple officers cap at AA. With enough Unworldly Cards you pick the exact stat and grade directly (cost rises per grade); without enough, you reroll randomly instead." data-es="Desbloquea una estadística extra en cada nivel de 5 estrellas, clasificada de menor a mayor: A, AA, S, SS, SSS. Los oficiales Orange pueden llegar a SSS; los Purple llegan como máximo a AA. Con suficientes Unworldly Cards eliges directamente la estadística y el grado exactos (el coste sube por grado); si no tienes suficientes, se sortea al azar en su lugar.">Unlocks one extra stat every 5-star tier, graded low to high: A, AA, S, SS, SSS. Orange officers can reach SSS; Purple officers cap at AA. With enough Unworldly Cards you pick the exact stat and grade directly (cost rises per grade); without enough, you reroll randomly instead.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Unworldly Skills</div>
+        <div class="glossary-desc" data-en="A second, separate skill system on top of Skill slots, unlocked at 5-star tier. From then on, every 5 shards earned toward the next star grants one automatically — which you then choose how to spend. For Warfare officers the pool leans toward Cross-Nation Battle Attack, Cross-Nation Melee HP and Defense, Melee HP, Attack, and damage reduction against Mid/Long-Range Attackers." data-es="Un segundo sistema de habilidades, separado de las ranuras de habilidad, que se desbloquea en el nivel de 5 estrellas. A partir de ahí, cada 5 fragmentos ganados hacia la siguiente estrella otorgan una automáticamente — que luego decides cómo usar. Para los oficiales Warfare, el conjunto se inclina hacia Ataque en Batalla entre Naciones, PV y Defensa Melee entre Naciones, PV Melee, Ataque, y reducción de daño contra Atacantes de Media/Larga Distancia.">A second, separate skill system on top of Skill slots, unlocked at 5-star tier. From then on, every 5 shards earned toward the next star grants one automatically — which you then choose how to spend. For Warfare officers the pool leans toward Cross-Nation Battle Attack, Cross-Nation Melee HP and Defense, Melee HP, Attack, and damage reduction against Mid/Long-Range Attackers.</div>
+      </div>
+      <div class="glossary-row" data-tier="3">
+        <div class="glossary-term">Role is fixed</div>
+        <div class="glossary-desc" data-en="Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice. The five roles: Director, Strategy, Machinist, Drillmaster, Warfare." data-es="A diferencia de las ranuras de habilidad, el rol de un oficial nunca cambia — es parte de quién es, no una elección de build. Los cinco roles: Director, Strategy, Machinist, Drillmaster, Warfare.">Unlike skill slots, an officer's role never changes — it's part of who they are, not a build choice. The five roles: Director, Strategy, Machinist, Drillmaster, Warfare.</div>
+      </div>
+
+      <p style="font-size:0.9rem; margin-top:1.6rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Unworldly pools — what each Warfare officer can roll" data-es="Pools de Unworldly — qué puede sacar cada oficial Warfare"><strong>Unworldly pools — what each Warfare officer can roll</strong></p>
+
+      <div class="up-mek">
+        <h3 data-en="Unworldly Stats — how it works" data-es="Unworldly Stats — cómo funciona">Unworldly Stats — how it works</h3>
+        <ol>
+          <li data-en="Every tier of your 5th star unlocks one Unworldly slot — the fifth comes at 6★." data-es="Cada nivel de la 5.ª estrella desbloquea una ranura Unworldly — la quinta llega a 6★.">Every tier of your 5th star unlocks one Unworldly slot — the fifth comes at 6★.</li>
+          <li data-en="Remodel rerolls your unlocked slots randomly from the officer's pool (costs Officer Fragments). Lock the rows you want to keep — locked rows don't reroll, and Fortify levels always survive." data-es="Remodel vuelve a sortear tus ranuras desbloqueadas al azar dentro del pool del oficial (cuesta Officer Fragments). Bloquea las filas que quieras conservar — las filas bloqueadas no se sortean, y los niveles de Fortify siempre se conservan.">Remodel rerolls your unlocked slots randomly from the officer's pool (costs Officer Fragments). Lock the rows you want to keep — locked rows don't reroll, and Fortify levels always survive.</li>
+          <li data-en="Each stat rolls at a color tier — Orange, Purple, Blue or Green. The color caps the letter grade: Orange can reach SSS, Purple stops at AA." data-es="Cada estadística sale en un nivel de color — Orange, Purple, Blue o Green. El color limita el grado de letra: Orange puede llegar a SSS, Purple se queda en AA.">Each stat rolls at a color tier — Orange, Purple, Blue or Green. The color caps the letter grade: Orange can reach SSS, Purple stops at AA.</li>
+          <li data-en="At 6★, Pick One lets you choose an S/SS/SSS stat directly for 100 Unworldly Cards. It replaces the selected row — the old stat disappears." data-es="A 6★, Pick One te deja elegir directamente una estadística S/SS/SSS por 100 Unworldly Cards. Reemplaza la fila seleccionada — la estadística anterior desaparece.">At 6★, Pick One lets you choose an S/SS/SSS stat directly for 100 Unworldly Cards. It replaces the selected row — the old stat disappears.</li>
+        </ol>
+        <div class="up-tip"><strong data-en="One copy per role:" data-es="Una copia por rol:">One copy per role:</strong> <span data-en="the same Unworldly stat can't be active on two officers of the same role. Spread strong stats across your roster — don't chase the same one on everyone." data-es="la misma estadística Unworldly no puede estar activa en dos oficiales del mismo rol. Reparte las estadísticas fuertes entre tu plantilla — no persigas la misma en todos.">the same Unworldly stat can't be active on two officers of the same role. Spread strong stats across your roster — don't chase the same one on everyone.</span></div>
+        <div class="up-legend" data-en="Initial values by color — standard stats: 2.4–3% (Orange) / 1.8–2.1% (Purple) / 1.5% (Blue) / 1.2% (Green) · Cross-Nation (CN) stats: 4–5% / 3–3.5% / 2.5% / none on Green · Siege, City & Tower: 1.6–2% / 1.2–1.4% / 1% / 0.8%." data-es="Valores iniciales por color — estadísticas estándar: 2.4–3% (Orange) / 1.8–2.1% (Purple) / 1.5% (Blue) / 1.2% (Green) · Estadísticas Cross-Nation (CN): 4–5% / 3–3.5% / 2.5% / ninguna en Green · Siege, City y Tower: 1.6–2% / 1.2–1.4% / 1% / 0.8%.">Initial values by color — standard stats: 2.4–3% (Orange) / 1.8–2.1% (Purple) / 1.5% (Blue) / 1.2% (Green) · Cross-Nation (CN) stats: 4–5% / 3–3.5% / 2.5% / none on Green · Siege, City & Tower: 1.6–2% / 1.2–1.4% / 1% / 0.8%.</div>
+      </div>
+
+      <details class="up-shared">
+        <summary data-en="Shared pool — 21 stats every Warfare officer can roll" data-es="Pool compartido — 21 estadísticas que todo oficial Warfare puede sacar">Shared pool — 21 stats every Warfare officer can roll</summary>
+        <div class="up-shared-grid">
+          <span class="up-grp">Melee</span>
+          <span>Melee Defense · Melee HP</span><span>CN Melee Attack / Defense / HP</span>
+          <span class="up-grp">Mid-Range</span>
+          <span>Mid-Range Defense · Mid-Range HP</span><span>CN Mid-Range Attack / Defense / HP</span>
+          <span class="up-grp">Long-Range</span>
+          <span>Long-Range Defense · Long-Range HP</span><span>CN Long-Range Defense / HP</span>
+          <span class="up-grp">Biochemical Zombies</span>
+          <span>BZ Attack / Defense / HP Boost</span><span>CN BZ Attack / Defense / HP</span>
+          <span class="up-grp" data-en="Other" data-es="Otros">Other</span>
+          <span>Defense Tower Damage</span><span></span>
+        </div>
+      </details>
+
+      <p style="font-size:0.85rem; margin-top:0.8rem; color:var(--cream); opacity:0.85;" data-en="Each officer card below lists only the rows unique to that officer — the differences are what matter when you plan who rolls what." data-es="Cada ficha de oficial de abajo lista solo las filas exclusivas de ese oficial — las diferencias son lo que importa cuando planeas quién saca qué.">Each officer card below lists only the rows unique to that officer — the differences are what matter when you plan who rolls what.</p>
+
+      <p style="font-size:0.9rem; margin-top:1.3rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Profile: Tifa — one player's actual officer, not the general rule" data-es="Perfil: Tifa — el oficial real de un jugador, no la regla general"><strong>Profile: Tifa — one player's actual officer, not the general rule</strong></p>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_tifa.webp" alt="Tifa" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Tifa</div>
+            <div class="officer-title" data-en="Skin equipped: Blackwing Phantom" data-es="Skin equipada: Blackwing Phantom">Skin equipped: Blackwing Phantom</div>
+            <div class="officer-meta">
+              <span>Lv.41</span>
+              <span>6★</span>
+              <span>Role: Warfare</span>
+              <span>Mastery <strong>852</strong></span>
+              <span>Power <strong>679,677</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Advanced Kill</div>
+          <div class="officer-skill-desc" data-en="All Troops Attack +34.08%. Grows only with Mastery (+4% per 100)." data-es="Ataque de todas las tropas +34.08%. Solo crece con la Maestría (+4% por cada 100).">All Troops Attack +34.08%. Grows only with Mastery (+4% per 100).</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Skill slots — this player's picks (Mid-Range Attack build)" data-es="Ranuras de habilidad — elecciones de este jugador (build de Ataque a Media Distancia)">Skill slots — this player's picks (Mid-Range Attack build)</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Attack — Lv.16</div>
+          <div class="officer-skill-desc" data-en="Mid-Range Troops Attack +35.784%." data-es="Ataque de tropas a Media Distancia +35.784%.">Mid-Range Troops Attack +35.784%.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Expert — Lv.12</div>
+          <div class="officer-skill-desc" data-en="Mid-Range Troops Attack and HP +14.484%." data-es="Ataque y PV de tropas a Media Distancia +14.484%.">Mid-Range Troops Attack and HP +14.484%.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range HP — Lv.7</div>
+          <div class="officer-skill-desc" data-en="Mid-Range Troops HP +23.004%." data-es="PV de tropas a Media Distancia +23.004%.">Mid-Range Troops HP +23.004%.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Breakthrough skill" data-es="Habilidad de Avance">Breakthrough skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Air Support — Lv.8</div>
+          <div class="officer-skill-desc" data-en="Summons the Air Force to attack 6 enemy targets when attacking Commanders. Damage = surviving troops × 16. Cooldown 12 sec." data-es="Invoca a la Fuerza Aérea para atacar a 6 objetivos enemigos al atacar Comandantes. Daño = tropas supervivientes × 16. Reutilización 12 seg.">Summons the Air Force to attack 6 enemy targets when attacking Commanders. Damage = surviving troops × 16. Cooldown 12 sec.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Equipment" data-es="Equipo">Equipment</div>
+        <div class="officer-skill">
+          <div class="officer-skill-desc" data-en="Weapon +12, Gear +20 — a separate enhancement system, upgraded on its own." data-es="Arma +12, Equipo +20 — un sistema de mejora aparte, que se sube por separado.">Weapon +12, Gear +20 — a separate enhancement system, upgraded on its own.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Tifa" data-es="Pool Unworldly — exclusivo de Tifa">Unworldly pool — unique to Tifa</div>
+        <div class="up-chips">
+          <span class="up-chip">Long-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Melee</span>
+          <span class="up-chip">Siege Troops Attack</span>
+          <span class="up-chip">Siege Troops Defense</span>
+          <span class="up-chip">Siege Troops HP</span>
+        </div>
+        <div class="up-why" data-en="Identical pool to Zeus. The siege line: only Tifa, Zeus and Panda Jack can roll Siege Troops stats. Shared rows: see the list above." data-es="Pool idéntico al de Zeus. La línea de asedio: solo Tifa, Zeus y Panda Jack pueden sacar estadísticas de Siege Troops. Filas compartidas: ver la lista de arriba.">Identical pool to Zeus. The siege line: only Tifa, Zeus and Panda Jack can roll Siege Troops stats. Shared rows: see the list above.</div>
+
+        <p class="officer-note" data-en="This is one Mid-Range Attack build. A Long-Range or Zombie-focused player could put completely different skills in Tifa's three open slots — the base skill and Breakthrough skill stay the same either way, but the middle section is always a choice." data-es="Esta es una build de Ataque a Media Distancia. Un jugador enfocado en Larga Distancia o Zombis podría poner habilidades totalmente distintas en las tres ranuras abiertas de Tifa — la habilidad base y la de Avance siguen siendo las mismas, pero la sección del medio siempre es una elección.">This is one Mid-Range Attack build. A Long-Range or Zombie-focused player could put completely different skills in Tifa's three open slots — the base skill and Breakthrough skill stay the same either way, but the middle section is always a choice.</p>
+      </div>
+
+      <p style="font-size:0.9rem; margin-top:1.6rem; margin-bottom:0.3rem; color:var(--cream);" data-en="Other Warfare officers in this alliance" data-es="Otros oficiales Warfare de esta alianza"><strong>Other Warfare officers in this alliance</strong></p>
+
+      <p style="font-size:0.85rem; margin-bottom:1rem; color:var(--cream); opacity:0.85;" data-en="These cards describe each officer's role and skill options in general terms — not a specific level or account. Tifa above is the one worked example of a fully-built officer." data-es="Estas fichas describen el rol y las opciones de habilidad de cada oficial en términos generales — no un nivel o cuenta concretos. Tifa, arriba, es el único ejemplo trabajado de un oficial completamente desarrollado.">These cards describe each officer's role and skill options in general terms — not a specific level or account. Tifa above is the one worked example of a fully-built officer.</p>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_aeon.webp" alt="Aeon" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Aeon</div>
+            <div class="officer-meta">
+              <span>Role: Warfare</span>
+              <span data-en="Melee-focused defense and crowd control" data-es="Enfocado en defensa Cuerpo a Cuerpo y control de masas">Melee-focused defense and crowd control</span>
+            </div>
+          </div>
+        </div>
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Advanced Melee Mastery</div>
+          <div class="officer-skill-desc" data-en="Increases Melee Troops' Attack, Defense, and HP." data-es="Aumenta el Ataque, la Defensa y los PV de las tropas Cuerpo a Cuerpo.">Increases Melee Troops' Attack, Defense, and HP.</div>
+        </div>
+        <div class="officer-section-label" data-en="Skill options seen" data-es="Opciones de habilidad observadas">Skill options seen</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Melee Defense</div>
+          <div class="officer-skill-desc" data-en="Increases Melee Troop Defense." data-es="Aumenta la Defensa de las tropas Cuerpo a Cuerpo.">Increases Melee Troop Defense.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Attack</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack." data-es="Aumenta el Ataque de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Expert</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack and HP." data-es="Aumenta el Ataque y los PV de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack and HP.</div>
+        </div>
+        <div class="officer-section-label" data-en="Breakthrough skill" data-es="Habilidad de Avance">Breakthrough skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Magnetic Shield</div>
+          <div class="officer-skill-desc" data-en="After using the skill, Melee Troops get a shield at the start of the battle that absorbs damage for a short time." data-es="Tras usar la habilidad, las tropas Cuerpo a Cuerpo obtienen un escudo al inicio de la batalla que absorbe daño durante un breve tiempo.">After using the skill, Melee Troops get a shield at the start of the battle that absorbs damage for a short time.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Aeon" data-es="Pool Unworldly — exclusivo de Aeon">Unworldly pool — unique to Aeon</div>
+        <div class="up-chips">
+          <span class="up-chip">Melee Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Long-Range</span>
+          <span class="up-chip">City Troops Attack</span>
+          <span class="up-chip">City Troops Defense</span>
+          <span class="up-chip">City Troops HP</span>
+        </div>
+        <div class="up-why" data-en="The city defense line: Aeon, Alexandria and Storm Bow can roll City Troops stats." data-es="La línea de defensa de ciudad: Aeon, Alexandria y Storm Bow pueden sacar estadísticas de City Troops.">The city defense line: Aeon, Alexandria and Storm Bow can roll City Troops stats.</div>
+      </div>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_pandajack.webp" alt="Panda Jack" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Panda Jack</div>
+            <div class="officer-meta">
+              <span>Role: Warfare</span>
+              <span data-en="Siege support, strong against Cities and mines" data-es="Apoyo de asedio, fuerte contra Ciudades y minas">Siege support, strong against Cities and mines</span>
+            </div>
+          </div>
+        </div>
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Advanced Attack</div>
+          <div class="officer-skill-desc" data-en="Increases Siege Army Attack and HP." data-es="Aumenta el Ataque y los PV del Ejército de Asedio.">Increases Siege Army Attack and HP.</div>
+        </div>
+        <div class="officer-section-label" data-en="Skill options seen" data-es="Opciones de habilidad observadas">Skill options seen</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Expert</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack and HP." data-es="Aumenta el Ataque y los PV de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack and HP.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Long-Range Expert</div>
+          <div class="officer-skill-desc" data-en="Increases Long-Range Troops' Attack and HP." data-es="Aumenta el Ataque y los PV de las tropas a Larga Distancia.">Increases Long-Range Troops' Attack and HP.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Attack</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack." data-es="Aumenta el Ataque de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack.</div>
+        </div>
+        <div class="officer-section-label" data-en="Breakthrough skill" data-es="Habilidad de Avance">Breakthrough skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Exterminate</div>
+          <div class="officer-skill-desc" data-en="After your first solo attack following use, kills a portion of Wounded enemies (only applies when attacking a Commander's City or resource mine)." data-es="Tras tu primer ataque en solitario después de usarla, elimina a una parte de los enemigos Heridos (solo aplica al atacar la Ciudad de un Comandante o una mina de recursos).">After your first solo attack following use, kills a portion of Wounded enemies (only applies when attacking a Commander's City or resource mine).</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Panda Jack" data-es="Pool Unworldly — exclusivo de Panda Jack">Unworldly pool — unique to Panda Jack</div>
+        <div class="up-chips">
+          <span class="up-chip">Melee Attack</span>
+          <span class="up-chip">Reduce Damage from Mid-Range</span>
+          <span class="up-chip">Siege Troops Attack</span>
+          <span class="up-chip">Siege Troops Defense</span>
+          <span class="up-chip">Siege Troops HP</span>
+        </div>
+        <div class="up-why" data-en="Smallest Warfare pool — the only Warfare officer who can NOT roll CN Long-Range Attack." data-es="El pool Warfare más pequeño — el único oficial Warfare que NO puede sacar CN Long-Range Attack.">Smallest Warfare pool — the only Warfare officer who can NOT roll CN Long-Range Attack.</div>
+      </div>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_alexandria.webp" alt="Alexandria" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Alexandria</div>
+            <div class="officer-meta">
+              <span>Role: Warfare</span>
+              <span data-en="Survivability — reduces incoming damage and softens losses" data-es="Supervivencia — reduce el daño recibido y suaviza las pérdidas">Survivability — reduces incoming damage and softens losses</span>
+            </div>
+          </div>
+        </div>
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Defense Weakness</div>
+          <div class="officer-skill-desc" data-en="Reduces Damage Taken from all Troops." data-es="Reduce el Daño recibido de todas las tropas.">Reduces Damage Taken from all Troops.</div>
+        </div>
+        <div class="officer-section-label" data-en="Skill options seen" data-es="Opciones de habilidad observadas">Skill options seen</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Expert</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack and HP." data-es="Aumenta el Ataque y los PV de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack and HP.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Attack</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack." data-es="Aumenta el Ataque de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Melee HP</div>
+          <div class="officer-skill-desc" data-en="Increases Melee Troops' HP." data-es="Aumenta los PV de las tropas Cuerpo a Cuerpo.">Increases Melee Troops' HP.</div>
+        </div>
+        <div class="officer-section-label" data-en="Breakthrough skill" data-es="Habilidad de Avance">Breakthrough skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Rescue</div>
+          <div class="officer-skill-desc" data-en="After using the skill, a portion of Troops killed while attacking are converted to Wounded instead, until the Hospital is full." data-es="Tras usar la habilidad, una parte de las tropas eliminadas al atacar se convierten en Heridas en su lugar, hasta que el Hospital esté lleno.">After using the skill, a portion of Troops killed while attacking are converted to Wounded instead, until the Hospital is full.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Alexandria" data-es="Pool Unworldly — exclusivo de Alexandria">Unworldly pool — unique to Alexandria</div>
+        <div class="up-chips">
+          <span class="up-chip">Mid-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Long-Range</span>
+          <span class="up-chip">City Troops Attack</span>
+          <span class="up-chip">City Troops Defense</span>
+          <span class="up-chip">City Troops HP</span>
+        </div>
+        <div class="up-why" data-en="City defense line, plus one of only two Warfare officers (with Storm Bow) who can roll plain Mid-Range Attack." data-es="Línea de defensa de ciudad, y además uno de solo dos oficiales Warfare (junto a Storm Bow) que pueden sacar Mid-Range Attack normal.">City defense line, plus one of only two Warfare officers (with Storm Bow) who can roll plain Mid-Range Attack.</div>
+      </div>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_zeus.webp" alt="Zeus" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Zeus</div>
+            <div class="officer-meta">
+              <span>Role: Warfare</span>
+              <span data-en="Damage-focused, punishes large enemy formations" data-es="Enfocado en daño, castiga a formaciones enemigas grandes">Damage-focused, punishes large enemy formations</span>
+            </div>
+          </div>
+        </div>
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Precise Shot</div>
+          <div class="officer-skill-desc" data-en="Increases Damage Dealt to all Troops." data-es="Aumenta el Daño infligido a todas las tropas.">Increases Damage Dealt to all Troops.</div>
+        </div>
+        <div class="officer-section-label" data-en="Skill options seen" data-es="Opciones de habilidad observadas">Skill options seen</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Long-Range Expert</div>
+          <div class="officer-skill-desc" data-en="Increases Long-Range Troops' Attack and HP." data-es="Aumenta el Ataque y los PV de las tropas a Larga Distancia.">Increases Long-Range Troops' Attack and HP.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Attack</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack." data-es="Aumenta el Ataque de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Expert</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack and HP." data-es="Aumenta el Ataque y los PV de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack and HP.</div>
+        </div>
+        <div class="officer-section-label" data-en="Breakthrough skill" data-es="Habilidad de Avance">Breakthrough skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Rocket</div>
+          <div class="officer-skill-desc" data-en="When attacking Commanders, launches a rocket at the enemy unit with the most Troops." data-es="Al atacar Comandantes, lanza un cohete contra la unidad enemiga con más tropas.">When attacking Commanders, launches a rocket at the enemy unit with the most Troops.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Zeus" data-es="Pool Unworldly — exclusivo de Zeus">Unworldly pool — unique to Zeus</div>
+        <div class="up-chips">
+          <span class="up-chip">Long-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Melee</span>
+          <span class="up-chip">Siege Troops Attack</span>
+          <span class="up-chip">Siege Troops Defense</span>
+          <span class="up-chip">Siege Troops HP</span>
+        </div>
+        <div class="up-why" data-en="Identical pool to Tifa — the second officer on the siege line." data-es="Pool idéntico al de Tifa — el segundo oficial de la línea de asedio.">Identical pool to Tifa — the second officer on the siege line.</div>
+      </div>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_stormbow.webp" alt="Storm Bow" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Storm Bow</div>
+            <div class="officer-meta">
+              <span>Role: Warfare</span>
+              <span data-en="Tanky, plus a siege debuff against a chosen city" data-es="Resistente, y aplica un debilitamiento de asedio a una ciudad elegida">Tanky, plus a siege debuff against a chosen city</span>
+            </div>
+          </div>
+        </div>
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Advanced Endurance</div>
+          <div class="officer-skill-desc" data-en="Increases all Troops' Defense and HP." data-es="Aumenta la Defensa y los PV de todas las tropas.">Increases all Troops' Defense and HP.</div>
+        </div>
+        <div class="officer-section-label" data-en="Skill options seen" data-es="Opciones de habilidad observadas">Skill options seen</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Melee HP</div>
+          <div class="officer-skill-desc" data-en="Increases Melee Troops' HP." data-es="Aumenta los PV de las tropas Cuerpo a Cuerpo.">Increases Melee Troops' HP.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Attack</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack." data-es="Aumenta el Ataque de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack.</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Mid-Range Expert</div>
+          <div class="officer-skill-desc" data-en="Increases Mid-Range Troops' Attack and HP." data-es="Aumenta el Ataque y los PV de las tropas a Media Distancia.">Increases Mid-Range Troops' Attack and HP.</div>
+        </div>
+        <div class="officer-section-label" data-en="Breakthrough skill" data-es="Habilidad de Avance">Breakthrough skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Rampart Smasher</div>
+          <div class="officer-skill-desc" data-en="Select a City to increase the Damage its Troops take for a set time. The effect can't be stacked." data-es="Selecciona una Ciudad para aumentar el Daño que reciben sus tropas durante un tiempo determinado. El efecto no se puede acumular.">Select a City to increase the Damage its Troops take for a set time. The effect can't be stacked.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool — unique to Storm Bow" data-es="Pool Unworldly — exclusivo de Storm Bow">Unworldly pool — unique to Storm Bow</div>
+        <div class="up-chips">
+          <span class="up-chip">Mid-Range Attack</span>
+          <span class="up-chip">CN Long-Range Attack</span>
+          <span class="up-chip">Reduce Damage from Mid-Range</span>
+          <span class="up-chip">City Troops Attack</span>
+          <span class="up-chip">City Troops Defense</span>
+          <span class="up-chip">City Troops HP</span>
+        </div>
+        <div class="up-why" data-en="City defense line, plus one of only two Warfare officers (with Alexandria) who can roll plain Mid-Range Attack." data-es="Línea de defensa de ciudad, y además uno de solo dos oficiales Warfare (junto a Alexandria) que pueden sacar Mid-Range Attack normal.">City defense line, plus one of only two Warfare officers (with Alexandria) who can roll plain Mid-Range Attack.</div>
+      </div>
+
+      <p style="font-size:0.9rem; margin-top:1.6rem; margin-bottom:0.3rem; color:var(--cream);" data-en="One more, at the opposite end: Kingsley — a real 4★ account with almost everything still locked" data-es="Uno más, en el extremo opuesto: Kingsley — una cuenta real de 4★ con casi todo aún bloqueado"><strong>One more, at the opposite end: Kingsley — a real 4★ account with almost everything still locked</strong></p>
+
+      <p style="font-size:0.85rem; margin-bottom:1rem; color:var(--cream); opacity:0.85;" data-en="Unlike the general cards above, this is one specific low-level account — what a Warfare officer looks like before the breakthrough skill or any Unworldly pool has opened." data-es="A diferencia de las fichas generales de arriba, esta es una cuenta concreta de nivel bajo — cómo se ve un oficial Warfare antes de que se abra la habilidad de Avance o cualquier pool Unworldly.">Unlike the general cards above, this is one specific low-level account — what a Warfare officer looks like before the breakthrough skill or any Unworldly pool has opened.</p>
+
+      <div class="officer-card">
+        <div class="officer-head">
+          <img class="officer-img" src="officers/officer_kingsley.webp" alt="Kingsley" loading="lazy" onerror="this.style.display='none'">
+          <div>
+            <div class="officer-name">Kingsley</div>
+            <div class="officer-meta">
+              <span>Lv.1</span>
+              <span>4★</span>
+              <span>Role: Warfare</span>
+              <span>Mastery <strong>401</strong></span>
+              <span>Power <strong>36,090</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="officer-section-label" data-en="Base skill" data-es="Habilidad base">Base skill</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Advanced Defense</div>
+          <div class="officer-skill-desc" data-en="City Guards Attack and HP +16.04%. Grows only with Mastery (+4% per 100)." data-es="Ataque y PV de los Guardias de Ciudad +16.04%. Solo crece con la Maestría (+4% por cada 100).">City Guards Attack and HP +16.04%. Grows only with Mastery (+4% per 100).</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Skill slots" data-es="Ranuras de habilidad">Skill slots</div>
+        <div class="officer-skill">
+          <div class="officer-skill-desc" data-en="All three slots empty — no skills learned yet. Options waiting in the Skill Inventory: Melee Attack, Mid-Range Attack, Melee Defense." data-es="Las tres ranuras vacías — aún sin habilidades aprendidas. Opciones esperando en el Inventario de Habilidades: Melee Attack, Mid-Range Attack, Melee Defense.">All three slots empty — no skills learned yet. Options waiting in the Skill Inventory: Melee Attack, Mid-Range Attack, Melee Defense.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Breakthrough skill — locked" data-es="Habilidad de Avance — bloqueada">Breakthrough skill — locked</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Gas Bomb</div>
+          <div class="officer-skill-desc" data-en="Select a City to reduce the Damage dealt by its City Troops by 24.5% for 12 Hr. The effect can't be stacked. Still locked at 4★ — shown here as a preview." data-es="Selecciona una Ciudad para reducir el Daño infligido por sus tropas de Ciudad en un 24.5% durante 12 h. El efecto no se puede acumular. Aún bloqueada a 4★ — se muestra aquí como vista previa.">Select a City to reduce the Damage dealt by its City Troops by 24.5% for 12 Hr. The effect can't be stacked. Still locked at 4★ — shown here as a preview.</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Equipment — not activated yet" data-es="Equipo — aún sin activar">Equipment — not activated yet</div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Light Machine Gun</div>
+          <div class="officer-skill-desc" data-en="Weapon slot. Long-Range Attack +1%, plus Mid-Range Troops' HP and Defense +1%. Not activated yet (25/30 materials)." data-es="Ranura de arma. Ataque a Larga Distancia +1%, y PV y Defensa de tropas a Media Distancia +1%. Aún sin activar (25/30 materiales).">Weapon slot. Long-Range Attack +1%, plus Mid-Range Troops' HP and Defense +1%. Not activated yet (25/30 materials).</div>
+        </div>
+        <div class="officer-skill">
+          <div class="officer-skill-name">Thunder Shoulder Armor</div>
+          <div class="officer-skill-desc" data-en="Gear slot. Mid-Range Attack +1%, plus Long-Range Troops' HP and Defense +1%. Not activated yet (25/30 materials)." data-es="Ranura de equipo. Ataque a Media Distancia +1%, y PV y Defensa de tropas a Larga Distancia +1%. Aún sin activar (25/30 materiales).">Gear slot. Mid-Range Attack +1%, plus Long-Range Troops' HP and Defense +1%. Not activated yet (25/30 materials).</div>
+        </div>
+
+        <div class="officer-section-label" data-en="Unworldly pool" data-es="Pool Unworldly">Unworldly pool</div>
+        <div class="up-why" data-en="None yet — the Unworldly pool opens at 5★. At 4★ Kingsley hasn't rolled a single stat. When he gets there, his rows come from the shared Warfare pool listed at the top of this section." data-es="Ninguna aún — el pool Unworldly se abre a 5★. A 4★ Kingsley no ha sacado ni una sola estadística. Cuando llegue, sus filas saldrán del pool compartido Warfare listado al principio de esta sección.">None yet — the Unworldly pool opens at 5★. At 4★ Kingsley hasn't rolled a single stat. When he gets there, his rows come from the shared Warfare pool listed at the top of this section.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 data-en="Early game priorities" data-es="Prioridades del juego temprano">Early game priorities</h2>
+      <p data-en="The heroes worth leveling first — the ones whose skills carry you through the first weeks."
+         data-es="Los héroes que vale la pena subir de nivel primero — aquellos cuyas habilidades te llevan a través de las primeras semanas.">
+        The heroes worth leveling first — the ones whose skills carry you through the first weeks.
+      </p>
+      <p class="placeholder" data-en="To fill in: top 5 early-game heroes with short reason for each."
+                             data-es="Por completar: los 5 mejores héroes para el juego temprano con una breve razón para cada uno.">
+        To fill in: top 5 early-game heroes with short reason for each.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 data-en="Hero pairings" data-es="Combinaciones de héroes">Hero pairings</h2>
+      <p class="placeholder" data-en="Which heroes work better together — synergies, buffs, and the combos worth chasing."
+                             data-es="Qué héroes funcionan mejor juntos — sinergias, mejoras y las combinaciones que vale la pena perseguir.">
+        Which heroes work better together — synergies, buffs, and the combos worth chasing.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 data-en="Skills & ascension" data-es="Habilidades y ascensión">Skills & ascension</h2>
+      <p class="placeholder" data-en="Which skill nodes to upgrade first, when to ascend, and what gear matters."
+                             data-es="Qué nodos de habilidad mejorar primero, cuándo ascender y qué equipo importa.">
+        Which skill nodes to upgrade first, when to ascend, and what gear matters.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL  = 'https://fnmfeanfibsbqbogslpm.supabase.co';
+    const SUPABASE_ANON = 'sb_publishable_s4Mdp7ixNPfo7b7Bz-BpPg_gcJroIXK';
+
+    const _initHash   = window.location.hash;
+    const _initSearch = window.location.search;
+    if ((_initHash   && (_initHash.includes('type=recovery') || _initHash.includes('type=invite'))) ||
+        (_initSearch && _initSearch.includes('code='))) {
+      window.location.replace('login.html' + _initSearch + _initHash);
+    }
+
+        async function __aooRole(session){ try{ if(!session) return {leader:false,admin:false}; const r = await sb.from('leaders').select('is_admin').eq('user_id', session.user.id).maybeSingle(); return { leader: !!r.data, admin: !!(r.data && r.data.is_admin) }; }catch(e){ return {leader:false,admin:false}; } }
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { flowType: 'pkce' }
+    });
+
+    sb.auth.getSession().then(async ({ data }) => {
+      if (!data?.session) { window.location.href = 'login.html?logout=1'; return; }
+      const _email = (data.session.user.email || '').toLowerCase();
+      if ((await __aooRole(data.session)).leader) {
+        const _navL = document.getElementById('navLeadership');
+        if (_navL) _navL.style.display = '';
+      }
+    });
+
+    function logOut() { window.location.href = 'logout.html'; }
+
+    function toggleNav() {
+      const nl = document.getElementById('navLinks');
+      nl.classList.toggle('open');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const nl = document.getElementById('navLinks');
+      if (nl) nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+    });
+
+    /* ── OFFICER ANATOMY HOTSPOTS (must be defined before applyLang() runs) ── */
+    const HOTSPOTS = {
+      1: { en: "Name — the officer's name, with the skin currently equipped shown right in the title.",
+           es: "Nombre — el nombre del oficial, con la skin equipada actualmente en el propio título." },
+      2: { en: "Power score — the single combined score that adds up everything about an officer.",
+           es: "Puntuación de Poder — la puntuación única combinada que suma todo sobre un oficial." },
+      3: { en: "Mastery — not something you grind directly. A combined score from Level + Stars: the higher it is, the stronger every skill gets.",
+           es: "Maestría — no es algo que se sube directamente. Una puntuación combinada de Nivel + Estrellas: cuanto más alta, más fuerte se vuelve cada habilidad." },
+      4: { en: "Weapon slot — one of two Equipment slots (weapon + gear), each with its own enhancement level, upgraded separately from everything else.",
+           es: "Ranura de arma — una de las dos ranuras de Equipo (arma + equipo), cada una con su propio nivel de mejora, que se sube por separado del resto." },
+      5: { en: "Gear slot — the second Equipment slot, upgraded on its own the same way as the weapon.",
+           es: "Ranura de equipo — la segunda ranura de Equipo, que se mejora por su cuenta igual que el arma." },
+      6: { en: "Stars — raised with officer-specific shards. The main way any officer becomes stronger (6 stars = max).",
+           es: "Estrellas — se suben con fragmentos específicos del oficial. La forma principal en que cualquier oficial se vuelve más fuerte (6 estrellas = máximo)." },
+      7: { en: "Level + XP — raised with EXP items. The basic way any officer grows, a little at a time.",
+           es: "Nivel + XP — se sube con objetos de EXP. La forma básica en que crece cualquier oficial, poco a poco." },
+      8: { en: "\"E\" badge — meaning still TBC. Asked in-game VIP support; answer pending, not guessed here.",
+           es: "Insignia \"E\" — significado aún por confirmar (TBC). Preguntado al soporte VIP del juego; respuesta pendiente, no se adivina aquí." }
+    };
+    let activeHotspot = null;
+    function showHotspot(n) {
+      activeHotspot = n;
+      document.querySelectorAll('.hotspot').forEach(function(b) {
+        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
+      });
+      renderHotspotPanel();
+    }
+    function renderHotspotPanel() {
+      const panel = document.getElementById('hotspotPanel');
+      if (!panel) return;
+      if (activeHotspot === null) {
+        panel.innerHTML = '<span class="hotspot-panel-tap">' +
+          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
+          '</span>';
+        return;
+      }
+      const h = HOTSPOTS[activeHotspot];
+      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspot + '</span>' + (LANG === 'es' ? h.es : h.en);
+    }
+
+    /* ── STAR UP HOTSPOTS (must be defined before applyLang() runs) ── */
+    const HOTSPOTS_SU = {
+      1: { en: "Unworldly Stats tab — where you fortify the extra stats Purple and Orange officers unlock at 5-star tiers, separate from the main Star Up screen.",
+           es: "Pestaña Unworldly Stats — donde fortaleces las estadísticas extra que desbloquean los oficiales Purple y Orange en los niveles de 5 estrellas, aparte de la pantalla principal de Star Up." },
+      2: { en: "Grade of this stat — order is A, AA, S, SS, SSS. Higher grade means a stronger bonus at the same fortify level. Orange officers can reach SSS; Purple officers cap at AA.",
+           es: "Grado de esta estadística — el orden es A, AA, S, SS, SSS. Un grado más alto significa una bonificación más fuerte al mismo nivel de fortalecimiento. Los oficiales Orange pueden llegar a SSS; los Purple llegan como máximo a AA." },
+      3: { en: "Stars — raised with officer-specific shards, same as covered above. The 6th star (rainbow) is the special max tier.",
+           es: "Estrellas — se suben con fragmentos específicos del oficial, igual que se explicó arriba. La 6ª estrella (arcoíris) es el nivel máximo especial." },
+      4: { en: "Max Star Level reached — shown once an officer has hit their current star cap.",
+           es: "Nivel de Estrella Máximo alcanzado — se muestra cuando un oficial llega a su tope de estrellas actual." },
+      5: { en: "Officer-specific fragment — the shard type tied to this one officer, used to raise their Stars.",
+           es: "Fragmento específico del oficial — el tipo de fragmento ligado a este oficial en concreto, usado para subir sus Estrellas." },
+      6: { en: "Rarity fragment — a generic fragment tied to the officer's rarity color (here: Orange), also spent on Star Up.",
+           es: "Fragmento de rareza — un fragmento genérico ligado al color de rareza del oficial (aquí: Orange), que también se gasta en Star Up." }
+    };
+    let activeHotspotSU = null;
+    function showHotspotSU(n) {
+      activeHotspotSU = n;
+      const wrap = document.querySelectorAll('.anatomy-wrap')[1];
+      if (wrap) wrap.querySelectorAll('.hotspot').forEach(function(b) {
+        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
+      });
+      renderHotspotPanelSU();
+    }
+    function renderHotspotPanelSU() {
+      const panel = document.getElementById('hotspotPanelSU');
+      if (!panel) return;
+      if (activeHotspotSU === null) {
+        panel.innerHTML = '<span class="hotspot-panel-tap">' +
+          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
+          '</span>';
+        return;
+      }
+      const h = HOTSPOTS_SU[activeHotspotSU];
+      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspotSU + '</span>' + (LANG === 'es' ? h.es : h.en);
+    }
+
+    /* ── MANAGE SKILLS HOTSPOTS (must be defined before applyLang() runs) ── */
+    const HOTSPOTS_SK = {
+      1: { en: "Skill slot — one of the 3-4 generic abilities a player chose for this officer. Levelled with Skill Books.",
+           es: "Ranura de habilidad — una de las 3-4 habilidades genéricas que el jugador eligió para este oficial. Se sube con Libros de Habilidad." },
+      2: { en: "Forget — removes this skill from the slot so a different one can be equipped instead.",
+           es: "Forget — quita esta habilidad de la ranura para poder equipar otra en su lugar." },
+      3: { en: "Bearer — which officer currently holds this skill. Skill slots are a player's choice, not fixed to one officer.",
+           es: "Bearer — qué oficial lleva actualmente esta habilidad. Las ranuras de habilidad son una elección del jugador, no algo fijo de un oficial." },
+      4: { en: "Level progress — how close this skill is to its next level, raised by spending Skill Books.",
+           es: "Progreso de nivel — cuánto le falta a esta habilidad para el siguiente nivel, que sube gastando Libros de Habilidad." },
+      5: { en: "Skill Book — the item spent to level up a skill slot. Generic, not tied to one officer.",
+           es: "Skill Book — el objeto que se gasta para subir de nivel una ranura de habilidad. Es genérico, no está ligado a un oficial concreto." }
+    };
+    let activeHotspotSK = null;
+    function showHotspotSK(n) {
+      activeHotspotSK = n;
+      const wrap = document.querySelectorAll('.anatomy-wrap')[2];
+      if (wrap) wrap.querySelectorAll('.hotspot').forEach(function(b) {
+        b.classList.toggle('active-hs', parseInt(b.dataset.hs, 10) === n);
+      });
+      renderHotspotPanelSK();
+    }
+    function renderHotspotPanelSK() {
+      const panel = document.getElementById('hotspotPanelSK');
+      if (!panel) return;
+      if (activeHotspotSK === null) {
+        panel.innerHTML = '<span class="hotspot-panel-tap">' +
+          (LANG === 'es' ? 'Toca un círculo numerado en la captura de arriba para ver qué significa.' : 'Tap a numbered circle on the screenshot above to see what it means.') +
+          '</span>';
+        return;
+      }
+      const h = HOTSPOTS_SK[activeHotspotSK];
+      panel.innerHTML = '<span class="hotspot-panel-num">' + activeHotspotSK + '</span>' + (LANG === 'es' ? h.es : h.en);
+    }
+
+    let LANG = localStorage.getItem('aoo-lang') || 'en';
+    function applyLang(lang) {
+      LANG = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-en][data-es]').forEach(el => {
+        const txt = el.dataset[lang];
+        if (txt !== undefined) {
+          if (el.children.length === 0) el.textContent = txt;
+          else el.firstChild.textContent = txt;
+        }
+      });
+      const otherLabel = lang === 'en' ? 'ES' : 'EN';
+      document.querySelectorAll('#langBtn, #langBtnMobile').forEach(b => b.textContent = otherLabel);
+      localStorage.setItem('aoo-lang', lang);
+      if (typeof renderHotspotPanel === 'function') renderHotspotPanel();
+      if (typeof renderHotspotPanelSU === 'function') renderHotspotPanelSU();
+      if (typeof renderHotspotPanelSK === 'function') renderHotspotPanelSK();
+    }
+    function toggleLang() { applyLang(LANG === 'en' ? 'es' : 'en'); }
+    applyLang(LANG);
+
+    function setTier(t) {
+      document.querySelectorAll('.glossary-row[data-tier]').forEach(function(row) {
+        row.style.display = (parseInt(row.dataset.tier, 10) <= t) ? 'flex' : 'none';
+      });
+      document.querySelectorAll('.anatomy-img[data-tier]').forEach(function(img) {
+        img.style.display = (parseInt(img.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.anatomy-img-caption[data-tier]').forEach(function(cap) {
+        cap.style.display = (parseInt(cap.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.anatomy-wrap[data-tier]').forEach(function(w) {
+        w.style.display = (parseInt(w.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.hotspot-panel[data-tier]').forEach(function(p) {
+        p.style.display = (parseInt(p.dataset.tier, 10) <= t) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.tier-btn').forEach(function(b) {
+        b.classList.toggle('active', parseInt(b.dataset.tier, 10) === t);
+      });
+      localStorage.setItem('aoo-officer-tier', String(t));
+    }
+    setTier(parseInt(localStorage.getItem('aoo-officer-tier'), 10) || 1);
+    renderHotspotPanel();
+    renderHotspotPanelSU();
+    renderHotspotPanelSK();
+
+    (function() {
+      setInterval(function() {
+        fetch('version.json?t=' + Date.now()).then(r => r.json()).then(function(d) {
+          const stored = localStorage.getItem('aoo-version');
+          if (!stored) { localStorage.setItem('aoo-version', d.version); return; }
+          if (d.version !== stored && !document.getElementById("update-banner")) {
+            var b = document.createElement("div");
+            b.id = "update-banner";
+            b.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#1C1C1E;color:#E8E6E1;text-align:center;padding:0.75rem 1rem;z-index:9999;font-family:Jost,sans-serif;font-size:0.9rem;display:flex;align-items:center;justify-content:center;gap:1rem;box-shadow:0 -2px 12px rgba(0,0,0,0.2);";
+            const reloadTxt = LANG === 'es' ? 'Recargar' : 'Reload';
+            const msgTxt    = LANG === 'es' ? '✨ ¡Sitio actualizado!' : '✨ Site updated!';
+            b.innerHTML = msgTxt + " <button onclick='location.reload(true)' style='background:#D4AF37;color:#0B0B0B;border:none;padding:0.35rem 0.9rem;border-radius:6px;cursor:pointer;font-weight:600;font-family:Jost,sans-serif;'>" + reloadTxt + "</button>";
+            document.body.appendChild(b);
+          }
+        }).catch(function(){});
+      }, 300000);
+    })();
+  </script>
+  <style>
+  .lgx-banner{background:var(--sand,#1C1C1E);border-top:1px solid rgba(212,175,55,0.25);border-bottom:1px solid rgba(212,175,55,0.25);padding:12px 18px;text-align:center;}
+  .lgx-team{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.12em;font-size:1rem;color:var(--terra,#D4AF37);text-transform:uppercase;}
+  .lgx-welcome{margin-top:6px;font-size:0.92rem;line-height:1.55;color:var(--bark,#B8B2A6);}
+  </style>
+  <script>
+  (function(){
+    var nav=document.querySelector('nav');
+    var w=document.createElement('div');
+    w.className='lgx-banner';
+    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
+    function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
+    sync();
+    document.querySelectorAll('#langBtn,#langBtnMobile').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,30);});});
+  })();
+  </script>
+</body>
+</html>
