@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-en="Calendar — Age of Origins" data-es="Calendario — Age of Origins">Calendar — Age of Origins</title>
+  <title data-en="Calendar — GLS" data-es="Calendario — GLS">Calendar — GLS</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -73,7 +73,7 @@
 
   <!-- NAV -->
   <nav>
-    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <a class="nav-brand" href="index.html" data-en="🏰 GLS" data-es="🏰 GLS">🏰 GLS</a>
     <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html" data-en="Home" data-es="Inicio">Home</a>
@@ -119,7 +119,7 @@
   </main>
 
   <footer>
-    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+    <p>GLS Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <span data-en="Updated" data-es="Actualizado">Updated</span> <span class="page-updated">2026-10-12</span></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -202,7 +202,7 @@
     var nav=document.querySelector('nav');
     var w=document.createElement('div');
     w.className='lgx-banner';
-    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    w.innerHTML='<div class="lgx-team">GLS · Ghost Legion Squad</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
     if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
     function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
     sync();

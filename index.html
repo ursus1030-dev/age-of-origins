@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-en="Age of Origins — Alliance Guide" data-es="Age of Origins — Guía de Alianza">Age of Origins — Alliance Guide</title>
+  <title data-en="GLS — Alliance Guide" data-es="GLS — Guía de Alianza">GLS — Alliance Guide</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -106,7 +106,7 @@
     /* ── HERO ── */
     /* Bilden är konstverket — ingen mörkläggning, ingen text ovanpå. Ren bild, oförändrad. */
     .hero {
-      background-image: url('hero-banner.png');
+      background-image: url('hero-banner-gls.png'); /* 2026-10-12: GLS-banner (2153x730, ~3:1) */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -116,7 +116,7 @@
     @media (max-width: 600px) {
       .hero {
         min-height: 300px;
-        background-position: 10% center; /* mobil: bilden är bredare än rutan, center beskar bort vänsterkantstexten (LEGIO_FENIX+tagline) - flyttad åt vänster så texten syns */
+        background-position: left center; /* mobil: GLS-texten sitter i bildens vänstra 40 % — vänsterkant visar hela textblocket vid 300 px höjd */
       }
     }
 
@@ -299,7 +299,7 @@
 
   <!-- NAV -->
   <nav>
-    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <a class="nav-brand" href="index.html" data-en="🏰 GLS" data-es="🏰 GLS">🏰 GLS</a>
     <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html"   class="active" data-en="Home"      data-es="Inicio">Home</a>
@@ -437,7 +437,7 @@
   </div>
 
   <footer>
-    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+    <p>GLS Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <span data-en="Updated" data-es="Actualizado">Updated</span> <span class="page-updated">2026-10-12</span></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -677,7 +677,7 @@
     var nav=document.querySelector('nav');
     var w=document.createElement('div');
     w.className='lgx-banner';
-    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    w.innerHTML='<div class="lgx-team">GLS · Ghost Legion Squad</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
     if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
     function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
     sync();

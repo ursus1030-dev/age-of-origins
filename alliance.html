@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-en="Alliance — Age of Origins" data-es="Alianza — Age of Origins">Alliance — Age of Origins</title>
+  <title data-en="Alliance — GLS" data-es="Alianza — GLS">Alliance — GLS</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -175,7 +175,7 @@
 
   <!-- NAV -->
   <nav>
-    <a class="nav-brand" href="index.html" data-en="🏰 Age of Origins" data-es="🏰 Age of Origins">🏰 Age of Origins</a>
+    <a class="nav-brand" href="index.html" data-en="🏰 GLS" data-es="🏰 GLS">🏰 GLS</a>
     <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
     <div class="nav-links" id="navLinks">
       <a href="index.html"            data-en="Home"      data-es="Inicio">Home</a>
@@ -215,16 +215,29 @@
   <main class="content">
     <section class="section">
       <h2 data-en="The Commanders" data-es="Los Comandantes">The Commanders</h2>
-      <a href="legio-fenix-roster.jpg" target="_blank" rel="noopener">
-        <img src="legio-fenix-roster.jpg" alt="Legio_Fenix — Six Commanders, One Legion"
-             loading="lazy"
-             style="width:100%;display:block;border-radius:12px;border:1px solid rgba(212,175,55,0.35);">
-      </a>
-      <p style="margin-top:0.8rem;"
-         data-en="Six commanders. One legion. Tap the image for full size."
-         data-es="Seis comandantes. Una legión. Toca la imagen para verla en tamaño completo.">
-        Six commanders. One legion. Tap the image for full size.
-      </p>
+      <style>
+        .roster{width:100%;border-collapse:collapse;font-size:.95rem}
+        .roster th{text-align:left;font-family:'Cinzel',serif;color:var(--gold);font-weight:600;font-size:.8rem;letter-spacing:.1em;border-bottom:1px solid rgba(212,175,55,.4);padding:.5rem .4rem}
+        .roster td{padding:.5rem .4rem;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+        .roster td.n{font-weight:500;white-space:nowrap}
+        .roster .badge{display:inline-block;font-size:.65rem;letter-spacing:.1em;border:1px solid var(--gold);color:var(--gold);border-radius:4px;padding:.05rem .35rem;margin-left:.4rem;text-transform:uppercase;vertical-align:middle}
+        .roster-upd{color:var(--bark);font-size:.8rem;margin-top:.6rem}
+      </style>
+      <table class="roster">
+        <thead><tr><th data-en="Name" data-es="Nombre">Name</th><th data-en="Rank" data-es="Rango">Rank</th><th data-en="Area" data-es="Área">Area</th></tr></thead>
+        <tbody>
+          <tr><td class="n">TYCE</td><td>R5</td><td data-en="Leader" data-es="Líder">Leader</td></tr>
+          <tr><td class="n">Blacky <span class="badge">Diplomatic Advisor</span></td><td>R4</td><td data-en="Diplomacy, data, R5 backup" data-es="Diplomacia, datos, suplente de R5">Diplomacy, data, R5 backup</td></tr>
+          <tr><td class="n">VINCE</td><td>R4</td><td data-en="R4 follow-up" data-es="Seguimiento de los R4">R4 follow-up</td></tr>
+          <tr><td class="n">MaX <span class="badge">Battle Commander</span></td><td>R4</td><td data-en="Battle groups" data-es="Grupos de batalla">Battle groups</td></tr>
+          <tr><td class="n">KingLeonidas</td><td>R4</td><td data-en="RSS &amp; fund, activity follow-up" data-es="RSS y fondo, seguimiento de actividad">RSS &amp; fund, activity follow-up</td></tr>
+          <tr><td class="n">ElBarto</td><td>R4</td><td data-en="Road to C30, RSS deliveries" data-es="Camino a C30, entregas de RSS">Road to C30, RSS deliveries</td></tr>
+          <tr><td class="n">German <span class="badge">Recruiter</span></td><td>R4</td><td data-en="Intake, intro, farm policy" data-es="Reclutamiento, introducción, política de granjas">Intake, intro, farm policy</td></tr>
+          <tr><td class="n">WaLLaCE</td><td>R4</td><td data-en="Development: new and small members" data-es="Desarrollo: miembros nuevos y pequeños">Development: new and small members</td></tr>
+          <tr><td class="n">Danzo <span class="badge">Military Advisor</span></td><td>R4</td><td data-en="Strategy, formations, battle advice" data-es="Estrategia, formaciones, consejo de batalla">Strategy, formations, battle advice</td></tr>
+        </tbody>
+      </table>
+      <p class="roster-upd"><span data-en="Roster updated" data-es="Lista actualizada">Roster updated</span> 2026-10-12. <span data-en="Questions about an area go to the person who owns it." data-es="Las preguntas sobre un área van a quien la lleva.">Questions about an area go to the person who owns it.</span></p>
     </section>
 
     <section class="section">
@@ -273,7 +286,7 @@
   </main>
 
   <footer>
-    <p>Age of Origins Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <script>document.write(new Date().getFullYear())</script></p>
+    <p>GLS Guide &nbsp;·&nbsp; <span data-en="By the alliance, for the alliance" data-es="De la alianza, para la alianza">By the alliance, for the alliance</span> &nbsp;·&nbsp; <span data-en="Updated" data-es="Actualizado">Updated</span> <span class="page-updated">2026-10-12</span></p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -359,7 +372,7 @@
     var nav=document.querySelector('nav');
     var w=document.createElement('div');
     w.className='lgx-banner';
-    w.innerHTML='<div class="lgx-team">LGX · Legio_Fenix</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
+    w.innerHTML='<div class="lgx-team">GLS · Ghost Legion Squad</div><div class="lgx-welcome" style="display:none">Danzo, el gran guerrero y táctico. Leyenda, fiel a su nombre.<br>Leales, serenos, sabios — con ellos, la alianza está segura. Bienvenidos.</div>';
     if(nav&&nav.parentNode){nav.parentNode.insertBefore(w,nav.nextSibling);}else{document.body.insertBefore(w,document.body.firstChild);}
     function sync(){var es=(localStorage.getItem('aoo-lang')==='es');w.querySelector('.lgx-welcome').style.display=es?'block':'none';}
     sync();
