@@ -108,7 +108,7 @@
     .hero {
       background-image: url('hero-banner-gls.png'); /* 2026-10-12: GLS-banner (2153x730, ~3:1) */
       background-size: cover;
-      background-position: center;
+      background-position: left center; /* 2026-10-12: vänsterankrad — GLS-texten sitter i bildens vänstra 40 %, på bred skärm syns hela bilden ändå */
       background-repeat: no-repeat;
       min-height: 440px;
       position: relative; overflow: hidden;
@@ -116,7 +116,6 @@
     @media (max-width: 600px) {
       .hero {
         min-height: 300px;
-        background-position: left center; /* mobil: GLS-texten sitter i bildens vänstra 40 % — vänsterkant visar hela textblocket vid 300 px höjd */
       }
     }
 
